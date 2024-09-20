@@ -31,7 +31,7 @@ form#add-event-form {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f6f6f6;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
@@ -56,7 +56,7 @@ form#add-event-form textarea {
     padding: 8px 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 15px;
+    border-radius: 8px;
     font-size: 14px;
     box-sizing: border-box;
 }
@@ -189,8 +189,8 @@ form#add-event-form input[type="url"],
 form#add-event-form input[type="file"],
 form#add-event-form textarea,
 form#add-event-form select {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: #f6f6f6;
+    /*border: 1px solid #ccc;*/
 }
 
 form#add-event-form input[type="text"]:focus,
@@ -200,9 +200,9 @@ form#add-event-form input[type="url"]:focus,
 form#add-event-form input[type="file"]:focus,
 form#add-event-form textarea:focus,
 form#add-event-form select:focus {
-    border-color: #6a1b9a;
+    /*border-color: #6a1b9a;*/
     outline: none;
-    box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+    /*box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);*/
 }
 
 form#search-container {
@@ -230,5 +230,23 @@ input[type="text"]#date {
 input[type="text"]#time {
     width: 48%; /* Utilise la moitié de la largeur disponible */
 }
+
+.input-group {
+    width: 100%; /* Assurer que le groupe prend toute la largeur */
+}
+
+.input-group-text {
+    background-color: #f6f6f6; /* Couleur de fond */
+    border: 1px solid #ccc; /* Bordure pour mieux s'intégrer */
+    border-right: none; /* Pas de bordure à droite pour fusionner avec l'input */
+}
+
+.form-control {
+    border-left: none; /* Pas de bordure à gauche pour fusionner avec l'icône */
+    border-radius: 0; /* Coins carrés pour un look uniforme */
+}
+
+
+
 
 

@@ -45,7 +45,6 @@ register_activation_hook(__FILE__, 'ccp_activate_plugin');
 add_shortcode('add_event_form', array($event_controller, 'show_event_form'));
 // Ajouter le shortcode pour afficher le calendrier
 add_shortcode('show_calendar', array($accueil_controller, 'show_calendar'));
- 
 
 function ccp_enqueue_accueil_assets() {
     // Enqueue Google Fonts
@@ -57,12 +56,26 @@ function ccp_enqueue_accueil_assets() {
     // Enqueue Bootstrap Icons
     wp_enqueue_style('bootstrap-icons', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css', array(), null);
 
-    // Enqueue custom script (your script.js)
-    wp_enqueue_script('ccp-script', plugins_url('includes/public/assets/js/script.js', __FILE__), array(), null, true);
-     wp_enqueue_style('ccp-custom-css', plugins_url('includes/public/assets/css/style.css', __FILE__), array(), null);
+    // Enqueue Leaflet CSS
+    wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet/dist/leaflet.css', array(), null);
 
-    // Enqueue Bootstrap JS
+    // Enqueue custom CSS
+    wp_enqueue_style('ccp-custom-css', plugins_url('includes/public/assets/css/style.css', __FILE__), array(), null);
+
+    // Enqueue custom script
+    wp_enqueue_script('ccp-script', plugins_url('includes/public/assets/js/script.js', __FILE__), array('jquery'), null, true);
     
+    // Enqueue Leaflet JS
+    wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet/dist/leaflet.js', array('jquery'), null, true);
+
+    // Enqueue Bootstrap JS (si nécessaire)
+    wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
+    
+    // Localiser le script pour ajouter des variables JavaScript
+    wp_localize_script('ccp-script', 'ccp_ajax_object', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'ccp_nonce' => wp_create_nonce('ccp_nonce')
+    ));
 }
 add_action('wp_enqueue_scripts', 'ccp_enqueue_accueil_assets');
 
