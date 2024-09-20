@@ -205,15 +205,6 @@ form#add-event-form select:focus {
     /*box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);*/
 }
 
-form#search-container {
-    display: none; /* Caché par défaut */
-    position: absolute; /* Assure que le conteneur s'affiche au-dessus des autres éléments */
-    border: 1px solid #ddd;
-    background-color: #fff;
-    z-index: 1000; /* Assure que le conteneur s'affiche au-dessus des autres éléments */
-    width: 100%; /* Ajuste la largeur pour qu'il s'aligne avec le champ de contact */
-    box-sizing: border-box; /* Inclut les bordures et le padding dans la largeur totale */
-}
 
 /* Wrapper pour aligner les champs date et heure */
 .datetime-wrapper {
