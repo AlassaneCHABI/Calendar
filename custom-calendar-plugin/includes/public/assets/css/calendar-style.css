@@ -1,0 +1,234 @@
+#calendar {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+#event-list {
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+#event-list h3 {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+#event-list-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+#event-list-items li {
+    padding: 5px 0;
+}
+
+/* Style général du formulaire */
+form#add-event-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f6f6f6;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Style des labels */
+form#add-event-form label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Style des champs de saisie */
+form#add-event-form input[type="text"],
+form#add-event-form input[type="date"],
+form#add-event-form input[type="time"],
+form#add-event-form input[type="url"],
+form#add-event-form input[type="file"],
+form#add-event-form textarea {
+    width: calc(100% - 20px);
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Style pour le champ de texte */
+form#add-event-form textarea {
+    height: 100px;
+}
+
+/* Style pour la liste des contacts */
+#contacts-section {
+    margin-bottom: 20px;
+}
+
+#contacts-section #contact-list,
+#contacts-section #selected-contacts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#contacts-section li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#contacts-section li button {
+    background-color: #6a1b9a;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Style pour la carte */
+#map {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#map img {
+    width: 100%;
+    height: auto;
+}
+
+/* Style pour les boutons */
+/* Centrer le formulaire */
+#add-event-form {
+    max-width: 600px; /* Largeur maximale du formulaire */
+    margin: 0 auto; /* Centre le formulaire horizontalement */
+    padding: 20px; /* Espacement interne du formulaire */
+    background-color: #f9f9f9; /* Couleur de fond du formulaire (optionnel) */
+    border-radius: 8px; /* Coins arrondis du formulaire (optionnel) */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre portée du formulaire (optionnel) */
+}
+
+/* Styliser le bouton de soumission */
+#add-event-form input[type="submit"] {
+    background-color: #341C66; /* Couleur de fond bleue */
+    color: white; /* Couleur du texte */
+    border: none; /* Supprimer la bordure */
+    padding: 15px 32px; /* Espacement interne */
+    text-align: center; /* Alignement du texte */
+    text-decoration: none; /* Supprimer la décoration du texte */
+    display: inline-block; /* Affichage en ligne */
+    font-size: 16px; /* Taille de la police */
+    margin: 20px 0; /* Marge autour du bouton */
+    cursor: pointer; /* Curseur de la souris */
+    border-radius: 4px; /* Coins arrondis */
+    transition: background-color 0.3s; /* Transition pour l'effet de survol */
+    width: 100%; /* Largeur du bouton pour remplir le formulaire */
+    max-width: 200px; /* Largeur maximale du bouton */
+}
+
+#add-event-form input[type="submit"]:hover {
+    background-color: #0056b3; /* Couleur de fond lors du survol */
+
+}
+
+/* Ajouter un fond bleu pour le formulaire */
+#add-event-form-container {
+    background-color: #007bff; /* Couleur de fond du conteneur (bleu) */
+    padding: 20px; /* Espacement interne du conteneur */
+    border-radius: 8px; /* Coins arrondis du conteneur */
+}
+
+
+
+
+/* Style pour l'alerte */
+form#add-event-form select {
+    width: calc(100% - 20px);
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Style du conteneur de la section Lieu */
+form#add-event-form #location {
+    margin-bottom: 15px;
+}
+
+/* Style des messages d'état (ajouter, en cours, supprimer) */
+#contacts-section li span {
+    color: #6a1b9a;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+#contacts-section li button.remove-contact {
+    background-color: #d32f2f;
+    padding: 6px;
+}
+
+/* Résumé des styles de base */
+form#add-event-form input[type="text"],
+form#add-event-form input[type="date"],
+form#add-event-form input[type="time"],
+form#add-event-form input[type="url"],
+form#add-event-form input[type="file"],
+form#add-event-form textarea,
+form#add-event-form select {
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+form#add-event-form input[type="text"]:focus,
+form#add-event-form input[type="date"]:focus,
+form#add-event-form input[type="time"]:focus,
+form#add-event-form input[type="url"]:focus,
+form#add-event-form input[type="file"]:focus,
+form#add-event-form textarea:focus,
+form#add-event-form select:focus {
+    border-color: #6a1b9a;
+    outline: none;
+    box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+}
+
+form#search-container {
+    display: none; /* Caché par défaut */
+    position: absolute; /* Assure que le conteneur s'affiche au-dessus des autres éléments */
+    border: 1px solid #ddd;
+    background-color: #fff;
+    z-index: 1000; /* Assure que le conteneur s'affiche au-dessus des autres éléments */
+    width: 100%; /* Ajuste la largeur pour qu'il s'aligne avec le champ de contact */
+    box-sizing: border-box; /* Inclut les bordures et le padding dans la largeur totale */
+}
+
+/* Wrapper pour aligner les champs date et heure */
+.datetime-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Style pour le champ de date */
+input[type="text"]#date {
+    width: 48%; /* Utilise la moitié de la largeur disponible */
+}
+
+/* Style pour le champ de l'heure */
+input[type="text"]#time {
+    width: 48%; /* Utilise la moitié de la largeur disponible */
+}
+
+
