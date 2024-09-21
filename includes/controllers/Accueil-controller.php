@@ -14,7 +14,7 @@ class AccueilController {
      
     <div class="row">
 
-       <div class="col-md-6">
+       <div class="col-md-6 wrapper-side">
          <header>
             <div class="icons">
               <span id="prev" class="material-symbols-rounded">chevron_left</span> 

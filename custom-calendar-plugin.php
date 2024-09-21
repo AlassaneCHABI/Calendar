@@ -82,4 +82,3 @@ add_action('wp_enqueue_scripts', 'ccp_enqueue_accueil_assets');
 // Enregistrer les actions AJAX pour l'ajout d'événements
 add_action('wp_ajax_add_event', array($event_controller, 'add_event'));
 add_action('wp_ajax_nopriv_add_event', array($event_controller, 'add_event'));
- 

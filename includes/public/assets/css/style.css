@@ -13,7 +13,7 @@ body{
   padding: 0 10px;
   justify-content: center;
   min-height: 100vh;
-  /*background: #9B59B6;*/
+  background: #ffffff;
 }
 
 .wrapper{
@@ -33,7 +33,7 @@ body{
 header .icons{
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+
   background: white;
   border-radius: 10px;
   margin-bottom: 12px;
@@ -146,7 +146,7 @@ header .current-date{
 }
 
 #event-list {
-  width: 100%;
+  /* width: 100%; */
   max-width: 600px;
 }
 
@@ -161,15 +161,34 @@ header .current-date{
 }
 
 .event-list-item.active {
+ .event-card{
   background-color: #90919330;
   border-radius: 5px;
+} 
+}
+
+.event-card-invited {
+ border: 2px dashed red;
 }
 
 #event-list {
-  width: 100%;
+  /* width: 100%; */ 
+  margin-top:  75px;  
+  padding-top: 0px;
   max-width: 600px;
-  max-height: 300px; /* Ajustez la hauteur selon vos besoins */
+  max-height: 380px; /* Ajustez la hauteur selon vos besoins */
   overflow-y: auto;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+/* Styles pour les petits écrans (téléphones) */
+@media (max-width: 768px) {
+  #event-list { 
+    margin-top: 0px;
+  }
 }
 
 #event-list {
@@ -214,12 +233,12 @@ header .current-date{
 
 /* Font Sizes */
 .time-range {
-  font-size: 16px;
+  font-size: 10px;
   font-weight: bold;
 }
 
 .event-title {
-  font-size: 18px;
+  font-size: 15px;
 }
 
 /* Padding and Margins */
