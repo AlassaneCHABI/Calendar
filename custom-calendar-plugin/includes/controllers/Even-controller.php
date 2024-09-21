@@ -6,6 +6,7 @@ class EventController {
 
     public function __construct() {
         $this->event_model = new EventModel();
+        add_action('wp_ajax_add_event', [$this, 'add_event']); // Action AJAX pour ajouter un événement
         add_action('wp_ajax_get_contacts', [$this, 'get_contacts']); // Action AJAX pour récupérer les contacts
     }
 
@@ -13,22 +14,34 @@ class EventController {
     public function add_event() {
         check_ajax_referer('ccp_nonce', 'nonce');
 
+        // Vérification que tous les champs requis sont présents
+        if (empty($_POST['title']) || empty($_POST['link_post']) || empty($_POST['event_date']) || empty($_POST['event_time'])) {
+            wp_send_json_error('Les champs obligatoires sont manquants');
+            return;
+        }
+
+        $date_time = $_POST['event_date'] . ' ' . $_POST['event_time']; // Combine date et heure
+
         $data = array(
-            'link_post' => $_POST['link_post'],
-            'title' => $_POST['title'],
-            'date_time' => $_POST['date_time'],  // Tableau de dates
-            'contact' => $_POST['contact'],      // Tableau de contacts
-            'location' => $_POST['location'],
-            'description' => $_POST['description'],
-            'remember' => $_POST['remember'],
-            'link' => $_POST['link'],
-            'file' => $_POST['file'],
+            'link_post' => sanitize_text_field($_POST['link_post']),
+            'title' => sanitize_text_field($_POST['title']),
+            'date_time' => array($date_time), // Stocke sous forme de tableau
+            'contact' => isset($_POST['contact']) ? $_POST['contact'] : [], // Assurez-vous que ce champ est un tableau
+            'location' => sanitize_text_field($_POST['location']),
+            'description' => sanitize_textarea_field($_POST['description']),
+            'remember' => sanitize_text_field($_POST['remember']),
+            'link' => esc_url($_POST['link']),
+            'file' => sanitize_text_field($_POST['file']),
             'user_id' => get_current_user_id(),
         );
 
-        $this->event_model->create_event($data);
+        $insert_id = $this->event_model->create_event($data);
 
-        wp_send_json_success('Événement ajouté avec succès');
+        if ($insert_id) {
+            wp_send_json_success('Événement ajouté avec succès');
+        } else {
+            wp_send_json_error('Erreur lors de l\'ajout de l\'événement');
+        }
     }
 
     // Action pour récupérer les contacts
@@ -43,19 +56,13 @@ class EventController {
             ];
         }, $contacts);
 
-        wp_send_json_success($contact_data);  // Envoi des données des contacts sous forme JSON
-    }
-
-    // Action pour récupérer les événements
-    public function get_events() {
-        $events = $this->event_model->get_events();
-        wp_send_json_success($events);
+        wp_send_json_success($contact_data); // Envoi des données des contacts sous forme JSON
     }
 
     // Affichage du formulaire pour ajouter un événement
     public function show_event_form() {
         ob_start(); ?>
-
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <style>
             /* Style pour retirer la bordure des champs */
@@ -67,8 +74,6 @@ class EventController {
                 background-color: transparent;
                 font-size: 16px;
             }
-            
-            /* Supprimer les bordures lorsque le champ est sélectionné */
             #event_date:focus, #event_time:focus {
                 outline: none;
                 border-bottom: 1px solid #007bff;
@@ -77,34 +82,45 @@ class EventController {
         
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var now = new Date();
-        var currentDate = now.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
-        var currentTime = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            document.addEventListener('DOMContentLoaded', function() {
+                const now = new Date();
+                flatpickr("#event_date", {
+                    dateFormat: "Y-m-d",
+                    defaultDate: now,
+                });
+                flatpickr("#event_time", {
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    time_24hr: true,
+                    defaultDate: now,
+                });
 
-        // Initialiser le champ de la date
-        flatpickr("#event_date", {
-            dateFormat: "l d M Y",
-            defaultDate: now,
-            onReady: function(selectedDates, dateStr, instance) {
-                instance.input.value = currentDate;
-            }
-        });
+                // Gestion de la soumission du formulaire
+                document.getElementById('add-event-form').addEventListener('submit', function(e) {
+                    e.preventDefault(); // Empêche la soumission par défaut
 
-        // Initialiser le champ de l'heure
-        flatpickr("#event_time", {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-            defaultDate: now,
-            onReady: function(selectedDates, dateStr, instance) {
-                instance.input.value = currentTime;
-            }
-        });
-    });
+                    const formData = new FormData(this);
+                    formData.append('nonce', '<?php echo wp_create_nonce('ccp_nonce'); ?>'); // Ajoute le nonce
 
-    let map;
+                    fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=add_event', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('event-message').textContent = data.data; // Affiche le message de succès
+                            this.reset(); // Réinitialise le formulaire
+                        } else {
+                            document.getElementById('event-message').textContent = data.data; // Affiche le message d'erreur
+                        }
+                    })
+                    .catch(error => console.error('Erreur lors de l\'ajout de l\'événement:', error));
+                });
+            });
+
+           let map;
     let marker;
 
     function showMap() {
@@ -173,10 +189,9 @@ class EventController {
         document.getElementById('address-search').value = '';
         
     }
-</script>
+        </script>
 
-
-        <script type="text/javascript">
+    <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         let selectedContacts = [];
         let contactsList = [];
@@ -255,10 +270,10 @@ class EventController {
 
             <div class="row mb-3">
                 <div class="col-md-8">
-                    <input type="date" id="event_date" name="event_date" placeholder="Sélectionnez la date">
+                    <input type="date" id="event_date" name="event_date" required>
                 </div>
                 <div class="col-md-4">
-                    <input type="time" id="event_time" name="event_time" placeholder="Sélectionnez l'heure">
+                    <input type="time" id="event_time" name="event_time" required>
                 </div>
             </div>
 
@@ -276,10 +291,7 @@ class EventController {
                 </div>
             <div id="map" style="height: 300px; display: none;"></div>
              
-           
-
-
-            <div id="contact-container">
+        <div id="contact-container">
                 <input type="text" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
                 <div id="search-container" style="display: none;">
                     <input type="text" id="contact-search" placeholder="Rechercher un contact...">
@@ -288,9 +300,8 @@ class EventController {
             </div>
 
             <div id="selected-contacts"></div>
-
-            <textarea id="description" name="description" placeholder="Description"></textarea>
-            <input type="text" id="remember" name="remember" placeholder="Rappel">
+            <textarea id="description" name="description" placeholder="Ajouter un texte"></textarea>
+            <input type="text" id="remember" name="remember" placeholder="Alerte">
             <input type="text" id="link" name="link" placeholder="Ajouter un lien">
             <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
             <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">

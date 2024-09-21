@@ -134,8 +134,8 @@ form#add-event-form textarea {
     cursor: pointer; /* Curseur de la souris */
     border-radius: 4px; /* Coins arrondis */
     transition: background-color 0.3s; /* Transition pour l'effet de survol */
-    width: 100%; /* Largeur du bouton pour remplir le formulaire */
-    max-width: 200px; /* Largeur maximale du bouton */
+    width: 100%;      /* Largeur du bouton pour remplir le formulaire */
+    max-width: 400px; /* Largeur maximale du bouton */
 }
 
 #add-event-form input[type="submit"]:hover {
@@ -236,6 +236,8 @@ input[type="text"]#time {
     border-left: none; /* Pas de bordure à gauche pour fusionner avec l'icône */
     border-radius: 0; /* Coins carrés pour un look uniforme */
 }
+
+
 
 
 
