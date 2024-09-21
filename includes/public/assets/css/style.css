@@ -23,6 +23,11 @@ body{
   box-shadow: 0 15px 40px rgba(0,0,0,0.12);
 }
 
+ .wrapper-side {
+  border: 1px solid #d7d6cad1;
+  padding: 5px;
+}
+ 
 .wrapper header{
   display: flex;
   align-items: center;
@@ -62,12 +67,15 @@ header .icons span:hover{
 }
 
 header .current-date{
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   font-weight: 500;
+  color: #000000b5;
+  margin-bottom: unset ;
 }
 
 .calendar{
-  padding: 20px;
+  padding: 10px;
+  border : 1px solid #d7d6cad1
 }
 
 .calendar ul{
@@ -126,6 +134,19 @@ header .current-date{
 
 .days li.active::before{
   background: #5968b6;
+}
+
+.days li.dashed::before{
+  border: 2px dashed #9194a7;
+}
+
+.days li.dashed > span{
+  padding: 2px;
+  background: #ad2424;
+  border-radius: 100%;
+  position: absolute;
+  display: block;
+  margin-left: 17px;
 }
 
 .days li:not(.active):hover::before{
@@ -260,6 +281,7 @@ header .current-date{
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   border-radius: 4px;
+  color: #000000b5;
 }
 
 .event-date.fixed {

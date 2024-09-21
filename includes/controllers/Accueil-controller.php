@@ -16,6 +16,9 @@ class AccueilController {
 
        <div class="col-md-6 wrapper-side">
          <header>
+          <div class="row" style ="direction : rtl">   <i class="bi bi-plus-square"></i></div> 
+          <div class="" > <input type="text" class="form-control" placeholder="search"></div>
+                
             <div class="icons">
               <span id="prev" class="material-symbols-rounded">chevron_left</span> 
                 <p class="current-date"></p>

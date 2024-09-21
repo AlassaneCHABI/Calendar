@@ -1,33 +1,3 @@
-const events = [
-    {
-        id : 1,
-        byMe : true,
-        status : 1,
-        date: '2024-09-20',
-        events: [
-            { title: "Réunion d'équipe", startTime: '10h00', endTime: '11h00' },
-            { title: "Déjeuner avec client", startTime: '12h30', endTime: '14h00' }
-        ]
-    },
-    {
-        id : 1,
-        byMe : false,
-        status : 1,
-        date: '2024-09-22',
-        events: [
-            { title: 'Atelier de développement', startTime: '14h00', endTime: '16h00' }
-        ]
-    },
-    {
-        id : 1,
-        byMe : true,
-        status : 1,
-        date: '2024-09-25',
-        events: [
-            { title: 'Présentation de projet', startTime: '16h00', endTime: '17h00' }
-        ]
-    }
-];
 
 const daysTag = document.querySelector(".days"),
     currentDate = document.querySelector(".current-date"),
@@ -39,7 +9,7 @@ let date = new Date(),
 
 const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                 "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-
+        // fonction de rendu du calendrier
                 const renderCalendar = () => {
                     let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(),
                         lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(),
@@ -56,8 +26,13 @@ const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
                     // Display current month's days
                     for (let i = 1; i <= lastDateofMonth; i++) {
                         let dateStr = `${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-                        let isToday = i === date && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";
-                        liTag += `<li class="${isToday}" data-date="${dateStr}">${i}</li>`;
+                        let isToday = i === date && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";                       
+                        
+                        let dateExists = events.some(event => event.date === dateStr);
+
+                        $dashed = dateExists ? "dashed" : "" ; 
+
+                        liTag += `<li class="${isToday} ${$dashed}" data-date="${dateStr}">${i} <span></span></li>`;
                     }
                 
                     // Display next month's first days as inactive
@@ -85,6 +60,7 @@ const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
                                 selectedDate = dayElement.getAttribute('data-prev-month-date');
                                 renderCalendar();
                                 scrollToMonthAndHighlight(selectedDate);
+                                highlightEvent(selectedDate);
                             } else if (dayElement.hasAttribute('data-next-month-date')) {
                                 currMonth++;
                                 if (currMonth > 11) {
@@ -95,14 +71,20 @@ const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
                                 selectedDate = dayElement.getAttribute('data-next-month-date');
                                 renderCalendar();
                                 scrollToMonthAndHighlight(selectedDate);
+                                highlightEvent(selectedDate);
                             } else {
                                 highlightCalendarCell(selectedDate);
                                 highlightEvent(selectedDate);
                             }
                         });
                     });
-                
-                    populateEventList();  // Update event list for the current month
+                    
+                populateEventList();
+                // mettre en avant la date d'aujourd'hui
+                const  dateT = new Date() 
+                highlightCalendarCell(dateT.getFullYear()+"-"+(dateT.getMonth()+1).toString().padStart(2, '0')+"-"+dateT.getDate().toString().padStart(2, '0'))
+                highlightEvent(dateT.getFullYear()+"-"+(dateT.getMonth()+1).toString().padStart(2, '0')+"-"+dateT.getDate().toString().padStart(2, '0'))
+                    // Update event list for the current month
                 };
 
 renderCalendar();

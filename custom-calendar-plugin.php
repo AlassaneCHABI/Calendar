@@ -63,6 +63,7 @@ function ccp_enqueue_accueil_assets() {
     wp_enqueue_style('ccp-custom-css', plugins_url('includes/public/assets/css/style.css', __FILE__), array(), null);
 
     // Enqueue custom script
+    wp_enqueue_script('ccp-script_utils', plugins_url('includes/public/assets/js/script_utils.js', __FILE__), array(), null, true);
     wp_enqueue_script('ccp-script', plugins_url('includes/public/assets/js/script.js', __FILE__), array('jquery'), null, true);
     
     // Enqueue Leaflet JS
