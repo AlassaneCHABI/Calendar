@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Mon Plugin Personnalisé
+ * Plugin Name: Calendar Pro 
  * Description: Un plugin simple qui ajoute un menu personnalisé au tableau de bord WordPress.
  * Version: 1.0
  * Author: Votre Nom
