@@ -1,3 +1,5 @@
+
+console.log(php_vars);
 // Function to create and show the modal
 function openModal_add_even() {
     console.log("Bouton cliqué");
@@ -70,23 +72,39 @@ function openModal_add_even() {
       </div>
     </div>`;
 
-    // Append the modal to the body
     document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-    // Initialize and show the modal
     var myModal = new bootstrap.Modal(document.getElementById('addEventModal'), {
         keyboard: false
     });
     myModal.show();
 
-    // Clean up the modal from the DOM after it is closed
-    document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function (event) {
+    document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
         document.getElementById('addEventModal').remove();
     });
 
-    // Add event listener for the "Enregistrer" button
-    document.getElementById('submit-form').addEventListener('click', function() {
-        document.getElementById('add-event-form').submit();
+    // Capture form submission and send it via AJAX
+    document.getElementById('add-event-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent form submission
+
+        let formData = new FormData(this);
+        formData.append('action', 'save_event');
+
+        // Send the form data via AJAX
+        fetch(php_vars.ajax_url, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Événement ajouté avec succès');
+                var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+                myModal.hide();
+            } else {
+                alert('Erreur : ' + data.data);
+            }
+        })
+        .catch(error => console.error('Erreur lors de l\'ajout de l\'événement :', error));
     });
 }
 

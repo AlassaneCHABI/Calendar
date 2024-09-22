@@ -1,4 +1,4 @@
-const events = [
+/*const events = [
     {         
         date: '2024-09-20',
         events: [
@@ -25,4 +25,4 @@ const events = [
             { title: 'Présentation de projet', startTime: '15h00', endTime: '17h00', bgcolor: "#65435a" , date_debut : '2024-10-05',date_fin :'2024-10-05', byMe : true,status : 1,n_invited:0 }
         ]
     }
-];
+];*/

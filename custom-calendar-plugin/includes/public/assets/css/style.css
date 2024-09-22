@@ -290,3 +290,23 @@ header .current-date{
   width: calc(100% - 2px); /* Ajuste la largeur selon le conteneur */
   z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
 }
+
+/* for shortcode button   */
+.bouton-calendrier {
+  display: inline-block;
+  background-color: #0073aa;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.bouton-calendrier:hover {
+  background-color: #005f8d;
+}
+
+.bouton-calendrier .dashicons {
+  margin-right: 8px;
+}

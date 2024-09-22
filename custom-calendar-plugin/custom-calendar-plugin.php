@@ -10,6 +10,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Inclure les menus du dashboard
+require_once plugin_dir_path(__FILE__) . 'menu_admin.php';
+
 // Inclure les modèles nécessaires
 require_once plugin_dir_path(__FILE__) . 'includes/models/Calendar-model.php';
 require_once plugin_dir_path(__FILE__) . 'includes/models/Contact-model.php';
@@ -45,6 +48,30 @@ register_activation_hook(__FILE__, 'ccp_activate_plugin');
 add_shortcode('add_event_form', array($event_controller, 'show_event_form'));
 // Ajouter le shortcode pour afficher le calendrier
 add_shortcode('show_calendar', array($accueil_controller, 'show_calendar'));
+add_shortcode('bouton_calendar', array($accueil_controller, 'afficher_bouton_calendrier_shortcode'));
+
+function enqueue_custom_calendar_scripts() {
+    // Enregistrer et inclure votre script JavaScript
+    wp_enqueue_script(
+        'custom-calendar-script',
+        plugins_url('includes/public/assets/js/even.js', __FILE__),
+        array('jquery'), // Dépendances (jQuery dans cet exemple)
+        null,
+        true
+    );
+
+    // Passer des variables PHP à JavaScript
+    wp_localize_script(
+        'custom-calendar-script', // Identifiant du script enregistré
+        'php_vars', // Nom de l'objet JavaScript que vous utiliserez dans JS
+        array(
+            'ajax_url' => admin_url('admin-ajax.php'), // URL pour les requêtes AJAX
+            'ccp_nonce' => wp_create_nonce('ccp_nonce') // Exemple de nonce si nécessaire
+        )
+    );
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_calendar_scripts');
+
 
 function ccp_enqueue_accueil_assets() {
     // Enqueue Google Fonts
@@ -72,7 +99,10 @@ function ccp_enqueue_accueil_assets() {
 
     wp_enqueue_script('flatpickr-script', 'https://cdn.jsdelivr.net/npm/flatpickr', array('jquery'), null, true);
 
-    wp_enqueue_script('ccp-script-even', plugins_url('includes/public/assets/js/even.js', __FILE__), array('jquery'), null, true);
+
+   add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
+
+
     
     // Enqueue Leaflet JS
     wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet/dist/leaflet.js', array('jquery'), null, true);

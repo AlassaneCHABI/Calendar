@@ -10,30 +10,31 @@ class EventModel {
     }
 
     // Créer la table events
-    public function create_table() {
-        global $wpdb;
-        $charset_collate = $wpdb->get_charset_collate();
-        
-        // Requête SQL pour créer la table des événements
-        $sql = "CREATE TABLE $this->table_name (
-            id mediumint(9) NOT NULL AUTO_INCREMENT,
-            link_post varchar(255) NOT NULL,
-            title varchar(255) NOT NULL,
-            date_time text NOT NULL,   /* Stockage JSON du tableau date_time */
-            contact text NOT NULL,     /* Stockage JSON du tableau contact */
-            location varchar(255),
-            description text,
-            remember tinyint(1) NOT NULL,
-            link varchar(255),
-            file varchar(255),
-            user_id bigint(20) unsigned NOT NULL,
-            PRIMARY KEY  (id),
-            FOREIGN KEY (user_id) REFERENCES {$wpdb->prefix}users(ID) ON DELETE CASCADE
-        ) $charset_collate;";
+ public function create_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'events';
+    $charset_collate = $wpdb->get_charset_collate();
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
-    }
+    $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        link_post varchar(255) NOT NULL,
+        title varchar(255) NOT NULL,
+        start_date date NOT NULL,
+        start_time time NOT NULL,
+        end_date date NOT NULL,
+        end_time time NOT NULL,
+        location varchar(255) NOT NULL,
+        description text,
+        remember varchar(255),
+        link varchar(255),
+        user_id bigint(20) NOT NULL,
+        created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
 
     // Fonction pour créer un événement
     public function create_event($data) {

@@ -300,7 +300,7 @@ class EventController {
             </div>
 
             <div id="selected-contacts"></div>
-            <textarea id="description" name="description" placeholder="Ajouter une description"></textarea>
+            <textarea id="description" name="description" placeholder="Ajouter une de"></textarea>
             <input type="text" id="remember" name="remember" placeholder="Alerte">
             <input type="text" id="link" name="link" placeholder="Ajouter un lien">
             <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
