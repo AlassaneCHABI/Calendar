@@ -195,10 +195,10 @@ function afficher_page_menu() {
 // Fonction qui affiche le contenu du sous-menu
 function afficher_page_sousmenu() {
     ?>
-    <div class="wrap">
+    <!-- <div class="wrap">
         <h1>Page de Sous-menu</h1>
         <p>Ceci est le contenu du sous-menu.</p>
-    </div>
+    </div> -->
     <?php
 }
 
