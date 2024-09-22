@@ -106,7 +106,7 @@ public function save_event() {
         $description = sanitize_textarea_field($_POST['description']);
         $remember = sanitize_text_field($_POST['remember']);
         $link = sanitize_text_field($_POST['link']);
-        $user_id = intval($_POST['user_id']);
+        $user_id = get_current_user_id();
         
         // Insert into database
         $wpdb->insert(
@@ -152,7 +152,10 @@ public function save_event() {
                 }
             }
 
-            wp_send_json_success('Événement ajouté avec succès');
+            wp_send_json([
+                'success' => 'Événement ajouté avec succès',
+                'events' => $this->get_events()
+            ]);
         } else {
             wp_send_json_error('Erreur lors de l\'ajout de l\'événement');
         }
@@ -232,6 +235,7 @@ function get_events_with_invitations($user_id) {
 
         $user_list = [];
         foreach ($users as $user) {
+            if($user->ID != get_current_user_id())
             $user_list[] = [
                 'id' => $user->ID,
                 'nom' => $user->user_nicename,
