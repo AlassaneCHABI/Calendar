@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Custom Calendar Plugin
+ * Plugin Name: Calendar Pro
  * Description: Un plugin de calendrier structuré en MVC.
  * Version: 1.0
- * Author: Alassane
+ * Author: OASISCREA
  */
 
 if (!defined('ABSPATH')) {
