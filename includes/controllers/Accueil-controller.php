@@ -2,16 +2,16 @@
 
 class AccueilController {
 
-    //private $event_model;
 
     public function __construct() {
-        //$this->event_model = new EventModel();
     }
 
+    /**
+     * Fonction de shortcode [show_calendar] permettant d'afficher le calendrier
+     * @param  
+     */
     public function show_calendar() {
-        ob_start(); ?>
-
-     
+        ob_start(); ?>     
     <div class="row">
 
        <div class="col-md-6 wrapper-side">
@@ -52,6 +52,30 @@ class AccueilController {
 
      </div>
     <?php return ob_get_clean();
+}
+
+
+/**
+ * Créer un shortcode qui affiche un bouton avec une icône de calendrier
+ */ 
+function afficher_bouton_calendrier_shortcode($atts) {
+  // Définir les attributs par défaut
+  $atts = shortcode_atts(
+      array(
+          'texte' => 'Voir le calendrier',  // Texte par défaut du bouton
+          'url' => '#',                    // Lien par défaut du bouton
+      ),
+      $atts,
+      'bouton_calendrier'                 // Nom du shortcode
+  );
+  
+  // Générer le HTML du bouton avec l'icône Dashicon du calendrier
+  $html = '<a href="' . esc_url($atts['url']) . '" class="bouton-calendrier" style="display: inline-block; background-color: #0073aa; color: #fff; padding: 10px 20px; border-radius: 4px; text-decoration: none; font-size: 16px;">';
+  $html .= '<span class="dashicons dashicons-calendar" style="margin-right: 8px;"></span>';
+  $html .= esc_html($atts['texte']);
+  $html .= '</a>';
+
+  return $html;
 }
 
 

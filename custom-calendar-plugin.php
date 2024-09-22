@@ -9,7 +9,8 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-
+// Inclure les menus du dashboard
+require_once plugin_dir_path(__FILE__) . 'menu_admin.php';
 // Inclure les modèles nécessaires
 require_once plugin_dir_path(__FILE__) . 'includes/models/Calendar-model.php';
 require_once plugin_dir_path(__FILE__) . 'includes/models/Contact-model.php';
@@ -43,8 +44,10 @@ register_activation_hook(__FILE__, 'ccp_activate_plugin');
 
 // Ajouter le shortcode pour afficher le formulaire d'ajout d'événement
 add_shortcode('add_event_form', array($event_controller, 'show_event_form'));
+
 // Ajouter le shortcode pour afficher le calendrier
 add_shortcode('show_calendar', array($accueil_controller, 'show_calendar'));
+add_shortcode('bouton_calendar', array($accueil_controller, 'afficher_bouton_calendrier_shortcode'));
 
 function ccp_enqueue_accueil_assets() {
     // Enqueue Google Fonts
