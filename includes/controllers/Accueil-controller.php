@@ -13,21 +13,26 @@ class AccueilController {
      * @param  
      */
 
+   
     public function show_calendar() {
-      $events = $this->get_events();
-        ob_start(); ?>
-         <script>
-        const events = <?php echo $events; ?>; // Passe les données à JavaScript
+     
+        ob_start(); 
+       $events = $this->get_events();
+        ?>
+        <script>
+        let events = <?php echo $events; ?> // Passe les données à JavaScript
         </script>
+        
         <div class="row">
             <div class="col-md-6 wrapper-side">
                 <header>
                     <div class="row" style="direction: rtl">
                         <i class="bi bi-plus-square" onclick="openModal_add_even()"></i>
                     </div> 
-                    <div>
+                    <!-- <div>
                         <input type="text" class="form-control" placeholder="search">
-                    </div>
+                    </div> -->
+                    <hr>
                     <div class="icons">
                         <span id="prev" class="material-symbols-rounded">chevron_left</span>
                         <p class="current-date"></p>
@@ -81,7 +86,7 @@ function afficher_bouton_calendrier_shortcode($atts) {
 }
 
 
-    public function save_event() {
+public function save_event() {
         // Check if required fields are set
         if (isset($_POST['title']) && !empty($_POST['title'])) {
             global $wpdb;
@@ -98,7 +103,7 @@ function afficher_bouton_calendrier_shortcode($atts) {
             $description = sanitize_textarea_field($_POST['description']);
             $remember = sanitize_text_field($_POST['remember']);
             $link = sanitize_text_field($_POST['link']);
-            $user_id = intval($_POST['user_id']);
+            $user_id = get_current_user_id();
 
             // Insert into database
             $wpdb->insert(
@@ -114,14 +119,18 @@ function afficher_bouton_calendrier_shortcode($atts) {
                     'description' => $description,
                     'remember'    => $remember,
                     'link'        => $link,
-                    'user_id'     => $user_id,
+                    'created_by'     => $user_id,
                     'created_at'  => current_time('mysql')
                 )
             );
 
             // Check if insertion was successful
             if ($wpdb->insert_id) {
-                wp_send_json_success('Événement ajouté avec succès');
+                wp_send_json([
+                    'success' => 'Événement ajouté avec succès',
+                    'events' => $this->get_events()
+                ]);
+              //  wp_send_json_success('');
             } else {
                 wp_send_json_error('Erreur lors de l\'ajout de l\'événement');
             }
@@ -152,7 +161,10 @@ function get_events_with_invitations($user_id) {
         SELECT 
             e.id AS event_id,
             e.title AS event_title,
+            e.start_time AS start_time,
+            e.end_time AS end_time,
             e.created_by AS event_creator,
+            e.link AS link,
             COALESCE(i.id_guest, 0) AS invited_user,
             COUNT(i.id_guest) AS n_invited,
             i.status AS invitation_status,
@@ -182,6 +194,9 @@ function get_events_with_invitations($user_id) {
 
         $events_by_date[$date]['events'][] = [
             'title' => $row->event_title,
+            'startTime' => $row->start_time,
+            'endTime' => $row->end_time,
+            'link' => $row->link,
             'byMe' => $row->by_me == 1,
             'status' => $row->invitation_status,
             'n_invited' => $row->n_invited,

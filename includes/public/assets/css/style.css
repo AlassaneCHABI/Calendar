@@ -169,6 +169,7 @@ header .current-date{
 #event-list {
   /* width: 100%; */
   max-width: 600px;
+  background: #f7f9ef;
 }
 
 .event-day {
@@ -287,8 +288,10 @@ header .current-date{
 .event-date.fixed {
   position: sticky;
   top: 0;
-  width: calc(100% - 2px); /* Ajuste la largeur selon le conteneur */
-  z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
+  /* width: calc(100% - 2px); */
+  width: 110%;
+  z-index: 1000;
+  margin-left: -15px;
 }
 
 /* for shortcode button   */

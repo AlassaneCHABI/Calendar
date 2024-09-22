@@ -97,7 +97,10 @@ function openModal_add_even() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                events = JSON.parse(data.events) 
+                renderCalendar();
                 alert('Événement ajouté avec succès');
+                
                 var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
                 myModal.hide();
             } else {
@@ -301,7 +304,6 @@ function openModal_show_even() {
 let map;
 let marker;
  function showMap() {
-        
             if (!map) {
                 map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées de Paris
 
@@ -310,6 +312,7 @@ let marker;
                     attribution: '© OpenStreetMap'
                 }).addTo(map);
             }
+
             document.getElementById('map').style.display = 'block';
             document.getElementById('address-search').style.display = 'block';
         }
@@ -365,5 +368,4 @@ let marker;
         document.getElementById('location').value = displayName;
         document.getElementById('address-results').style.display = 'none';
         document.getElementById('address-search').value = '';
-        
     }
