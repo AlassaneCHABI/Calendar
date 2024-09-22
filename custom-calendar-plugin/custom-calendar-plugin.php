@@ -16,7 +16,9 @@ require_once plugin_dir_path(__FILE__) . 'menu_admin.php';
 // Inclure les modèles nécessaires
 require_once plugin_dir_path(__FILE__) . 'includes/models/Calendar-model.php';
 require_once plugin_dir_path(__FILE__) . 'includes/models/Contact-model.php';
-require_once plugin_dir_path(__FILE__) . 'includes/models/Even-Model.php'; // Ajout du modèle des événements
+require_once plugin_dir_path(__FILE__) . 'includes/models/Even-Model.php'; 
+require_once plugin_dir_path(__FILE__) . 'includes/models/Invitation-Model.php'; 
+
 
 // Inclure les contrôleurs nécessaires
 require_once plugin_dir_path(__FILE__) . 'includes/controllers/Calendar-controller.php';
@@ -36,11 +38,13 @@ $accueil_controller = new AccueilController();
 function ccp_activate_plugin() {
     $calendar_model = new CalendarModel();
     $contact_model = new ContactModel();
-    $event_model = new EventModel(); // Modèle des événements
+    $event_model = new EventModel(); 
+    $invitation_model = new InvitationModel(); 
 
     $calendar_model->create_table();
     $contact_model->create_table();
-    $event_model->create_table(); // Créer la table des événements
+    $event_model->create_table(); 
+    $invitation_model->create_table(); 
 }
 register_activation_hook(__FILE__, 'ccp_activate_plugin');
 
