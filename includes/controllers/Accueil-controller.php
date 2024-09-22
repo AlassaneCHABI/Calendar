@@ -133,35 +133,11 @@ function afficher_bouton_calendrier_shortcode($atts) {
 
 
 public function get_events() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'events';
-
-    $results = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
-    $events = [];
+ 
 
     $id_user = get_current_user_id();
-    $events = $this->get_events_with_invitations($id_user);
-
-    foreach ($results as $event) {
-        $date = $event['start_date']; // Utilise la date de début de l'événement
-        if (!isset($events[$date])) {
-            $events[$date] = ['date' => $date, 'events' => []];
-        }
-
-        $events[$date]['events'][] = [
-            'title' => $event['title'],
-            'startTime' => $event['start_time'],
-            'endTime' => $event['end_time'],
-            'bgcolor' => "#65435a", // Ajuste si nécessaire
-            'date_debut' => $event['start_date'],
-            'date_fin' => $event['end_date'],
-            'byMe' => $event['user_id'] === get_current_user_id(),
-            //'status' => $event['status'],
-            'n_invited' => 0 // Ajuste selon tes besoins
-        ];
-    }
-
-    return json_encode(array_values($events)); // Encode les événements et les retourne
+    
+  return json_encode($this->get_events_with_invitations($id_user)); // Encode les événements et les retourne
 }
 
 function get_events_with_invitations($user_id) {
@@ -180,7 +156,7 @@ function get_events_with_invitations($user_id) {
             COALESCE(i.id_guest, 0) AS invited_user,
             COUNT(i.id_guest) AS n_invited,
             i.status AS invitation_status,
-            e.created_at AS event_date,
+            e.start_date AS event_date,
             (CASE 
                 WHEN e.created_by = $user_id THEN 1
                 ELSE 0
