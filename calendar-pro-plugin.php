@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Custom Calendar Plugin
- * Description: Un plugin de calendrier structuré en MVC.
+ * Plugin Name: Calendar Pro
+ * Description: Le Calendrier d'événements personnalisé est un plugin WordPress intuitif qui vous permet de créer, gérer et afficher des événements facilement sur votre site web. Organisez vos événements avec des options avancées comme la gestion des contacts, des invitations. Ce plugin est idéal pour les entreprises, organisations et particuliers cherchant à améliorer la gestion de leurs événements en ligne.
  * Version: 1.0
- * Author: Alassane
+ * Author: OASISCREA
  */
 
 if (!defined('ABSPATH')) {
@@ -64,17 +64,23 @@ function enqueue_custom_calendar_scripts() {
         true
     );
 
+    // Récupérer les utilisateurs
+    $accueil_controller = new AccueilController();
+    $users = $accueil_controller->get_all_users_for_contacts();
+
     // Passer des variables PHP à JavaScript
     wp_localize_script(
         'custom-calendar-script', // Identifiant du script enregistré
         'php_vars', // Nom de l'objet JavaScript que vous utiliserez dans JS
         array(
             'ajax_url' => admin_url('admin-ajax.php'), // URL pour les requêtes AJAX
+            'users' => $users, // Inclure les utilisateurs
             'ccp_nonce' => wp_create_nonce('ccp_nonce') // Exemple de nonce si nécessaire
         )
     );
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_calendar_scripts');
+
 
 
 function ccp_enqueue_accueil_assets() {
@@ -102,6 +108,9 @@ function ccp_enqueue_accueil_assets() {
     
 
     wp_enqueue_script('flatpickr-script', 'https://cdn.jsdelivr.net/npm/flatpickr', array('jquery'), null, true);
+
+
+  wp_enqueue_style('ccp-cloudflare-css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css', array(), null);
 
 
    add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
