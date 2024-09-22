@@ -59,11 +59,20 @@ function ccp_enqueue_accueil_assets() {
     // Enqueue Leaflet CSS
     wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet/dist/leaflet.css', array(), null);
 
+    wp_enqueue_style('flatpickr-css', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css', array(), null);
+
     // Enqueue custom CSS
     wp_enqueue_style('ccp-custom-css', plugins_url('includes/public/assets/css/style.css', __FILE__), array(), null);
 
+    wp_enqueue_script('ccp-script_utils', plugins_url('includes/public/assets/js/script_utils.js', __FILE__), array(), null, true);
     // Enqueue custom script
     wp_enqueue_script('ccp-script', plugins_url('includes/public/assets/js/script.js', __FILE__), array('jquery'), null, true);
+
+    
+
+    wp_enqueue_script('flatpickr-script', 'https://cdn.jsdelivr.net/npm/flatpickr', array('jquery'), null, true);
+
+    wp_enqueue_script('ccp-script-even', plugins_url('includes/public/assets/js/even.js', __FILE__), array('jquery'), null, true);
     
     // Enqueue Leaflet JS
     wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet/dist/leaflet.js', array('jquery'), null, true);
