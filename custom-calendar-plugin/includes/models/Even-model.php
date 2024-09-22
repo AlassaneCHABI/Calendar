@@ -27,7 +27,7 @@ class EventModel {
         description text,
         remember varchar(255),
         link varchar(255),
-        user_id bigint(20) NOT NULL,
+        created_by bigint(20) NOT NULL,
         created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
         PRIMARY KEY (id)
     ) $charset_collate;";

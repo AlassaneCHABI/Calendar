@@ -139,6 +139,9 @@ public function get_events() {
     $results = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
     $events = [];
 
+    $id_user = get_current_user_id();
+    $events = get_events_with_invitations($id_user);
+
     foreach ($results as $event) {
         $date = $event['start_date']; // Utilise la date de début de l'événement
         if (!isset($events[$date])) {
@@ -161,6 +164,58 @@ public function get_events() {
     return json_encode(array_values($events)); // Encode les événements et les retourne
 }
 
+function get_events_with_invitations($user_id) {
+    global $wpdb;
+    $table_name_inv = $wpdb->prefix . 'invitations';
+    $table_name_ev = $wpdb->prefix . 'events';
+
+
+   
+    // Requête SQL pour récupérer les événements et les invitations
+    $results = $wpdb->get_results("
+        SELECT 
+            e.id AS event_id,
+            e.title AS event_title,
+            e.created_by AS event_creator,
+            COALESCE(i.id_guest, 0) AS invited_user,
+            COUNT(i.id_guest) AS n_invited,
+            i.status AS invitation_status,
+            e.created_at AS event_date,
+            (CASE 
+                WHEN e.created_by = $user_id THEN 1
+                ELSE 0
+            END) AS by_me
+        FROM 
+            $table_name_ev e
+        LEFT JOIN 
+            $table_name_inv i ON e.id = i.id_event
+        WHERE 
+            e.created_by = $user_id OR i.id_guest = $user_id
+        GROUP BY 
+            e.id
+    ");
+
+    // Formater les résultats
+    $events_by_date = [];
+    foreach ($results as $row) {
+        $date = $row->event_date;
+
+        if (!isset($events_by_date[$date])) {
+            $events_by_date[$date] = ['date' => $date, 'events' => []];
+        }
+
+        $events_by_date[$date]['events'][] = [
+            'title' => $row->event_title,
+            'byMe' => $row->by_me == 1,
+            'status' => $row->invitation_status,
+            'n_invited' => $row->n_invited,
+        ];
+    }
+
+    return array_values($events_by_date);
+}
+
+ 
 
 
 }
