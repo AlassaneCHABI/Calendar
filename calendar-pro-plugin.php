@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Calendar Pro
- * Description: Le Calendrier d'événements personnalisé est un plugin WordPress intuitif qui vous permet de créer, gérer et afficher des événements facilement sur votre site web. Organisez vos événements avec des options avancées comme la gestion des contacts, des invitations. Ce plugin est idéal pour les entreprises, organisations et particuliers cherchant à améliorer la gestion de leurs événements en ligne.
+ * Description: Le Calendrier d'événements personnalisé est un plugin WordPress intuitif qui vous permet de créer, gérer et afficher des événements facilement sur votre site web. Organisez vos événements avec des options avancées comme la gestion des contacts, des invitations.
  * Version: 1.0
  * Author: OASISCREA
  */
