@@ -127,7 +127,7 @@ function populateEventList() {
        
             <div class="row">
                     <div class="col-2 event-icons">
-                        <button class="btn btn-light me-2" style="margin: 20% 5px 0 0;" onclick="openModal_add_even()">
+                        <button class="btn btn-light me-2" style="margin: 20% 5px 0 0;" onclick="openModal_add_even('${dateStr}')">
                         <i class="bi bi-plus-circle"></i>
                         </button>
                     </div>
@@ -139,7 +139,7 @@ function populateEventList() {
                 ++i;
                 html += `  
                   
-                        <div class="col-10 ${i > 1 ? 'offset-2':''}" onclick="${event.byMe ? 'openModal_show_even_by_me()' : 'openModal_show_even()'}">
+                        <div class="col-10 ${i > 1 ? 'offset-2':''}" onclick="${event.byMe ? `openModal_show_even_by_me(${event.id})` : `openModal_show_even(${event.id})`}">
                           <div class="${ event.byMe == true ? 'event-card' : 'event-card-invited'}   bg-pink p-3 d-flex justify-content-between align-items-center mb-4">
                             <div class="event-info">
                               <p class="mb-1 time-range">${event.startTime} - ${event.endTime}  </p>

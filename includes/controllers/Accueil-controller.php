@@ -9,6 +9,15 @@ class AccueilController {
 
         // Register the action for enqueuing scripts
         add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
+
+        add_action('wp_ajax_update_event', [$this, 'update_event']);
+        add_action('wp_ajax_nopriv_update_event', [$this, 'update_event']);
+
+        // Ajouter l'action AJAX pour récupérer l'événement
+        add_action('wp_ajax_get_event_callback', [$this, 'get_event_callback']);
+        add_action('wp_ajax_nopriv_get_event_callback', [$this, 'get_event_callback']);
+
+
     }
 
     /**
@@ -165,6 +174,120 @@ public function save_event() {
 }
 
 
+
+function get_event_callback() {
+    global $wpdb;
+    $event_id = intval($_GET['event_id']);
+
+    // Récupérer les détails de l'événement
+    $event = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_events WHERE id = %d", $event_id));
+
+    // Récupérer les contacts associés avec les détails des utilisateurs
+    $invitations = $wpdb->get_results($wpdb->prepare("
+        SELECT i.id_guest, u.display_name AS user_name , u.user_nicename As user_last_name, i.status AS status
+        FROM wp_invitations AS i
+        JOIN wp_users AS u ON i.id_guest = u.ID
+        WHERE i.id_event = %d
+    ", $event_id));
+
+    // Formater les contacts pour ne garder que les noms
+    $contacts = array_map(function($invitation) {
+        return array(
+            'id' => $invitation->id_guest, 
+            'nom' => $invitation->user_last_name ,
+            'prenom' => $invitation->user_name,
+            'status' => $invitation->status
+        );
+    }, $invitations);
+
+    // Retourner les données
+    wp_send_json_success(array(
+        'event' => $event,
+        'contacts' => $contacts
+    ));
+}
+
+
+public function update_event() {
+    // Vérifier si les champs requis sont définis
+    if (isset($_POST['event_id']) && !empty($_POST['event_id']) && isset($_POST['title']) && !empty($_POST['title'])) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'events'; // Remplacez par le nom de votre table
+
+        // Sanitize form data
+        $event_id = intval($_POST['event_id']);
+        
+         // Sanitize form data
+        $title = sanitize_text_field($_POST['title']);
+        $link_post = sanitize_text_field($_POST['link_post']);
+        $start_date = sanitize_text_field($_POST['start_date']);
+        $start_time = sanitize_text_field($_POST['start_time']);
+        $end_date = sanitize_text_field($_POST['end_date']);
+        $end_time = sanitize_text_field($_POST['end_time']);
+        $location = sanitize_text_field($_POST['location']);
+        $description = sanitize_textarea_field($_POST['description']);
+        $remember = sanitize_text_field($_POST['remember']);
+        $link = sanitize_text_field($_POST['link']);
+        $user_id = get_current_user_id();
+        
+        // Mettre à jour l'événement dans la base de données
+        $updated = $wpdb->update(
+            $table_name,
+             array(
+                'link_post'   => $link_post,
+                'title'       => $title,
+                'start_date'  => $start_date,
+                'start_time'  => $start_time,
+                'end_date'    => $end_date,
+                'end_time'    => $end_time,
+                'location'    => $location,
+                'description' => $description,
+                'remember'    => $remember,
+                'link'        => $link,
+                'created_by'     => $user_id,
+                'created_at'  => current_time('mysql')
+            ),
+            array('id' => $event_id) // Condition pour identifier l'événement à mettre à jour
+        );
+
+        // Vérifier si la mise à jour a réussi
+        if ($updated !== false) {
+            // Mise à jour des contacts associés
+            if (isset($_POST['contact']) && !empty($_POST['contact'])) {
+                $contact_ids = array_map('intval', $_POST['contact']);
+
+                // Supprimer les anciennes invitations liées à cet événement
+                $wpdb->delete($wpdb->prefix . 'invitations', array('id_event' => $event_id));
+
+                // Ajouter les nouveaux contacts dans la table des invitations
+                foreach ($contact_ids as $contact_id) {
+                    if ($contact_id > 0) {
+                        $wpdb->insert(
+                            $wpdb->prefix . 'invitations', 
+                            array(
+                                'id_event' => $event_id,
+                                'id_guest' => $contact_id,
+                                'status'   => 'pending'
+                            )
+                        );
+                    }
+                }
+            }
+
+            wp_send_json([
+                'success' => 'Événement ajouté avec succès',
+                'events' => $this->get_events()
+            ]);
+        } else {
+            wp_send_json_error('Erreur lors de la mise à jour de l\'événement');
+        }
+    } else {
+        wp_send_json_error('Le titre et l\'ID de l\'événement sont obligatoires');
+    }
+}
+
+
+
 public function get_events() {
  
 
@@ -217,6 +340,7 @@ function get_events_with_invitations($user_id) {
         }
 
         $events_by_date[$date]['events'][] = [
+            'id' => $row->event_id,
             'title' => $row->event_title,
             'startTime' => $row->start_time,
             'endTime' => $row->end_time,

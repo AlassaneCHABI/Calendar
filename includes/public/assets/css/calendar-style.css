@@ -238,6 +238,33 @@ input[type="text"]#time {
 }
 
 
+/* Style pour les champs de recherche */
+.search-field {
+    border: 2px solid #007bff; /* Bordure bleue */
+    background-color: #f8f9fa; /* Fond clair */
+    padding: 10px;
+    transition: border-color 0.3s; /* Animation pour l'effet de survol */
+}
+
+/* Effet de survol pour le champ de recherche */
+.search-field:focus {
+    border-color: #0056b3; /* Bordure plus foncée au focus */
+    outline: none; /* Enlever le contour par défaut */
+}
+
+
+.status-pending {
+    color: orange; /* Couleur pour 'Pending' */
+}
+
+.status-accepted {
+    color: green; /* Couleur pour 'Accepted' */
+}
+
+.status-declined {
+    color: red; /* Couleur pour 'Declined' */
+}
+
 
 
 
