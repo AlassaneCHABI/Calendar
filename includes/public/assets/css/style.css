@@ -169,7 +169,7 @@ header .current-date{
 #event-list {
   /* width: 100%; */
   max-width: 600px;
-  background: #f7f9ef;
+      background: #f7f9ef;
 }
 
 .event-day {
@@ -312,4 +312,54 @@ header .current-date{
 
 .bouton-calendrier .dashicons {
   margin-right: 8px;
+}
+ 
+/* Modal container */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Style for the icons */
+.icon {
+  font-size:20px;
+  color: #000;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect to change the icon color */
+.icon:hover {
+  color: #007bff; /* Change to your preferred hover color */
 }

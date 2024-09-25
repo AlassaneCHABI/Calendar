@@ -58,8 +58,48 @@ class AccueilController {
                 </div> 
             </div>
             <div class="col-md-6" id="event-list"></div>
+   
+
+            <div id="myModal" class="modal container text-center p-3 border rounded mt-4">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>  
+                    <div class="">
+        <!-- Share by Message Button -->
+        <button class="btn btn-outline-primary w-100 mb-3">  <a href="#" id="event-share-link"></a>Share by Message</button>
+
+        <!-- Send with Icons Section -->
+        <p class="fw-bold">Send with</p>
+        <div class="d-flex justify-content-center">
+            <a href="#" class="m-2">
+                <i class="bi bi-envelope icon"></i>
+            </a>
+            <a href="#" class="m-2">
+                <i class="bi bi-facebook-messenger icon"></i>
+            </a>
+            <a href="#" class="m-2">
+                <i class="bi bi-instagram icon"></i>
+            </a>
+            <a href="#" class="m-2">
+                <i class="bi bi-linkedin icon"></i>
+            </a>
+            <a href="#" class="m-2">
+                <i class="bi bi-whatsapp icon"></i>
+            </a>
+            <a href="#" class="m-2">
+                <i class="bi bi-x icon"></i>
+            </a>
         </div>
-        
+    </div>
+
+                </div>
+            </div>
+
+            
+
+
+         
+    </div>
         <?php return ob_get_clean();
     }
 
@@ -217,6 +257,7 @@ function get_events_with_invitations($user_id) {
         }
 
         $events_by_date[$date]['events'][] = [
+            'id' => $row->event_id,
             'title' => $row->event_title,
             'startTime' => $row->start_time,
             'endTime' => $row->end_time,
@@ -252,8 +293,8 @@ public function enqueue_scripts() {
 
         $users = $this->get_all_users_for_contacts();
         wp_localize_script('your-script-handle', 'php_vars', ['ajax_url' => admin_url('admin-ajax.php'), 'users' => $users]);
-    }
-
+    }  
+    
 
 
 }
