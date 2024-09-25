@@ -140,7 +140,6 @@ form#add-event-form textarea {
 
 #add-event-form input[type="submit"]:hover {
     background-color: #0056b3; /* Couleur de fond lors du survol */
-
 }
 
 /* Ajouter un fond bleu pour le formulaire */
@@ -149,9 +148,6 @@ form#add-event-form textarea {
     padding: 20px; /* Espacement interne du conteneur */
     border-radius: 8px; /* Coins arrondis du conteneur */
 }
-
-
-
 
 /* Style pour l'alerte */
 form#add-event-form select {
@@ -205,7 +201,6 @@ form#add-event-form select:focus {
     /*box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);*/
 }
 
-
 /* Wrapper pour aligner les champs date et heure */
 .datetime-wrapper {
     display: flex;
@@ -237,7 +232,6 @@ input[type="text"]#time {
     border-radius: 0; /* Coins carrés pour un look uniforme */
 }
 
-
 /* Style pour les champs de recherche */
 .search-field {
     border: 2px solid #007bff; /* Bordure bleue */
@@ -252,7 +246,6 @@ input[type="text"]#time {
     outline: none; /* Enlever le contour par défaut */
 }
 
-
 .status-pending {
     color: orange; /* Couleur pour 'Pending' */
 }
@@ -265,10 +258,23 @@ input[type="text"]#time {
     color: red; /* Couleur pour 'Declined' */
 }
 
+/*  pour le style des lieux et contacts */
+.click-input {
+    background: #c2dddd !important;
+    border: unset !important;
+    text-align: center;
+}
 
+.click-input::placeholder{
+    color: black !important;
+}
 
+.click-input:hover{
+    background: #064141 !important ;
+    cursor: pointer;
+    color: white !important;
+}
 
-
-
-
-
+.click-input:hover::placeholder{
+    color: white !important;
+}

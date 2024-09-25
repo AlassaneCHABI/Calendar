@@ -279,7 +279,7 @@ class EventController {
 
              <div class="mb-12">
                 <div class="input-group">
-                    <input type="text" id="location" name="location" placeholder="Lieu" onclick="showMap()" readonly>
+                    <input type="text" class=" click-input" id="location" name="location" placeholder="Lieu" onclick="showMap()" readonly>
                 </div>
             </div>
              
@@ -292,7 +292,7 @@ class EventController {
             <div id="map" style="height: 300px; display: none;"></div>
              
         <div id="contact-container">
-                <input type="text" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
+                <input type="text" class=" click-input" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
                 <div id="search-container" style="display: none;">
                     <input type="text" id="contact-search" placeholder="Rechercher un contact...">
                     <div id="contact-search-results"></div>

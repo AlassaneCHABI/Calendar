@@ -43,8 +43,8 @@ function openModal_add_even(dateStr) {
                 </div>
 
                 <div class="mb-12">
-                    <div class="input-group">
-                        <input type="text" id="location" name="location" placeholder="Lieu" onclick="showMap()" readonly>
+                    <div class="input-group  ">
+                        <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" onclick="showMap()" readonly>
                     </div>
                 </div>
                  
@@ -58,7 +58,7 @@ function openModal_add_even(dateStr) {
                 <div id="map" style="height: 300px; display: none;"></div>
                  
                 <div id="contact-container">
-                    <input type="text" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
+                    <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
                     <div id="search-container" style="display: none;">
                         <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
                         <ul id="contact-list"></ul>
@@ -129,7 +129,6 @@ function openModal_add_even(dateStr) {
         }
     });
 
-
 // Récupérer l'heure actuelle pour les champs d'heure
     const now = new Date();
     const currentHours = String(now.getHours()).padStart(2, '0');
@@ -139,8 +138,6 @@ function openModal_add_even(dateStr) {
     // Préremplir les champs d'heure avec l'heure actuelle
     document.getElementById('event_start_time').value = currentTime;
     document.getElementById('event_end_time').value = currentTime;
-
-
 
     document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
         document.getElementById('addEventModal').remove();
@@ -221,7 +218,7 @@ function openModal_show_even_by_me(eventId) {
                                         <input type="time" id="event_end_time" name="end_time" value="${event.end_time}" required>
                                     </div>
                                 </div>
-                                <input type="text" id="location" name="location" value="${event.location}" placeholder="Lieu" onclick="showMap()" readonly>
+                                <input type="text" class=" click-input" id="location" name="location" value="${event.location}" placeholder="Lieu" onclick="showMap()" readonly>
                                 
                                 <div class="mb-12">
                                 <div class="input-group">
@@ -232,9 +229,8 @@ function openModal_show_even_by_me(eventId) {
 
                               <div id="map" style="height: 300px; display: none;"></div>
 
-
                                <div id="contact-container">
-                                <input type="text" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
+                                <input type="text" class=" click-input" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
                                 <div id="search-container" style="display: none;">
                                     <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
                                     <ul id="contact-list"></ul>
@@ -320,8 +316,6 @@ function openModal_show_even_by_me(eventId) {
                     document.getElementById('addEventModal').remove();
                 });
 
-
-             
         // Capture form submission and send it via AJAX
             document.getElementById('add-event-form').addEventListener('submit', function(e) {
                 e.preventDefault(); // Empêche l'envoi du formulaire
@@ -349,18 +343,12 @@ function openModal_show_even_by_me(eventId) {
                 })
                 .catch(error => console.error('Erreur lors de la mise à jour de l\'événement :', error));
             });
-
-
             } else {
                 alert('Erreur lors de la récupération de l\'événement : ' + data.data);
             }
         })
         .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
-
-        
 }
-
-
 
 // Function to show even the modal
 function openModal_show_even() {
@@ -408,13 +396,13 @@ function openModal_show_even() {
 
              <div class="mb-12">
                 <div class="input-group">
-                    <input type="text" id="location" name="location" placeholder="Lieu" onclick="showMap()" readonly>
+                    <input type="text" class=" click-input" id="location" name="location" placeholder="Lieu" onclick="showMap()" readonly>
                 </div>
             </div>
              
           <div class="mb-12">
                     <div class="input-group">
-                        <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" >
+                        <input type="text" class=" click-input" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" >
                     </div>
                     <div id="address-results" ></div>
                 </div>
@@ -529,15 +517,12 @@ let marker;
         document.getElementById('address-search').value = '';
     }
 
-
 function toggleSearchContainer() {
     const searchContainer = document.getElementById('search-container');
 
     // Toggle the visibility of the search container
     searchContainer.style.display = (searchContainer.style.display === 'none') ? 'block' : 'none';
 }
-
-
 
 function filterContacts() {
     const searchInput = document.getElementById('contact-search').value.toLowerCase();
@@ -591,8 +576,6 @@ function filterContacts() {
         contactList.appendChild(noResultsItem);
     }
 }
-
-
 
 function addSelectedContact(user) {
     const selectedContactsContainer = document.getElementById('selected-contacts');
@@ -668,7 +651,6 @@ function renderSelectedContact(user) {
 
     return contactDiv; // Retourner le div pour l'ajouter au conteneur
 }
-
 
 function addContact(user) {
     const selectedContactsContainer = document.getElementById('selected-contacts');
