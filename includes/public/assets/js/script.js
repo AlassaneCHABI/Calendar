@@ -149,7 +149,7 @@ function populateEventList() {
                               <button class="btn btn-light me-2">
                                 <i class="bi ${ event.byMe == true ? 'bi-image' : 'bi-check'} "></i>
                               </button>
-                              <button class="btn btn-light">
+                              <button  data-share="rtyui" class="btn btn-light">
                                 <i class="bi ${ event.byMe == true ? 'bi-send' : 'bi-x'} "></i>
                               </button>
                             </div>
