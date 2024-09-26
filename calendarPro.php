@@ -14,25 +14,26 @@ if (!defined('ABSPATH')) {
 require_once plugin_dir_path(__FILE__) . 'menu_admin.php';
 
 // Inclure les modèles nécessaires
-require_once plugin_dir_path(__FILE__) . 'includes/models/Calendar-model.php';
-require_once plugin_dir_path(__FILE__) . 'includes/models/Contact-model.php';
-require_once plugin_dir_path(__FILE__) . 'includes/models/Even-Model.php'; 
-require_once plugin_dir_path(__FILE__) . 'includes/models/Invitation-Model.php'; 
+require_once plugin_dir_path(__FILE__) . 'includes/models/CalendarModel.php';
+require_once plugin_dir_path(__FILE__) . 'includes/models/ContactModel.php';
+require_once plugin_dir_path(__FILE__) . 'includes/models/EventModel.php'; 
+require_once plugin_dir_path(__FILE__) . 'includes/models/InvitationModel.php'; 
 
 
 // Inclure les contrôleurs nécessaires
-require_once plugin_dir_path(__FILE__) . 'includes/controllers/Calendar-controller.php';
-require_once plugin_dir_path(__FILE__) . 'includes/controllers/Contact-controller.php'; 
-require_once plugin_dir_path(__FILE__) . 'includes/controllers/Even-Controller.php'; // Ajout du contrôleur des événements
-require_once plugin_dir_path(__FILE__) . 'includes/controllers/Accueil-Controller.php'; // Ajout du contrôleur des événements
+require_once plugin_dir_path(__FILE__) . 'includes/controllers/CalendarController.php';
+require_once plugin_dir_path(__FILE__) . 'includes/controllers/ContactController.php'; 
+require_once plugin_dir_path(__FILE__) . 'includes/controllers/EventController.php';  
+require_once plugin_dir_path(__FILE__) . 'includes/controllers/AccueilController.php';  
 
 // Inclure les vues nécessaires
-require_once plugin_dir_path(__FILE__) . 'includes/views/calendar-view.php';
+require_once plugin_dir_path(__FILE__) . 'includes/views/calendarView.php';
 
 // Initialiser les contrôleurs
 $calendar_controller = new CalendarController();
 $event_controller = new EventController();
 $accueil_controller = new AccueilController();
+
 
 // Fonction pour créer les tables lors de l'activation du plugin
 function ccp_activate_plugin() {
