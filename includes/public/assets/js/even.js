@@ -283,8 +283,8 @@ function openModal_show_even_by_me(eventId) {
                               <div id="map" style="height: 300px;"></div>
                                
                               <div class="form-group">
-                                <label>Contacts invités</label>
-                                <input type="text" class="form-control click-input" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
+                                
+                                <input type="text" class="form-control click-input" id="contact" name="contact[]" readonly placeholder="Contacts invités" onclick="toggleSearchContainer()">
                                 <div id="search-container" style="display: none;">
                                     <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
                                     <ul id="contact-list"></ul>
@@ -314,22 +314,18 @@ function openModal_show_even_by_me(eventId) {
                                           <option value="Personnalisé">Personnalisé</option>
                             </select>
                             </div>
-                             <div class="form-group">
-                               <label>Fichier</label>
-                               <input type="text" id="link" name="link" value="${event.link}" placeholder="Ajouter un lien" class="form-control">
-                            </div> 
+
                             <div class="form-group">
                                <label>Lien</label>
-                                <input type="file" id="file" name="file" placeholder="Ajouter un fichier"  class="form-control">
+                                <input type="text" id="link" name="link" placeholder="Ajouter un fichier" value="${event.link}"  class="form-control">
                             </div>
+
+                             <div class="form-group">
+                               <label>Fichier</label>
+                               <input type="file" id="file" name="file" placeholder="Ajouter un lien" class="form-control">
+                            </div> 
+                            
                                 
- 
-                                <textarea id="description" name="description" placeholder="Ajouter une description">
-                                    ${event.description}
-                                </textarea>
-                                <input type="text" id="remember" name="remember" value="${event.remember}" placeholder="Alerte">
-                                <input type="text" id="link" name="link" value="${event.link}" placeholder="Ajouter un lien">
-                                <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
                                 
                                 <div class="d-flex justify-content-center">
                                      <div style="background:#f8bbd0b8 "  class="color-bubble  ${event.color == '#f8bbd0b8' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
