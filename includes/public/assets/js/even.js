@@ -1,5 +1,5 @@
 
-console.log(php_vars);
+//console.log(php_vars);
 // Function to create and show the modal
 function openModal_add_even(dateStr) {
     console.log("Bouton cliqué");
@@ -19,6 +19,7 @@ function openModal_add_even(dateStr) {
                 <h5 class="modal-title w-100 text-center position-relative">Ajouter un événement</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+             
             <form id="add-event-form">
 
                 <input type="text" id="link_post" name="link_post" required placeholder="Lien du post" class="form-control">
@@ -29,6 +30,7 @@ function openModal_add_even(dateStr) {
                
                 
                 <div class="row mb-3">
+
                     <div class="col-md-7">
                         <input type="date" id="event_start_date"   name="start_date" required>
                     </div>
@@ -71,7 +73,11 @@ function openModal_add_even(dateStr) {
                 </div>
 
                 
-                <div id="selected-contacts"></div>
+                <div id="selected-contacts"></div>              
+              
+
+                <input type="hidden" id="selectedColor" name="color" value="">
+ 
                 <div class="form-group">
                 <textarea id="description" name="description" placeholder="Ajouter une description" class="form-control"></textarea>
                </div>
@@ -92,9 +98,19 @@ function openModal_add_even(dateStr) {
                 <input type="text" id="link" name="link"  required placeholder="Ajouter un lien"  class="form-control">
                </div>
                <div class="form-group">
+               
+                     <div class="d-flex justify-content-center">
+                        <div  style="background:#f8bbd0b8 " class="color-bubble " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
+                        <div style="background:#93dbeb6b " class="color-bubble " onclick="selectBubble(this)" data-color="#93dbeb6b"></div>
+                        <div  style="background:#e0fbbd " class="color-bubble " onclick="selectBubble(this)" data-color="#e0fbbd"></div>
+                        <div style="background:#bcb3e191 " class="color-bubble " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
+                    </div>
+
+                <input type="hidden" id="selectedColor" name="color" value="">
                 <input type="file" id="file" name="file"  required placeholder="Ajouter un fichier" class="form-control">
                </div>
                 
+ 
                 <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">
                 <input type="submit" value="Valider">
             </form>
@@ -305,7 +321,23 @@ function openModal_show_even_by_me(eventId) {
                                 <input type="file" id="file" name="file" placeholder="Ajouter un fichier"  class="form-control">
                             </div>
                                 
+ 
+                                <textarea id="description" name="description" placeholder="Ajouter une description">
+                                    ${event.description}
+                                </textarea>
+                                <input type="text" id="remember" name="remember" value="${event.remember}" placeholder="Alerte">
+                                <input type="text" id="link" name="link" value="${event.link}" placeholder="Ajouter un lien">
+                                <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
+                                
+                                <div class="d-flex justify-content-center">
+                                     <div style="background:#f8bbd0b8 "  class="color-bubble  ${event.color == '#f8bbd0b8' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
+                                    <div style="background:#93dbeb6b " class="color-bubble   ${event.color == '#93dbeb6b' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#93dbeb6b"></div>
+                                    <div style="background:#e0fbbd " class="color-bubble   ${event.color == '#e0fbbd' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#e0fbbd"></div>
+                                    <div  style="background:#bcb3e191 " class="color-bubble  ${event.color == '#bcb3e191' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
+                                </div>
+                                <input type="hidden" id="selectedColor" name="color" value="${event.color}">
 
+ 
                                 <input type="hidden" name="user_id" value="${event.user_id}">
                                 <input type="submit" value="Valider">
                             </form>

@@ -31,6 +31,7 @@ class EventController {
             'description' => sanitize_textarea_field($_POST['description']),
             'remember' => sanitize_text_field($_POST['remember']),
             'link' => esc_url($_POST['link']),
+            'color' => esc_url($_POST['color']),
             'file' => sanitize_text_field($_POST['file']),
             'user_id' => get_current_user_id(),
         );

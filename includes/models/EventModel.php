@@ -27,6 +27,7 @@ class EventModel {
         description text,
         remember varchar(255),
         link varchar(255),
+        color varchar(255),
         created_by bigint(20) NOT NULL,
         created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
         PRIMARY KEY (id)
@@ -52,6 +53,7 @@ class EventModel {
                 'description' => $data['description'],
                 'remember' => $data['remember'],
                 'link' => $data['link'],
+                'color' => $data['color'],
                 'file' => $data['file'],
                 'user_id' => $data['user_id'],
             ),
@@ -64,6 +66,7 @@ class EventModel {
                 '%s',  // description
                 '%d',  // remember (booléen)
                 '%s',  // link
+                '%s',  // color
                 '%s',  // file
                 '%d',  // user_id
             )
@@ -92,6 +95,7 @@ class EventModel {
                 'description' => $event->description,
                 'remember' => $event->remember,
                 'link' => $event->link,
+                'color' => $event->color,
                 'file' => $event->file,
                 'user_id' => $event->user_id,
             );

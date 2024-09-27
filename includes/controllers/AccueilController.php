@@ -272,6 +272,7 @@ public function update_event() {
         $description = sanitize_textarea_field($_POST['description']);
         $remember = sanitize_text_field($_POST['remember']);
         $link = sanitize_text_field($_POST['link']);
+        $color = sanitize_text_field($_POST['color']);
         $user_id = get_current_user_id();
         
         // Mettre à jour l'événement dans la base de données
@@ -288,6 +289,7 @@ public function update_event() {
                 'description' => $description,
                 'remember'    => $remember,
                 'link'        => $link,
+                'color'        => $color,
                 'created_by'     => $user_id,
                 'created_at'  => current_time('mysql')
             ),
@@ -393,6 +395,7 @@ function get_events_with_invitations($user_id) {
             e.end_time AS end_time,
             e.created_by AS event_creator,
             e.link AS link,
+            e.color AS color,
             COALESCE(i.id_guest, 0) AS invited_user,
             COUNT(i.id_guest) AS n_invited,
             i.status AS invitation_status,
@@ -426,6 +429,7 @@ function get_events_with_invitations($user_id) {
             'startTime' => $row->start_time,
             'endTime' => $row->end_time,
             'link' => $row->link,
+            'color' => $row->color,
             'byMe' => $row->by_me == 1,
             'status' => $row->invitation_status,
             'n_invited' => $row->n_invited,
