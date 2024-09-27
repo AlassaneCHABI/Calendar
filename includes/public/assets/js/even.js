@@ -76,8 +76,6 @@ function openModal_add_even(dateStr) {
 
                 <div id="selected-contacts"></div>              
               
-                <input type="hidden" id="selectedColor" name="color" value="">
- 
                 <div class="form-group">
                 <textarea id="description" name="description" placeholder="Ajouter une description" class="form-control"></textarea>
                </div>
@@ -94,7 +92,7 @@ function openModal_add_even(dateStr) {
                                           <option value="Personnalisé">Personnalisé</option>
                             </select>
                 <div class="form-group">
-                <input type="text" id="link" name="link"  required placeholder="Ajouter un lien"  class="form-control">
+                <input type="text" id="link" name="link"   placeholder="Ajouter un lien"  class="form-control">
                </div>
                <div class="form-group">
                
@@ -105,8 +103,8 @@ function openModal_add_even(dateStr) {
                         <div style="background:#bcb3e191 " class="color-bubble " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
                     </div>
 
-                <input type="hidden" id="selectedColor" name="color" value="">
-                <input type="file" id="file" name="file"  required placeholder="Ajouter un fichier" class="form-control">
+                <input type="hidden" class="selectedColor" name="color" value="">
+                <input type="file" id="file" name="file"   placeholder="Ajouter un fichier" class="form-control">
                </div>
                 
                 <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">
@@ -330,7 +328,7 @@ function openModal_show_even_by_me(eventId) {
                                     <div style="background:#e0fbbd " class="color-bubble   ${event.color == '#e0fbbd' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#e0fbbd"></div>
                                     <div  style="background:#bcb3e191 " class="color-bubble  ${event.color == '#bcb3e191' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
                                 </div>
-                                <input type="hidden" id="selectedColor" name="color" value="${event.color}">
+                                <input type="hidden" class="selectedColor" name="color" value="${event.color}">
 
                                 <input type="hidden" name="user_id" value="${event.user_id}">
                                 <input type="submit" value="Valider">

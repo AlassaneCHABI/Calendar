@@ -159,6 +159,7 @@ public function save_event() {
         $description = sanitize_textarea_field($_POST['description']);
         $remember = sanitize_text_field($_POST['remember']);
         $link = sanitize_text_field($_POST['link']);
+        $color = sanitize_text_field($_POST['color']);
         $user_id = get_current_user_id();
         
         // Insert into database
@@ -175,6 +176,7 @@ public function save_event() {
                 'description' => $description,
                 'remember'    => $remember,
                 'link'        => $link,
+                'color'        => $color,
                 'created_by'     => $user_id,
                 'created_at'  => current_time('mysql')
             )
