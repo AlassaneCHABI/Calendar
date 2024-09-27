@@ -19,12 +19,14 @@ function openModal_add_even(dateStr) {
                 <h5 class="modal-title w-100 text-center position-relative">Ajouter un événement</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+             
             <form id="add-event-form">
 
                 <input type="text" id="link_post" name="link_post" required placeholder="Lien du post" class="form-control">
                 <input type="text" id="title" name="title" required placeholder="Titre">
                 
                 <div class="row mb-3">
+
                     <div class="col-md-7">
                         <input type="date" id="event_start_date"   name="start_date" required>
                     </div>
@@ -70,6 +72,16 @@ function openModal_add_even(dateStr) {
                 <input type="text" id="remember" name="remember" placeholder="Alerte">
                 <input type="text" id="link" name="link" placeholder="Ajouter un lien">
                 <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
+
+                    <div class="d-flex justify-content-center">
+                        <div class="color-bubble bg-primary" onclick="selectBubble(this)" data-color="blue"></div>
+                        <div class="color-bubble bg-danger" onclick="selectBubble(this)" data-color="red"></div>
+                        <div class="color-bubble bg-success" onclick="selectBubble(this)" data-color="green"></div>
+                        <div class="color-bubble bg-warning" onclick="selectBubble(this)" data-color="yellow"></div>
+                        <div class="color-bubble bg-info" onclick="selectBubble(this)" data-color="Cyan"></div>
+                    </div>
+
+                <input type="hidden" id="selectedColor" name="color" value="">
                 <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">
                 <input type="submit" value="Valider">
             </form>
@@ -239,10 +251,22 @@ function openModal_show_even_by_me(eventId) {
 
                             <div id="selected-contacts"></div>
 
-                                <textarea id="description" name="description" placeholder="Ajouter une description">${event.description}</textarea>
+                                <textarea id="description" name="description" placeholder="Ajouter une description">
+                                    ${event.description}
+                                </textarea>
                                 <input type="text" id="remember" name="remember" value="${event.remember}" placeholder="Alerte">
                                 <input type="text" id="link" name="link" value="${event.link}" placeholder="Ajouter un lien">
                                 <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
+                                
+                                <div class="d-flex justify-content-center">
+                                    <div class="color-bubble bg-primary ${event.color == 'blue' ? 'selected' : ''} " onclick="selectBubble(this)"  data-color="blue"></div>
+                                    <div class="color-bubble bg-danger ${event.color == 'red' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="red"></div>
+                                    <div class="color-bubble bg-success ${event.color == 'green' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="green"></div>
+                                    <div class="color-bubble bg-warning ${event.color == 'yellow' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="yellow"></div>
+                                    <div class="color-bubble bg-info ${event.color == 'Cyan' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="Cyan"></div>
+                                </div>
+                                <input type="hidden" id="selectedColor" name="color" value="${event.color}">
+
                                 <input type="hidden" name="user_id" value="${event.user_id}">
                                 <input type="submit" value="Valider">
                             </form>

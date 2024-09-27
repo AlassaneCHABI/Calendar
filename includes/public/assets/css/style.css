@@ -363,3 +363,21 @@ header .current-date{
 .icon:hover {
   color: #007bff; /* Change to your preferred hover color */
 }
+
+.color-bubble {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  margin: 10px;
+  transition: transform 0.2s ease;
+}
+
+.color-bubble:hover {
+  transform: scale(1.1);
+}
+
+.selected {
+  border: 3px solid black;
+}

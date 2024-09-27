@@ -141,8 +141,8 @@ function populateEventList() {
                 ++i;
                 html += `  
                   
-                        <div class="col-10 ${i > 1 ? 'offset-2':''}" onclick="${event.byMe ? `openModal_show_even_by_me(${event.id})` : `openModal_show_even(${event.id})`}">
-                          <div class="${ event.byMe == true ? 'event-card' : 'event-card-invited'}   bg-pink p-3 d-flex justify-content-between align-items-center mb-4">
+                        <div  class="col-10 ${i > 1 ? 'offset-2':''}" onclick="${event.byMe ? `openModal_show_even_by_me(${event.id})` : `openModal_show_even(${event.id})`}">
+                          <div style="background-color:${event.color}" class="${ event.byMe == true ? 'event-card' : 'event-card-invited'}   bg-pink p-3 d-flex justify-content-between align-items-center mb-4">
                             <div class="event-info">
                               <p class="mb-1 time-range">${event.startTime} - ${event.endTime}  </p>
                               <p class="mb-0 event-title">${event.title}</p>
@@ -151,7 +151,7 @@ function populateEventList() {
                               <button class="btn btn-light me-2">
                                 <i class="bi ${ event.byMe == true ? 'bi-image' : 'bi-check'} "></i>
                               </button>
-                              <button  data-share="rtyui" class="btn btn-light">
+                              <button  data-share="${event.link}" class="btn btn-light">
                                 <i class="bi ${ event.byMe == true ? 'bi-send' : 'bi-x'} "></i>
                               </button>
                             </div>
@@ -267,3 +267,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add scroll event listener to #event-list
     eventListElement.addEventListener('scroll', checkFixedPosition);
 });
+ 
+function selectBubble(element) {
+    // Supprimer la sélection précédente
+    const bubbles = document.querySelectorAll('.color-bubble');
+    bubbles.forEach(bubble => bubble.classList.remove('selected'));
+
+    // Ajouter la classe "selected" à la bulle sélectionnée
+    element.classList.add('selected');
+
+    // Afficher la couleur sélectionnée
+    const selectedColor = element.getAttribute('data-color');
+    document.getElementById('selectedColor').value = `${selectedColor}`;
+  }
