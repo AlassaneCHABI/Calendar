@@ -22,6 +22,8 @@ function openModal_add_even(dateStr) {
              
             <form id="add-event-form">
 
+                <input type="hidden" id="lat" name="lat">
+                <input type="hidden" id="lon" name="lon">
                 <input type="text" id="link_post" name="link_post" required placeholder="Lien du post" class="form-control">
                 
                 <div class="form-group">
@@ -278,7 +280,7 @@ function openModal_show_even_by_me(eventId) {
                                 <div id="address-results"></div>
                                </div>
 
-                              <div id="map" style="height: 300px; display: none;"></div>
+                              <div id="map" style="height: 300px;"></div>
                                
                               <div class="form-group">
                                 <label>Contacts invités</label>
@@ -353,6 +355,8 @@ function openModal_show_even_by_me(eventId) {
                     keyboard: false
                 });
                 myModal.show();
+
+                showMapWithLocation(event.location);
 
                  // Boucle sur les contacts et ajouter chaque contact sélectionné
                 contacts.forEach(contactId => {
@@ -462,8 +466,7 @@ function openModal_show_even(eventId) {
 
                 // Formater la date au format requis (YYYY-MM-DD) pour stockage interne
                 const formattedDate = new Date(event.start_date).toISOString().split('T')[0];
-
-                  const statusInfo = getStatusText(parseInt(event.status, 10)); 
+              
 
                 // Créer la structure HTML du modal
                 const modalHTML = `
@@ -560,6 +563,10 @@ function openModal_show_even(eventId) {
                 });
                 myModal.show();
 
+
+                showMapWithLocation(event.location);
+
+
                  // Boucle sur les contacts et ajouter chaque contact sélectionné
                 contacts.forEach(contactId => {
                     console.log("Ici nous somme");
@@ -615,7 +622,7 @@ function openModal_show_even(eventId) {
     });
 
 
-    /*showMap();*/
+ 
 
                 // Nettoyer le modal du DOM après sa fermeture
                 document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
@@ -728,6 +735,43 @@ let marker;
         document.getElementById('address-results').style.display = 'none';
         document.getElementById('address-search').value = '';
     }
+
+
+function showMapWithLocation(location) {
+    if (!map) {
+        map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées par défaut (Paris)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+    }
+
+    // Rechercher l'adresse avec Nominatim
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const lat = data[0].lat;
+                const lon = data[0].lon;
+                const displayName = data[0].display_name;
+
+                // Centrer la carte sur les coordonnées de l'adresse
+                map.setView([lat, lon], 13);
+
+                // Supprimer l'ancien marqueur s'il existe
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+
+                // Ajouter un nouveau marqueur
+                marker = L.marker([lat, lon]).addTo(map).bindPopup(displayName).openPopup();
+            } else {
+                console.log('Aucune adresse trouvée');
+            }
+        })
+        .catch(error => console.error('Erreur lors de la recherche de l\'adresse :', error));
+}
+
 
 function toggleSearchContainer() {
     const searchContainer = document.getElementById('search-container');
@@ -959,10 +1003,6 @@ function addContact1(user) {
     const contactDiv = renderContact1(user);
     selectedContactsContainer.appendChild(contactDiv);
 
-    // Effacer le champ de recherche et cacher le conteneur de recherche
-    document.getElementById('contact-search').value = '';
-    document.getElementById('search-container').style.display = 'none';
-    document.getElementById('contact-list').innerHTML = ''; // Effacer les résultats
 
     // Debugging: Afficher les contacts actuellement sélectionnés
     console.log('Contacts sélectionnés:', Array.from(selectedContactsContainer.children).map(contactDiv => contactDiv.querySelector('input[type="hidden"]').value));
