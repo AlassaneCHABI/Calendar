@@ -30,23 +30,24 @@ function openModal_add_even(dateStr) {
                 <input type="text" id="title" name="title"  required placeholder="Titre"  class="form-control">
                </div>
                
-                
-                <div class="row mb-3">
-
+                <div class="row mb-3 align-items-center">
+                 
                     <div class="col-md-7">
-                        <input type="date" id="event_start_date"   name="start_date" required>
+                     <input type="date" id="event_start_date" class="form-control" name="start_date" required>
                     </div>
                     <div class="col-md-5">
-                        <input type="time" id="event_start_time" name="start_time" required>
+                     <input type="time" id="event_start_time" class="form-control" name="start_time" required>
                     </div>
                 </div>
 
-                <div class="row mb-3">
+                <!-- Date et heure de fin -->
+                <div class="row mb-3 align-items-center">
+                
                     <div class="col-md-7">
-                        <input type="date" id="event_end_date"  name="end_date" required>
+                     <input type="date" id="event_end_date" class="form-control" name="end_date" required>
                     </div>
                     <div class="col-md-5">
-                        <input type="time" id="event_end_time" name="end_time" required>
+                     <input type="time" id="event_end_time" class="form-control" name="end_time" required>
                     </div>
                 </div>
 
@@ -65,7 +66,6 @@ function openModal_add_even(dateStr) {
 
                 <div id="map" style="height: 300px; display: none;"></div>
                  
-
                <div class="form-group">
                 <input type="text" id="contact" class="form-control click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()" >
                     <div id="search-container" style="display: none;">
@@ -74,17 +74,14 @@ function openModal_add_even(dateStr) {
                     </div>
                 </div>
 
-                
                 <div id="selected-contacts"></div>              
               
-
                 <input type="hidden" id="selectedColor" name="color" value="">
  
                 <div class="form-group">
                 <textarea id="description" name="description" placeholder="Ajouter une description" class="form-control"></textarea>
                </div>
                 
-               
                 <select class="form-control" name="remember">
                                           <option value="Ajouter un rappel">Ajouter un rappel</option>
                                           <option value="Au début">Au début</option>
@@ -112,7 +109,6 @@ function openModal_add_even(dateStr) {
                 <input type="file" id="file" name="file"  required placeholder="Ajouter un fichier" class="form-control">
                </div>
                 
- 
                 <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">
                 <input type="submit" value="Valider">
             </form>
@@ -251,22 +247,27 @@ function openModal_show_even_by_me(eventId) {
                                 <label for="title">Titre</label>
                                 <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
                             </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-8">
-                                        <input type="date" id="event_start_date" name="start_date"  required>
+
+                                <div class="row mb-3 align-items-center">
+                                
+                                    <div class="col-md-7">
+                                    <input type="date" id="event_start_date" class="form-control" name="start_date" required>
                                     </div>
-                                    <div class="col-md-4">
-                                        <input type="time" id="event_start_time" name="start_time" value="${event.start_time}" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-8">
-                                        <input type="date" id="event_end_date" name="end_date" required>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="time" id="event_end_time" name="end_time" value="${event.end_time}" required>
+                                    <div class="col-md-5">
+                                    <input type="time" id="event_start_time" value="${event.start_time}" class="form-control" name="start_time" required>
                                     </div>
                                 </div>
+ 
+                                <div class="row mb-3 align-items-center">
+                               
+                                    <div class="col-md-7">
+                                    <input type="date" id="event_end_date" class="form-control" name="end_date" required>
+                                    </div>
+                                    <div class="col-md-5">
+                                    <input type="time" id="event_end_time"  value="${event.end_time}" class="form-control" name="end_time" required>
+                                    </div>
+                                </div>
+
                             <div class="form-group">
                                 <label for="location">Lieu</label>
                                 <input type="text" class="click-input form-control" id="location" name="location" onclick="showMap()" value="${event.location}" placeholder="Lieu" readonly>
@@ -290,8 +291,6 @@ function openModal_show_even_by_me(eventId) {
                                     <ul id="contact-list"></ul>
                                 </div>
                             </div>
-
-                              
 
                             <div id="selected-contacts"></div>
                             <br>
@@ -325,8 +324,6 @@ function openModal_show_even_by_me(eventId) {
                                <input type="file" id="file" name="file" placeholder="Ajouter un lien" class="form-control">
                             </div> 
                             
-                                
-                                
                                 <div class="d-flex justify-content-center">
                                      <div style="background:#f8bbd0b8 "  class="color-bubble  ${event.color == '#f8bbd0b8' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
                                     <div style="background:#93dbeb6b " class="color-bubble   ${event.color == '#93dbeb6b' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#93dbeb6b"></div>
@@ -335,7 +332,6 @@ function openModal_show_even_by_me(eventId) {
                                 </div>
                                 <input type="hidden" id="selectedColor" name="color" value="${event.color}">
 
- 
                                 <input type="hidden" name="user_id" value="${event.user_id}">
                                 <input type="submit" value="Valider">
                             </form>
@@ -449,7 +445,6 @@ function openModal_show_even_by_me(eventId) {
 function openModal_show_even(eventId) {
     console.log("Bouton cliqué avec l'ID de l'événement : " + eventId);
 
-    
     // Requête AJAX pour récupérer les données de l'événement
     fetch(`${php_vars.ajax_url}?action=get_event_callback&event_id=${eventId}`)
         .then(response => response.json())
@@ -463,7 +458,6 @@ function openModal_show_even(eventId) {
                 // Formater la date au format requis (YYYY-MM-DD) pour stockage interne
                 const formattedDate = new Date(event.start_date).toISOString().split('T')[0];
               
-
                 // Créer la structure HTML du modal
                 const modalHTML = `
                 <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
@@ -526,7 +520,6 @@ function openModal_show_even(eventId) {
                             <div id="selected-contacts"></div>
                             </div>
 
-                            
                                 <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea id="description" name="description" placeholder="Ajouter une description" readonly class="form-control">${event.description}</textarea>
@@ -559,9 +552,7 @@ function openModal_show_even(eventId) {
                 });
                 myModal.show();
 
-
                 showMapWithLocation(event.location);
-
 
                  // Boucle sur les contacts et ajouter chaque contact sélectionné
                 contacts.forEach(contactId => {
@@ -617,9 +608,6 @@ function openModal_show_even(eventId) {
         clickOpens: false,
     });
 
-
- 
-
                 // Nettoyer le modal du DOM après sa fermeture
                 document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
                     document.getElementById('addEventModal').remove();
@@ -657,11 +645,7 @@ function openModal_show_even(eventId) {
             }
         })
         .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
-
-
 }
-
-
 
 let map;
 let marker;
@@ -732,7 +716,6 @@ let marker;
         document.getElementById('address-search').value = '';
     }
 
-
 function showMapWithLocation(location) {
     if (!map) {
         map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées par défaut (Paris)
@@ -767,7 +750,6 @@ function showMapWithLocation(location) {
         })
         .catch(error => console.error('Erreur lors de la recherche de l\'adresse :', error));
 }
-
 
 function toggleSearchContainer() {
     const searchContainer = document.getElementById('search-container');
@@ -999,7 +981,6 @@ function addContact1(user) {
     const contactDiv = renderContact1(user);
     selectedContactsContainer.appendChild(contactDiv);
 
-
     // Debugging: Afficher les contacts actuellement sélectionnés
     console.log('Contacts sélectionnés:', Array.from(selectedContactsContainer.children).map(contactDiv => contactDiv.querySelector('input[type="hidden"]').value));
 }
@@ -1028,7 +1009,6 @@ function renderContact1(user) {
     contactDiv.appendChild(userIconCol);
     contactDiv.appendChild(nameCol);
     
-
     // Ajouter un champ input caché pour stocker l'ID de l'utilisateur
     const hiddenInput = document.createElement('input');
     hiddenInput.type = 'hidden';
