@@ -74,11 +74,10 @@ function openModal_add_even(dateStr) {
                 <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
 
                     <div class="d-flex justify-content-center">
-                        <div class="color-bubble bg-primary" onclick="selectBubble(this)" data-color="blue"></div>
-                        <div class="color-bubble bg-danger" onclick="selectBubble(this)" data-color="red"></div>
-                        <div class="color-bubble bg-success" onclick="selectBubble(this)" data-color="green"></div>
-                        <div class="color-bubble bg-warning" onclick="selectBubble(this)" data-color="yellow"></div>
-                        <div class="color-bubble bg-info" onclick="selectBubble(this)" data-color="Cyan"></div>
+                        <div  style="background:#f8bbd0b8 " class="color-bubble " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
+                        <div style="background:#93dbeb6b " class="color-bubble " onclick="selectBubble(this)" data-color="#93dbeb6b"></div>
+                        <div  style="background:#e0fbbd " class="color-bubble " onclick="selectBubble(this)" data-color="#e0fbbd"></div>
+                        <div style="background:#bcb3e191 " class="color-bubble " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
                     </div>
 
                 <input type="hidden" id="selectedColor" name="color" value="">
@@ -259,11 +258,10 @@ function openModal_show_even_by_me(eventId) {
                                 <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
                                 
                                 <div class="d-flex justify-content-center">
-                                    <div class="color-bubble bg-primary ${event.color == 'blue' ? 'selected' : ''} " onclick="selectBubble(this)"  data-color="blue"></div>
-                                    <div class="color-bubble bg-danger ${event.color == 'red' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="red"></div>
-                                    <div class="color-bubble bg-success ${event.color == 'green' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="green"></div>
-                                    <div class="color-bubble bg-warning ${event.color == 'yellow' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="yellow"></div>
-                                    <div class="color-bubble bg-info ${event.color == 'Cyan' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="Cyan"></div>
+                                     <div style="background:#f8bbd0b8 "  class="color-bubble  ${event.color == '#f8bbd0b8' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
+                                    <div style="background:#93dbeb6b " class="color-bubble   ${event.color == '#93dbeb6b' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#93dbeb6b"></div>
+                                    <div style="background:#e0fbbd " class="color-bubble   ${event.color == '#e0fbbd' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#e0fbbd"></div>
+                                    <div  style="background:#bcb3e191 " class="color-bubble  ${event.color == '#bcb3e191' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
                                 </div>
                                 <input type="hidden" id="selectedColor" name="color" value="${event.color}">
 
