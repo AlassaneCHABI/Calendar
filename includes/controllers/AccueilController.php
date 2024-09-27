@@ -17,6 +17,10 @@ class AccueilController {
         add_action('wp_ajax_get_event_callback', [$this, 'get_event_callback']);
         add_action('wp_ajax_nopriv_get_event_callback', [$this, 'get_event_callback']);
 
+        // Ajouter l'action AJAX pour mettre à jour le status de l'évernement
+        add_action('wp_ajax_update_status', [$this, 'update_status']);
+        add_action('wp_ajax_nopriv_update_status', [$this, 'update_status']);
+
 
     }
 
@@ -325,6 +329,43 @@ public function update_event() {
         }
     } else {
         wp_send_json_error('Le titre et l\'ID de l\'événement sont obligatoires');
+    }
+}
+
+public function update_status() {
+    // Vérifier si les champs requis sont définis
+    if (isset($_POST['status']) && isset($_POST['event_id'])) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'invitations'; // Remplacez par le nom de votre table
+
+        // Sanitize form data
+        $event_id = intval($_POST['event_id']);
+        $status = sanitize_text_field($_POST['status']);
+        $user_id = get_current_user_id(); // Récupérer l'ID de l'utilisateur connecté
+
+        // Mettre à jour l'invitation dans la base de données
+        $updated = $wpdb->update(
+            $table_name,
+            array(
+                'status' => $status 
+            ),
+            array(
+                'id_event' => $event_id,   
+                'id_guest' => $user_id     
+            )
+        );
+
+        // Vérifier si la mise à jour a réussi
+        if ($updated !== false) {
+            wp_send_json([
+                'success' => 'Statut mis à jour avec succès',
+                'events' => $this->get_events() 
+            ]);
+        } else {
+            wp_send_json_error('Erreur lors de la mise à jour du statut');
+        }
+    } else {
+        wp_send_json_error('Le statut et l\'ID de l\'événement sont obligatoires');
     }
 }
 
