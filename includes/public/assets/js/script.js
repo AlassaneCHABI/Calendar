@@ -37,7 +37,9 @@ const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
                 
                     // Display next month's first days as inactive
                     for (let i = lastDayofMonth; i < 6; i++) {
-                        let dateStr = `${currYear}-${String(currMonth + 2).padStart(2, '0')}-${i - lastDayofMonth + 1}`;
+                       // let dateStr = `${currYear}-${String(currMonth + 2).padStart(2, '0')}-${i - lastDayofMonth + 1}`;
+                        let dateStr = `${currYear}-${String(currMonth + 2).padStart(2, '0')}-${String(i - lastDayofMonth + 1).padStart(2, '0')}`;
+
                         liTag += `<li class="inactive" data-next-month-date="${dateStr}">${i - lastDayofMonth + 1}</li>`;
                     }
                 
