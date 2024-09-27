@@ -22,7 +22,11 @@ function openModal_add_even(dateStr) {
             <form id="add-event-form">
 
                 <input type="text" id="link_post" name="link_post" required placeholder="Lien du post" class="form-control">
-                <input type="text" id="title" name="title" required placeholder="Titre">
+                
+                <div class="form-group">
+                <input type="text" id="title" name="title"  required placeholder="Titre"  class="form-control">
+               </div>
+               
                 
                 <div class="row mb-3">
                     <div class="col-md-7">
@@ -57,19 +61,40 @@ function openModal_add_even(dateStr) {
 
                 <div id="map" style="height: 300px; display: none;"></div>
                  
-                <div id="contact-container">
-                    <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
+
+               <div class="form-group">
+                <input type="text" id="contact" class="form-control click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()" >
                     <div id="search-container" style="display: none;">
-                        <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
+                        <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()" class="form-control">
                         <ul id="contact-list"></ul>
                     </div>
                 </div>
 
+                
                 <div id="selected-contacts"></div>
-                <textarea id="description" name="description" placeholder="Ajouter une description"></textarea>
-                <input type="text" id="remember" name="remember" placeholder="Alerte">
-                <input type="text" id="link" name="link" placeholder="Ajouter un lien">
-                <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
+                <div class="form-group">
+                <textarea id="description" name="description" placeholder="Ajouter une description" class="form-control"></textarea>
+               </div>
+                
+               
+                <select class="form-control" name="remember">
+                                          <option value="Ajouter un rappel">Ajouter un rappel</option>
+                                          <option value="Au début">Au début</option>
+                                          <option value="5 minutes avant">5 minutes avant</option>
+                                          <option value="15 minutes avant">15 minutes avant</option>
+                                          <option value="1 heure avant">1 heure avant</option>
+                                          <option value="2 heure avant">2 heure avant</option>
+                                          <option value="1 jour avant">1 jour avant</option>
+                                          <option value="2 jour avant">2 jour avant</option>
+                                          <option value="Personnalisé">Personnalisé</option>
+                            </select>
+                <div class="form-group">
+                <input type="text" id="link" name="link"  required placeholder="Ajouter un lien"  class="form-control">
+               </div>
+               <div class="form-group">
+                <input type="file" id="file" name="file"  required placeholder="Ajouter un fichier" class="form-control">
+               </div>
+                
                 <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">
                 <input type="submit" value="Valider">
             </form>
@@ -200,8 +225,14 @@ function openModal_show_even_by_me(eventId) {
                             </div>
                             <form id="add-event-form">
                                 <input type="hidden" id="event_id" name="event_id" value="${event.id}">
-                                <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post">
-                                <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre">
+                              <div class="form-group">
+                            <label for="link_post">Lien du post</label>
+                            <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post" readonly class="form-control">
+                           </div>
+                               <div class="form-group">
+                                <label for="title">Titre</label>
+                                <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
+                            </div>
                                 <div class="row mb-3">
                                     <div class="col-md-8">
                                         <input type="date" id="event_start_date" name="start_date"  required>
@@ -218,31 +249,63 @@ function openModal_show_even_by_me(eventId) {
                                         <input type="time" id="event_end_time" name="end_time" value="${event.end_time}" required>
                                     </div>
                                 </div>
-                                <input type="text" class=" click-input" id="location" name="location" value="${event.location}" placeholder="Lieu" onclick="showMap()" readonly>
+                            <div class="form-group">
+                                <label for="location">Lieu</label>
+                                <input type="text" class="click-input form-control" id="location" name="location" onclick="showMap()" value="${event.location}" placeholder="Lieu" readonly>
+                            </div>
                                 
                                 <div class="mb-12">
                                 <div class="input-group">
+
                                     <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" class="form-control search-field">
                                 </div>
                                 <div id="address-results"></div>
                                </div>
 
                               <div id="map" style="height: 300px; display: none;"></div>
-
-                               <div id="contact-container">
-                                <input type="text" class=" click-input" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
+                               
+                              <div class="form-group">
+                                <label>Contacts invités</label>
+                                <input type="text" class="form-control click-input" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
                                 <div id="search-container" style="display: none;">
                                     <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
                                     <ul id="contact-list"></ul>
                                 </div>
                             </div>
 
-                            <div id="selected-contacts"></div>
+                              
 
-                                <textarea id="description" name="description" placeholder="Ajouter une description">${event.description}</textarea>
-                                <input type="text" id="remember" name="remember" value="${event.remember}" placeholder="Alerte">
-                                <input type="text" id="link" name="link" value="${event.link}" placeholder="Ajouter un lien">
-                                <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
+                            <div id="selected-contacts"></div>
+                            <br>
+                           <div class="form-group">
+                                <label for="title">Description</label>
+                               <textarea id="description" class="form-control" name="description" placeholder="Ajouter une description">${event.description}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                               <label>Alerte</label>
+                              <select class="form-control" name="remember">
+                                          <option value="${event.remember}">${event.remember}</option>
+                                          <option value="Au début">Au début</option>
+                                          <option value="5 minutes avant">5 minutes avant</option>
+                                          <option value="15 minutes avant">15 minutes avant</option>
+                                          <option value="1 heure avant">1 heure avant</option>
+                                          <option value="2 heure avant">2 heure avant</option>
+                                          <option value="1 jour avant">1 jour avant</option>
+                                          <option value="2 jour avant">2 jour avant</option>
+                                          <option value="Personnalisé">Personnalisé</option>
+                            </select>
+                            </div>
+                             <div class="form-group">
+                               <label>Fichier</label>
+                               <input type="text" id="link" name="link" value="${event.link}" placeholder="Ajouter un lien" class="form-control">
+                            </div> 
+                            <div class="form-group">
+                               <label>Lien</label>
+                                <input type="file" id="file" name="file" placeholder="Ajouter un fichier"  class="form-control">
+                            </div>
+                                
+
                                 <input type="hidden" name="user_id" value="${event.user_id}">
                                 <input type="submit" value="Valider">
                             </form>
@@ -350,103 +413,220 @@ function openModal_show_even_by_me(eventId) {
         .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
 }
 
-// Function to show even the modal
-function openModal_show_even() {
-    console.log("Bouton cliqué");
-    // Create the modal HTML structure
-    const modalHTML = `
-    <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
-      <div class="modal-dialog ">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title w-100 text-center position-relative"  >Détails de l'invitation</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          
-            <form id="add-event-form">
-            <label>Statut</label>
-            <select class="form-control" name="isFee">
-                          <option value="0">Pending</option>
-                          <option value="1">Accepted</option>
-                          <option value="1">Declined</option>
-            </select>
-            <input type="text" id="link_post" name="link_post" required placeholder="Lien du post">
-            <input type="text" id="title" name="title" required placeholder="Titre">
+// Function to show the modal with event details
+function openModal_show_even(eventId) {
+    console.log("Bouton cliqué avec l'ID de l'événement : " + eventId);
 
-            <div class="row mb-3">
-            
-                <div class="col-md-8">
-                    <input type="date" id="event_date" name="start_date" required>
-                </div>
-                
-                <div class="col-md-4">
+    
+    // Requête AJAX pour récupérer les données de l'événement
+    fetch(`${php_vars.ajax_url}?action=get_event_callback&event_id=${eventId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const event = data.data.event; 
+                const contacts = data.data.contacts;
+                const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric', locale: 'fr-FR' };
+                const readableDate = new Date(event.start_date).toLocaleDateString('fr-FR', options);
 
-                    <input type="time" id="event_time" name="start_time" required>
-                </div>
-            </div>
+                // Formater la date au format requis (YYYY-MM-DD) pour stockage interne
+                const formattedDate = new Date(event.start_date).toISOString().split('T')[0];
 
-            <div class="row mb-3">
-                <div class="col-md-8">
-                    <input type="date" id="event_date" name="end_date" required>
-                </div>
-                <div class="col-md-4">
-                    <input type="time" id="event_time" name="end_time" required>
-                </div>
-            </div>
+                  const statusInfo = getStatusText(parseInt(event.status, 10)); 
 
-             <div class="mb-12">
-                <div class="input-group">
-                    <input type="text" class=" click-input" id="location" name="location" placeholder="Lieu" onclick="showMap()" readonly>
-                </div>
-            </div>
-             
-          <div class="mb-12">
-                    <div class="input-group">
-                        <input type="text" class=" click-input" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" >
+                // Créer la structure HTML du modal
+                const modalHTML = `
+                <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title w-100 text-center position-relative">Détails de l'invitation</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form id="add-event-form">
+                            <div class="form-group">
+                                <label for="status">Statut</label>
+                                <select class="form-control" name="status" id="status">
+                                    <option value="0">Pending</option>
+                                    <option value="1">Accepted</option>
+                                    <option value="2">Declined</option>
+                                </select>
+                            </div>
+
+                                <input type="hidden" id="event_id" name="event_id" value="${event.id}">
+                             <div class="form-group">
+                            <label for="link_post">Lien du post</label>
+                            <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post" readonly class="form-control">
+                           </div>
+                               <div class="form-group">
+                                <label for="title">Titre</label>
+                                <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
+                            </div>
+
+                                <div class="row mb-3">
+                            <div class="col-md-8 form-group">
+                               
+                                <input type="date" id="event_start_date" name="start_date" required readonly class="form-control">
+                            </div>
+                            <div class="col-md-4 form-group">
+                               
+                                <input type="time" id="event_start_time" name="start_time" value="${event.start_time}" required readonly class="form-control">
+                            </div>
+                           </div>
+                                <div class="row mb-3">
+                                <div class="col-md-8 form-group">
+                                    
+                                    <input type="date" id="event_end_date" name="end_date" required readonly class="form-control">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    
+                                    <input type="time" id="event_end_time" name="end_time" value="${event.end_time}" required readonly class="form-control">
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                <label for="location">Lieu</label>
+                                <input type="text" class="click-input form-control" id="location" name="location" value="${event.location}" placeholder="Lieu" readonly>
+                            </div>
+
+                              <div id="map" style="height: 300px;"></div>
+
+                               <div class="form-group click-input">
+                                <label ">Contacts invités</label>
+                                
+                            <div id="selected-contacts"></div>
+                            </div>
+
+                            
+                                <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" name="description" placeholder="Ajouter une description" readonly class="form-control">${event.description}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="remember">Alerte</label>
+                                <input type="text" id="remember" name="remember" value="${event.remember}" placeholder="Alerte" readonly class="form-control">
+                            </div>
+                                 <div class="form-group">
+                                <label for="link">Lien</label>
+                                <input type="text" id="link" name="link" value="${event.link}" placeholder="Ajouter un lien" readonly class="form-control">
+                            </div>
+                                <div class="form-group">
+                                <label for="file">Fichier</label>
+                                <input type="file" id="file" name="file" placeholder="Ajouter un fichier" readonly class="form-control">
+                            </div>
+                                <input type="hidden" name="user_id" value="${event.user_id}">
+                                <input type="submit" value="Valider">
+                            </form>
+                        </div>
                     </div>
-                    <div id="address-results" ></div>
-                </div>
-            <div id="map" style="height: 300px; display: none;"></div>
-             
-        <div id="contact-container">
-                <input type="text" id="contact" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()">
-                <div id="search-container" style="display: none;">
-                    <input type="text" id="contact-search" placeholder="Rechercher un contact...">
-                    <div id="contact-search-results"></div>
-                </div>
-            </div>
+                </div>`;
 
-            <div id="selected-contacts"></div>
-            <textarea id="description" name="description" placeholder="Ajouter une description"></textarea>
-            <input type="text" id="remember" name="remember" placeholder="Alerte">
-            <input type="text" id="link" name="link" placeholder="Ajouter un lien">
-            <input type="file" id="file" name="file" placeholder="Ajouter un fichier">
-            <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">
-            <input type="submit" value="Valider">
-        </form>
+                // Ajouter le modal au corps
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-      </div>
-    </div>`;
+                // Initialiser et afficher le modal
+                var myModal = new bootstrap.Modal(document.getElementById('addEventModal'), {
+                    keyboard: false
+                });
+                myModal.show();
 
-    // Append the modal to the body
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                 // Boucle sur les contacts et ajouter chaque contact sélectionné
+                contacts.forEach(contactId => {
+                    console.log("Ici nous somme");
+                    console.log(contactId);
+                        addContact1(contactId); // Appel de la fonction pour ajouter le contact
+                });
 
-    // Initialize and show the modal
-    var myModal = new bootstrap.Modal(document.getElementById('addEventModal'), {
-        keyboard: false
+                   // Initialiser Flatpickr pour les champs de date avec locale en français
+    flatpickr("#event_start_date", {
+        altInput: true,
+        altFormat: "l, d M Y", // Format lisible
+        dateFormat: "Y-m-d",    // Format requis pour le stockage
+        defaultDate: formattedDate, // Date par défaut
+        locale: {
+            firstDayOfWeek: 1, // Lundi comme premier jour de la semaine
+            weekdays: {
+                shorthand: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+                longhand: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+            },
+            months: {
+                shorthand: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                longhand: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+            }
+        },
+        onChange: function(selectedDates, dateStr) {
+            // Mettre à jour le champ avec la date au format lisible
+            document.getElementById('event_start_date').value = new Date(selectedDates[0]).toLocaleDateString('fr-FR', options);
+        },
+        clickOpens: false,
     });
-    myModal.show();
 
-    // Clean up the modal from the DOM after it is closed
-    document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function (event) {
-        document.getElementById('addEventModal').remove();
+    flatpickr("#event_end_date", {
+        altInput: true,
+        altFormat: "l, d M Y", // Format lisible
+        dateFormat: "Y-m-d",    // Format requis pour le stockage
+        defaultDate: formattedDate, // Date par défaut
+        locale: {
+            firstDayOfWeek: 1,
+            weekdays: {
+                shorthand: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+                longhand: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+            },
+            months: {
+                shorthand: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                longhand: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+            }
+        },
+        onChange: function(selectedDates, dateStr) {
+            // Mettre à jour le champ avec la date au format lisible
+            document.getElementById('event_end_date').value = new Date(selectedDates[0]).toLocaleDateString('fr-FR', options);
+        },
+        clickOpens: false,
     });
 
-    // Add event listener for the "Enregistrer" button
-    document.getElementById('submit-form').addEventListener('click', function() {
-        document.getElementById('add-event-form').submit();
-    });
+
+    /*showMap();*/
+
+                // Nettoyer le modal du DOM après sa fermeture
+                document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
+                    document.getElementById('addEventModal').remove();
+                });
+
+        // Capture form submission and send it via AJAX
+            document.getElementById('add-event-form').addEventListener('submit', function(e) {
+                e.preventDefault(); // Empêche l'envoi du formulaire
+
+                let formData = new FormData(this);
+                formData.append('action', 'update_status'); // Spécifiez l'action pour la mise à jour
+
+                // Envoyer les données via AJAX
+                fetch(php_vars.ajax_url, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Statut mis à jour avec succès');
+                        var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+                        myModal.hide();
+                        // Rafraîchir les événements
+                        events = JSON.parse(data.events);
+                        renderCalendar();
+                    } else {
+                        alert('Erreur : ' + data.data);
+                    }
+                })
+                .catch(error => console.error('Erreur lors de la mise à jour de l\'événement :', error));
+            });
+            } else {
+                alert('Erreur lors de la récupération de l\'événement : ' + data.data);
+            }
+        })
+        .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
+
+
 }
+
+
 
 let map;
 let marker;
@@ -729,9 +909,71 @@ function renderContact(user) {
     return contactDiv; // Retourner le div pour l'ajouter au conteneur
 }
 
+function addContact1(user) {
+    const selectedContactsContainer = document.getElementById('selected-contacts');
+
+    // Vérifier si le contact est déjà sélectionné
+    const existingContact = Array.from(selectedContactsContainer.children).some(contactDiv => {
+        const hiddenInput = contactDiv.querySelector('input[type="hidden"]');
+        return hiddenInput && hiddenInput.value === user.id; // Comparer les IDs
+    });
+
+    if (existingContact) {
+        alert(`${user.nom} ${user.prenom} est déjà sélectionné.`);
+        return; // Sortir de la fonction si le contact est déjà ajouté
+    }
+
+    // Afficher le contact sélectionné
+    const contactDiv = renderContact1(user);
+    selectedContactsContainer.appendChild(contactDiv);
+
+    // Effacer le champ de recherche et cacher le conteneur de recherche
+    document.getElementById('contact-search').value = '';
+    document.getElementById('search-container').style.display = 'none';
+    document.getElementById('contact-list').innerHTML = ''; // Effacer les résultats
+
+    // Debugging: Afficher les contacts actuellement sélectionnés
+    console.log('Contacts sélectionnés:', Array.from(selectedContactsContainer.children).map(contactDiv => contactDiv.querySelector('input[type="hidden"]').value));
+}
+
+function renderContact1(user) {
+    const selectedContactsContainer = document.getElementById('selected-contacts');
+    const contactDiv = document.createElement('div');
+    contactDiv.className = 'd-flex justify-content-between align-items-center mb-2'; // Flexbox layout
+
+    // Colonne pour l'icône de l'utilisateur
+    const userIconCol = document.createElement('div');
+    const userIcon = document.createElement('i');
+    userIcon.className = 'bi bi-person-circle'; // Classe pour l'icône
+    userIconCol.appendChild(userIcon);
+    userIconCol.style.flex = '1'; // Prendre un espace égal
+
+    // Colonne pour le nom, prénom
+    const nameCol = document.createElement('div');
+    // Afficher le prénom et le statut
+    const statusInfo = getStatusText(parseInt(user.status, 10)); // Obtenir le texte et la classe du statut
+   nameCol.innerHTML = `${user.nom} ${user.prenom}`;
+    nameCol.style.flex = '10'; // Prendre plus d'espace
+    nameCol.style.textAlign = 'center'; // Centrer le texte
+
+    // Ajouter les colonnes au contact
+    contactDiv.appendChild(userIconCol);
+    contactDiv.appendChild(nameCol);
+    
+
+    // Ajouter un champ input caché pour stocker l'ID de l'utilisateur
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'contact[]';
+    hiddenInput.value = user.id;
+    contactDiv.appendChild(hiddenInput); // Ajouter le champ caché ici
+
+    return contactDiv; // Retourner le div pour l'ajouter au conteneur
+}
+
 // Fonction pour obtenir le texte du statut
 function getStatusText(status) {
-    console.log('Valeur du status :', status); // Débogage pour voir la valeur du statut
+    console.log('status :', status); // Débogage pour voir la valeur du statut
     switch (status) {
         case 0:
             return { text: 'Pending', class: 'status-pending' };

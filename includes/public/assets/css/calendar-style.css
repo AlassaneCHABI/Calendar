@@ -38,12 +38,7 @@ form#add-event-form {
 }
 
 /* Style des labels */
-form#add-event-form label {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
-    display: block;
-}
+
 
 /* Style des champs de saisie */
 form#add-event-form input[type="text"],
@@ -278,3 +273,13 @@ input[type="text"]#time {
 .click-input:hover::placeholder{
     color: white !important;
 }
+
+.form-group label {
+        display: table-cell;
+        margin-bottom: 0.5rem;
+        
+    }
+
+    .form-control {
+        margin-bottom: 1rem;
+    }
