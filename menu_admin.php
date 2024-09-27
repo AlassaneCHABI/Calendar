@@ -1,10 +1,5 @@
 <?php
-/**
- * Plugin Name: Mon Plugin Personnalisé
- * Description: Un plugin simple qui ajoute un menu personnalisé au tableau de bord WordPress.
- * Version: 1.0
- * Author: Votre Nom
- */
+ 
 
 // Fonction pour ajouter le menu au tableau de bord
 function ajouter_menu_calendar() {
