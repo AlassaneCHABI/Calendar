@@ -24,10 +24,9 @@ body{
 }
 
 .wrapper-side {
-  border: 1px solid #d7d6cad1;
   padding: 5px;
   padding-left: unset;
-  padding-right: unset;
+  padding-right: 35px;
 }
  
 .wrapper header{
@@ -174,7 +173,7 @@ header .icons span:hover{
 #event-list {
   /* width: 100%; */
   max-width: 600px;
-      background: #f7f9ef;
+ background: #f7f9ef;
 }
 
 .event-day {
@@ -200,10 +199,10 @@ header .icons span:hover{
 
 #event-list {
   /* width: 100%; */ 
-  margin-top:  75px;  
+  margin-top:  8px;  
   padding-top: 0px;
   max-width: 600px;
-  max-height: 380px; /* Ajustez la hauteur selon vos besoins */
+  max-height: 395px; /* Ajustez la hauteur selon vos besoins */
   overflow-y: auto;
 }
 
@@ -211,8 +210,27 @@ header .icons span:hover{
   overflow: hidden;
 }
 
+.plug-cal {
+  width: 100vw;
+  max-width: 65%;
+  border: 1px solid #f7f9ef;
+}
+
 /* Styles pour les petits écrans (téléphones) */
 @media (max-width: 768px) {
+  .wrapper-side {
+    border: unset;
+    padding: unset;
+  }
+
+  .plug-cal {
+    background-color: #f7f9efa1;
+    width: 100vw;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0; 
+  }
+
   #event-list { 
     margin-top: 0px;
   }
