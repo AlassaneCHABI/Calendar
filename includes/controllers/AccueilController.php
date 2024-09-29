@@ -43,7 +43,7 @@ class AccueilController {
             <div class="col-md-7 wrapper-side">
                 <header>
                     <div class="row" style="direction: ltr">
-                        <i class="bi bi-plus-square" onclick="openModal_add_even()"></i>
+                        <i class="bi bi-plus-square" onclick="openModal_add_even(new Date())"></i>
                     </div> 
                
                    
