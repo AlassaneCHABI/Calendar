@@ -39,10 +39,10 @@ class AccueilController {
         let events = <?php echo $events; ?> // Passe les données à JavaScript
         </script>
         
-        <div class="row">
+        <div class="row plug-cal" >
             <div class="col-md-7 wrapper-side">
                 <header>
-                    <div class="row" style="direction: rtl">
+                    <div class="row" style="direction: ltr">
                         <i class="bi bi-plus-square" onclick="openModal_add_even()"></i>
                     </div> 
                
