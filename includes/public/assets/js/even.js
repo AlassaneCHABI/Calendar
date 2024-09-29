@@ -24,13 +24,11 @@ function openModal_add_even(dateStr) {
 
                 <input type="hidden" id="lat" name="lat">
                 <input type="hidden" id="lon" name="lon">
-                <input type="text" id="link_post" name="link_post" required placeholder="Lien du post" class="form-control">
                 
                 <div class="form-group">
                 <input type="text" id="title" name="title"  required placeholder="Titre"  class="form-control">
                </div>
                
-                
                 <div class="custom-container mb-3 " >
                 <div class="row ">
                     <div class="col-md-7 " >
@@ -49,14 +47,12 @@ function openModal_add_even(dateStr) {
                 </div>
             </div>
 
-
               <div class="custom-container mb-3" >
                 
                     <div class="">
                         <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" onclick="showMap()" readonly>
                     </div>
     
-                 
                 <div class="mb-3">
                     <div class="input-group">
                         <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" class="form-control search-field">
@@ -89,8 +85,8 @@ function openModal_add_even(dateStr) {
                 <div class="form-group">
                 <textarea id="description" name="description" placeholder="Ajouter une description" class="form-control"></textarea>
                </div>
-                
-               
+               <input type="text" id="link_post" name="link_post" required placeholder="Lien du post" class="form-control">
+
                 <select class="form-control" name="remember">
                                           <option value="Ajouter un rappel">Ajouter un rappel</option>
                                           <option value="Au début">Au début</option>
@@ -103,7 +99,7 @@ function openModal_add_even(dateStr) {
                                           <option value="Personnalisé">Personnalisé</option>
                             </select>
                 <div class="form-group">
-                <input type="text" id="link" name="link"  required placeholder="Ajouter un lien"  class="form-control">
+                <input type="text" id="link" name="link"  placeholder="Ajouter un lien"  class="form-control">
                </div>
                <div class="form-group">
                
@@ -118,7 +114,6 @@ function openModal_add_even(dateStr) {
                 <input type="file" id="file" name="file"  placeholder="Ajouter un fichier" class="form-control">
                </div>
                 
- 
                 <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">
                 <input type="submit" value="Valider">
             </form>
@@ -249,15 +244,11 @@ function openModal_show_even_by_me(eventId) {
                             </div>
                             <form id="add-event-form">
                                 <input type="hidden" id="event_id" name="event_id" value="${event.id}">
-                              <div class="form-group">
-                            <label for="link_post">Lien du post</label>
-                            <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post" readonly class="form-control">
-                           </div>
+                              
                                <div class="form-group">
                                 <label for="title">Titre</label>
                                 <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
                             </div>
-
 
                         <div class="custom-container mb-3 " >
                             <div class="row ">
@@ -277,14 +268,12 @@ function openModal_show_even_by_me(eventId) {
                             </div>
                         </div>
                             
-                        
                         <div class="custom-container mb-3" >
                         
                             <div class="">
                                 <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" onclick="showMap()" value="${event.location}"  readonly>
                             </div>
             
-                         
                         <div class="mb-3">
                             <div class="input-group">
                                 <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" class="form-control search-field">
@@ -294,7 +283,6 @@ function openModal_show_even_by_me(eventId) {
                         </div>
                         </div>
 
-                                
                             <div class="custom-container mb-3 " >
                            <div class="form-group ">
                             <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()" >
@@ -303,7 +291,6 @@ function openModal_show_even_by_me(eventId) {
                                     <ul id="contact-list"></ul>
                                 </div>
                             </div>
-
 
                            <div class="separator" style="display:none" id="separator_display"></div>
                             
@@ -314,13 +301,15 @@ function openModal_show_even_by_me(eventId) {
                             </div>        
                           </div>
 
-                            
                             <br>
                            <div class="form-group">
                                 <label for="title">Description</label>
                                <textarea id="description" class="form-control" name="description" placeholder="Ajouter une description">${event.description}</textarea>
                             </div>
-
+<div class="form-group">
+                            <label for="link_post">Lien du post</label>
+                            <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post" readonly class="form-control">
+                           </div>
                             <div class="form-group">
                                <label>Alerte</label>
                               <select class="form-control" name="remember">
@@ -338,7 +327,7 @@ function openModal_show_even_by_me(eventId) {
 
                             <div class="form-group">
                                <label>Lien</label>
-                                <input type="text" id="link" name="link" placeholder="Ajouter un fichier" value="${event.link}"  class="form-control">
+                                <input type="text" id="link" name="link" placeholder="Ajouter un lien" value="${event.link}"  class="form-control">
                             </div>
 
                              <div class="form-group">
@@ -346,8 +335,6 @@ function openModal_show_even_by_me(eventId) {
                                <input type="file" id="file" name="file" placeholder="Ajouter un lien" class="form-control">
                             </div> 
                             
-                                
-                                
                                 <div class="d-flex justify-content-center">
                                      <div style="background:#f8bbd0b8 "  class="color-bubble  ${event.color == '#f8bbd0b8' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
                                     <div style="background:#93dbeb6b " class="color-bubble   ${event.color == '#93dbeb6b' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#93dbeb6b"></div>
@@ -356,7 +343,6 @@ function openModal_show_even_by_me(eventId) {
                                 </div>
                                 <input type="hidden" id="selectedColor" name="color" value="${event.color}">
 
- 
                                 <input type="hidden" name="user_id" value="${event.user_id}">
                                 <input type="submit" value="Valider">
                             </form>
@@ -470,7 +456,6 @@ function openModal_show_even_by_me(eventId) {
 function openModal_show_even(eventId) {
     console.log("Bouton cliqué avec l'ID de l'événement : " + eventId);
 
-    
     // Requête AJAX pour récupérer les données de l'événement
     fetch(`${php_vars.ajax_url}?action=get_event_callback&event_id=${eventId}`)
         .then(response => response.json())
@@ -484,7 +469,6 @@ function openModal_show_even(eventId) {
                 // Formater la date au format requis (YYYY-MM-DD) pour stockage interne
                 const formattedDate = new Date(event.start_date).toISOString().split('T')[0];
               
-
                 // Créer la structure HTML du modal
                 const modalHTML = `
                 <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
@@ -514,8 +498,6 @@ function openModal_show_even(eventId) {
                                 <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
                             </div>
 
-
-
                         <div class="custom-container mb-3 " >
                             <div class="row ">
                                 <div class="col-md-7 " >
@@ -534,22 +516,18 @@ function openModal_show_even(eventId) {
                             </div>
                         </div>
                             
-
-
                       <div class="custom-container mb-3" >
                         
                             <div class="">
                                 <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" value="${event.location}"  readonly>
                             </div>
             
-                         
                         <div class="mb-3">
                             <div id="address-results"></div>
                             <div id="map" style="height: 300px;"></div>
                         </div>
                         </div>
 
-                        
                         <div class="custom-container mb-3 " >
                            <div class="form-group ">
                             <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" >
@@ -563,10 +541,6 @@ function openModal_show_even(eventId) {
                             </div>        
                           </div>
 
-
-                        
-
-                            
                                 <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea id="description" name="description" placeholder="Ajouter une description" readonly class="form-control">${event.description}</textarea>
@@ -599,9 +573,7 @@ function openModal_show_even(eventId) {
                 });
                 myModal.show();
 
-
                 showMapWithLocation(event.location);
-
 
                  // Boucle sur les contacts et ajouter chaque contact sélectionné
                 contacts.forEach(contactId => {
@@ -657,8 +629,6 @@ function openModal_show_even(eventId) {
         clickOpens: false,
     });
 
-
-
                 // Nettoyer le modal du DOM après sa fermeture
                 document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
                     document.getElementById('addEventModal').remove();
@@ -696,11 +666,7 @@ function openModal_show_even(eventId) {
             }
         })
         .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
-
-
 }
-
-
 
 let map;
 let marker;
@@ -771,7 +737,6 @@ let marker;
         document.getElementById('address-search').value = '';
     }
 
-
 function showMapWithLocation(location) {
     if (!map) {
         map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées par défaut (Paris)
@@ -807,15 +772,12 @@ function showMapWithLocation(location) {
         .catch(error => console.error('Erreur lors de la recherche de l\'adresse :', error));
 }
 
-
 function toggleSearchContainer() {
     const searchContainer = document.getElementById('search-container');
 
     // Toggle the visibility of the search container
     searchContainer.style.display = (searchContainer.style.display === 'none') ? 'block' : 'none';
 }
-
-
 
 function filterContacts() {
     const searchInput = document.getElementById('contact-search').value.toLowerCase();
@@ -883,8 +845,6 @@ function addSelectedContact(user) {
         alert(`${user.nom} ${user.prenom} est déjà sélectionné.`);
         return; // Sortir de la fonction si le contact est déjà ajouté
     }
-
-    
 
     // Effacer le champ de recherche et cacher le conteneur de recherche
     document.getElementById('contact-search').value = '';
@@ -988,8 +948,6 @@ function showMoreContacts() {
     // Masquer le texte "x contacts supplémentaires" après avoir tout affiché
     document.getElementById('more-contacts').style.display = 'none';
 }
-
-
 
 /*function renderSelectedContact(user) {
     const selectedContactsContainer = document.getElementById('selected-contacts');
@@ -1136,7 +1094,6 @@ function addContact1(user) {
     const contactDiv = renderContact1(user);
     selectedContactsContainer.appendChild(contactDiv);
 
-
     // Debugging: Afficher les contacts actuellement sélectionnés
     console.log('Contacts sélectionnés:', Array.from(selectedContactsContainer.children).map(contactDiv => contactDiv.querySelector('input[type="hidden"]').value));
 }
@@ -1165,7 +1122,6 @@ function renderContact1(user) {
     contactDiv.appendChild(userIconCol);
     contactDiv.appendChild(nameCol);
     
-
     // Ajouter un champ input caché pour stocker l'ID de l'utilisateur
     const hiddenInput = document.createElement('input');
     hiddenInput.type = 'hidden';

@@ -9,9 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const shareLink = this.getAttribute('data-share');
             
             // Mettre à jour le lien dans le modal
-            document.getElementById('event-share-link').href = shareLink;
-            document.getElementById('event-share-link').textContent = shareLink;
-
+            if(shareLink) {
+                document.getElementById('event-share-link').href = shareLink;
+            }
+            
             // Ouvrir le modal
             var modal = document.getElementById("myModal");
             modal.style.display = "block";

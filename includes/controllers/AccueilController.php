@@ -77,7 +77,7 @@ class AccueilController {
                     <span class="close">&times;</span>  
                     <div class="">
         <!-- Share by Message Button -->
-        <button class="btn btn-outline-primary w-100 mb-3">  <a href="#" id="event-share-link"></a>Share by Message</button>
+        <button class="btn btn-outline-primary w-100 mb-3">  <a href="#" id="event-share-link">Share by Message</a></button>
 
         <!-- Send with Icons Section -->
         <p class="fw-bold">Send with</p>
@@ -86,14 +86,9 @@ class AccueilController {
                 <i class="bi bi-envelope icon"></i>
             </a>
             <a href="#" class="m-2">
-                <i class="bi bi-facebook-messenger icon"></i>
+                <i class="bi bi-gmail icon"></i>
             </a>
-            <a href="#" class="m-2">
-                <i class="bi bi-instagram icon"></i>
-            </a>
-            <a href="#" class="m-2">
-                <i class="bi bi-linkedin icon"></i>
-            </a>
+            
             <a href="#" class="m-2">
                 <i class="bi bi-whatsapp icon"></i>
             </a>
