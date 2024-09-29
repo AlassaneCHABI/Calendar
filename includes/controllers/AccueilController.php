@@ -40,22 +40,20 @@ class AccueilController {
         </script>
         
         <div class="row">
-            <div class="col-md-6 wrapper-side">
+            <div class="col-md-7 wrapper-side">
                 <header>
                     <div class="row" style="direction: rtl">
                         <i class="bi bi-plus-square" onclick="openModal_add_even()"></i>
                     </div> 
-                    <!-- <div>
-                        <input type="text" class="form-control" placeholder="search">
-                    </div> -->
-                    <hr>
+               
+                   
+                </header>
+                <div class="wrapper">    
                     <div class="icons">
                         <span id="prev" class="material-symbols-rounded">chevron_left</span>
                         <p class="current-date"></p>
                         <span id="next" class="material-symbols-rounded">chevron_right</span>
-                    </div>
-                </header>
-                <div class="wrapper">      
+                    </div>  
                     <div class="calendar">
                         <ul class="weeks">
                             <li>S</li>
@@ -70,7 +68,7 @@ class AccueilController {
                     </div>
                 </div> 
             </div>
-            <div class="col-md-6" id="event-list"></div>
+            <div class="col-md-5" id="event-list"></div>
    
 
             <div id="myModal" class="modal container text-center p-3 border rounded mt-4">
