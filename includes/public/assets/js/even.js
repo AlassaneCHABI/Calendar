@@ -30,34 +30,34 @@ function openModal_add_even(dateStr) {
                 <input type="text" id="title" name="title"  required placeholder="Titre"  class="form-control">
                </div>
                
-                <div class="row mb-3 align-items-center">
-                 
-                    <div class="col-md-7">
-                     <input type="date" id="event_start_date" class="form-control" name="start_date" required>
-                    </div>
-                    <div class="col-md-5">
-                     <input type="time" id="event_start_time" class="form-control" name="start_time" required>
-                    </div>
-                </div>
-
-                <!-- Date et heure de fin -->
-                <div class="row mb-3 align-items-center">
                 
-                    <div class="col-md-7">
-                     <input type="date" id="event_end_date" class="form-control" name="end_date" required>
+                <div class="custom-container mb-3 " >
+                <div class="row ">
+                    <div class="col-md-7 " >
+                        <input type="date" id="event_start_date" name="start_date" required style="font-size:13px">
                     </div>
                     <div class="col-md-5">
-                     <input type="time" id="event_end_time" class="form-control" name="end_time" required>
+                        <input type="time" id="event_start_time" name="start_time" required >
+                    </div>
+
+                     <div class="col-md-7">
+                        <input type="date" id="event_end_date" name="end_date" required >
+                    </div>
+                    <div class="col-md-5">
+                        <input type="time" id="event_end_time" name="end_time" required >
                     </div>
                 </div>
+            </div>
 
-                <div class="mb-12">
-                    <div class="input-group  ">
+
+              <div class="custom-container mb-3" >
+                
+                    <div class="">
                         <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" onclick="showMap()" readonly>
                     </div>
-                </div>
+    
                  
-                <div class="mb-12">
+                <div class="mb-3">
                     <div class="input-group">
                         <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" class="form-control search-field">
                     </div>
@@ -65,21 +65,32 @@ function openModal_add_even(dateStr) {
                 </div>
 
                 <div id="map" style="height: 300px; display: none;"></div>
-                 
-               <div class="form-group">
-                <input type="text" id="contact" class="form-control click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()" >
+                 </div>
+               <div class="custom-container mb-3 " >
+               <div class="form-group ">
+                <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()" >
                     <div id="search-container" style="display: none;">
-                        <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()" class="form-control">
+                        <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
                         <ul id="contact-list"></ul>
                     </div>
                 </div>
 
-                <div id="selected-contacts"></div>              
-              
+               <div class="separator" style="display:none" id="separator_display"></div>
+                
+                <div id="selected-contacts" style="font-size:12px"></div>      
+                 <div id="more-contacts" style="display:none; cursor:pointer; font-size: 0.875rem;" onclick="showMoreContacts()">
+                    <i class="bi bi-chevron-down"></i> <!-- Icône de chevron -->
+                    <span id="more-contacts-text"></span> <!-- Texte dynamique -->
+                </div>        
+              </div>
+
+                <input type="hidden" id="selectedColor" name="color" value="">
+ 
                 <div class="form-group">
                 <textarea id="description" name="description" placeholder="Ajouter une description" class="form-control"></textarea>
                </div>
                 
+               
                 <select class="form-control" name="remember">
                                           <option value="Ajouter un rappel">Ajouter un rappel</option>
                                           <option value="Au début">Au début</option>
@@ -92,7 +103,7 @@ function openModal_add_even(dateStr) {
                                           <option value="Personnalisé">Personnalisé</option>
                             </select>
                 <div class="form-group">
-                <input type="text" id="link" name="link"   placeholder="Ajouter un lien"  class="form-control">
+                <input type="text" id="link" name="link"  required placeholder="Ajouter un lien"  class="form-control">
                </div>
                <div class="form-group">
                
@@ -103,10 +114,11 @@ function openModal_add_even(dateStr) {
                         <div style="background:#bcb3e191 " class="color-bubble " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
                     </div>
 
-                <input type="hidden" class="selectedColor" name="color" value="">
-                <input type="file" id="file" name="file"   placeholder="Ajouter un fichier" class="form-control">
+                <input type="hidden" id="selectedColor" name="color" value="">
+                <input type="file" id="file" name="file"  placeholder="Ajouter un fichier" class="form-control">
                </div>
                 
+ 
                 <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>">
                 <input type="submit" value="Valider">
             </form>
@@ -131,7 +143,7 @@ function openModal_add_even(dateStr) {
             firstDayOfWeek: 1, // Lundi comme premier jour de la semaine
             weekdays: {
                 shorthand: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-                longhand: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+                longhand: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
             },
             months: {
                 shorthand: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
@@ -153,7 +165,7 @@ function openModal_add_even(dateStr) {
             firstDayOfWeek: 1,
             weekdays: {
                 shorthand: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-                longhand: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+                longhand: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
             },
             months: {
                 shorthand: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
@@ -246,51 +258,63 @@ function openModal_show_even_by_me(eventId) {
                                 <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
                             </div>
 
-                                <div class="row mb-3 align-items-center">
-                                
-                                    <div class="col-md-7">
-                                    <input type="date" id="event_start_date" class="form-control" name="start_date" required>
-                                    </div>
-                                    <div class="col-md-5">
-                                    <input type="time" id="event_start_time" value="${event.start_time}" class="form-control" name="start_time" required>
-                                    </div>
+
+                        <div class="custom-container mb-3 " >
+                            <div class="row ">
+                                <div class="col-md-7 " >
+                                    <input type="date" id="event_start_date" name="start_date" required style="font-size:13px">
                                 </div>
- 
-                                <div class="row mb-3 align-items-center">
-                               
-                                    <div class="col-md-7">
-                                    <input type="date" id="event_end_date" class="form-control" name="end_date" required>
-                                    </div>
-                                    <div class="col-md-5">
-                                    <input type="time" id="event_end_time"  value="${event.end_time}" class="form-control" name="end_time" required>
-                                    </div>
+                                <div class="col-md-5">
+                                    <input type="time" id="event_start_time" name="start_time" value="${event.start_time}"  required >
                                 </div>
 
-                            <div class="form-group">
-                                <label for="location">Lieu</label>
-                                <input type="text" class="click-input form-control" id="location" name="location" onclick="showMap()" value="${event.location}" placeholder="Lieu" readonly>
+                                 <div class="col-md-7">
+                                    <input type="date" id="event_end_date" name="end_date" required >
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="time" id="event_end_time" name="end_time" value="${event.end_time}" required >
+                                </div>
                             </div>
-                                
-                                <div class="mb-12">
-                                <div class="input-group">
+                        </div>
+                            
+                        
+                        <div class="custom-container mb-3" >
+                        
+                            <div class="">
+                                <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" onclick="showMap()" value="${event.location}"  readonly>
+                            </div>
+            
+                         
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" class="form-control search-field">
+                            </div>
+                            <div id="address-results"></div>
+                            <div id="map" style="height: 300px;"></div>
+                        </div>
+                        </div>
 
-                                    <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" class="form-control search-field">
-                                </div>
-                                <div id="address-results"></div>
-                               </div>
-
-                              <div id="map" style="height: 300px;"></div>
-                               
-                              <div class="form-group">
                                 
-                                <input type="text" class="form-control click-input" id="contact" name="contact[]" readonly placeholder="Contacts invités" onclick="toggleSearchContainer()">
+                            <div class="custom-container mb-3 " >
+                           <div class="form-group ">
+                            <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()" >
                                 <div id="search-container" style="display: none;">
                                     <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
                                     <ul id="contact-list"></ul>
                                 </div>
                             </div>
 
-                            <div id="selected-contacts"></div>
+
+                           <div class="separator" style="display:none" id="separator_display"></div>
+                            
+                            <div id="selected-contacts" style="font-size:12px"></div>      
+                             <div id="more-contacts" style="display:none; cursor:pointer; font-size: 0.875rem;" onclick="showMoreContacts()">
+                                <i class="bi bi-chevron-down"></i> <!-- Icône de chevron -->
+                                <span id="more-contacts-text"></span> <!-- Texte dynamique -->
+                            </div>        
+                          </div>
+
+                            
                             <br>
                            <div class="form-group">
                                 <label for="title">Description</label>
@@ -322,14 +346,17 @@ function openModal_show_even_by_me(eventId) {
                                <input type="file" id="file" name="file" placeholder="Ajouter un lien" class="form-control">
                             </div> 
                             
+                                
+                                
                                 <div class="d-flex justify-content-center">
                                      <div style="background:#f8bbd0b8 "  class="color-bubble  ${event.color == '#f8bbd0b8' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
                                     <div style="background:#93dbeb6b " class="color-bubble   ${event.color == '#93dbeb6b' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#93dbeb6b"></div>
                                     <div style="background:#e0fbbd " class="color-bubble   ${event.color == '#e0fbbd' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#e0fbbd"></div>
                                     <div  style="background:#bcb3e191 " class="color-bubble  ${event.color == '#bcb3e191' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
                                 </div>
-                                <input type="hidden" class="selectedColor" name="color" value="${event.color}">
+                                <input type="hidden" id="selectedColor" name="color" value="${event.color}">
 
+ 
                                 <input type="hidden" name="user_id" value="${event.user_id}">
                                 <input type="submit" value="Valider">
                             </form>
@@ -365,7 +392,7 @@ function openModal_show_even_by_me(eventId) {
             firstDayOfWeek: 1, // Lundi comme premier jour de la semaine
             weekdays: {
                 shorthand: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-                longhand: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+               longhand: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
             },
             months: {
                 shorthand: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
@@ -387,7 +414,7 @@ function openModal_show_even_by_me(eventId) {
             firstDayOfWeek: 1,
             weekdays: {
                 shorthand: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-                longhand: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+                longhand: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
             },
             months: {
                 shorthand: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
@@ -443,6 +470,7 @@ function openModal_show_even_by_me(eventId) {
 function openModal_show_even(eventId) {
     console.log("Bouton cliqué avec l'ID de l'événement : " + eventId);
 
+    
     // Requête AJAX pour récupérer les données de l'événement
     fetch(`${php_vars.ajax_url}?action=get_event_callback&event_id=${eventId}`)
         .then(response => response.json())
@@ -456,6 +484,7 @@ function openModal_show_even(eventId) {
                 // Formater la date au format requis (YYYY-MM-DD) pour stockage interne
                 const formattedDate = new Date(event.start_date).toISOString().split('T')[0];
               
+
                 // Créer la structure HTML du modal
                 const modalHTML = `
                 <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
@@ -475,7 +504,7 @@ function openModal_show_even(eventId) {
                                 </select>
                             </div>
 
-                                <input type="hidden" id="event_id" name="event_id" value="${event.id}">
+                            <input type="hidden" id="event_id" name="event_id" value="${event.id}">
                              <div class="form-group">
                             <label for="link_post">Lien du post</label>
                             <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post" readonly class="form-control">
@@ -485,39 +514,59 @@ function openModal_show_even(eventId) {
                                 <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
                             </div>
 
-                                <div class="row mb-3">
-                            <div class="col-md-8 form-group">
-                               
-                                <input type="date" id="event_start_date" name="start_date" required readonly class="form-control">
-                            </div>
-                            <div class="col-md-4 form-group">
-                               
-                                <input type="time" id="event_start_time" name="start_time" value="${event.start_time}" required readonly class="form-control">
-                            </div>
-                           </div>
-                                <div class="row mb-3">
-                                <div class="col-md-8 form-group">
-                                    
-                                    <input type="date" id="event_end_date" name="end_date" required readonly class="form-control">
+
+
+                        <div class="custom-container mb-3 " >
+                            <div class="row ">
+                                <div class="col-md-7 " >
+                                    <input type="date" id="event_start_date" name="start_date" readonly required style="font-size:13px">
                                 </div>
-                                <div class="col-md-4 form-group">
-                                    
-                                    <input type="time" id="event_end_time" name="end_time" value="${event.end_time}" required readonly class="form-control">
+                                <div class="col-md-5">
+                                    <input type="time" id="event_start_time" name="start_time" value="${event.start_time}" readonly  required >
+                                </div>
+
+                                 <div class="col-md-7">
+                                    <input type="date" id="event_end_date" name="end_date" readonly required >
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="time" id="event_end_time" name="end_time" value="${event.end_time}" readonly required >
                                 </div>
                             </div>
-                                <div class="form-group">
-                                <label for="location">Lieu</label>
-                                <input type="text" class="click-input form-control" id="location" name="location" value="${event.location}" placeholder="Lieu" readonly>
+                        </div>
+                            
+
+
+                      <div class="custom-container mb-3" >
+                        
+                            <div class="">
+                                <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" value="${event.location}"  readonly>
                             </div>
+            
+                         
+                        <div class="mb-3">
+                            <div id="address-results"></div>
+                            <div id="map" style="height: 300px;"></div>
+                        </div>
+                        </div>
 
-                              <div id="map" style="height: 300px;"></div>
-
-                               <div class="form-group click-input">
-                                <label ">Contacts invités</label>
+                        
+                        <div class="custom-container mb-3 " >
+                           <div class="form-group ">
+                            <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" >
                                 
-                            <div id="selected-contacts"></div>
                             </div>
+                            
+                            <div id="selected-contacts" style="font-size:12px"></div>      
+                             <div id="more-contacts" style="display:none; cursor:pointer; font-size: 0.875rem;" onclick="showMoreContacts()">
+                                <i class="bi bi-chevron-down"></i> <!-- Icône de chevron -->
+                                <span id="more-contacts-text"></span> <!-- Texte dynamique -->
+                            </div>        
+                          </div>
 
+
+                        
+
+                            
                                 <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea id="description" name="description" placeholder="Ajouter une description" readonly class="form-control">${event.description}</textarea>
@@ -550,7 +599,9 @@ function openModal_show_even(eventId) {
                 });
                 myModal.show();
 
+
                 showMapWithLocation(event.location);
+
 
                  // Boucle sur les contacts et ajouter chaque contact sélectionné
                 contacts.forEach(contactId => {
@@ -569,7 +620,7 @@ function openModal_show_even(eventId) {
             firstDayOfWeek: 1, // Lundi comme premier jour de la semaine
             weekdays: {
                 shorthand: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-                longhand: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+                longhand: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
             },
             months: {
                 shorthand: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
@@ -592,7 +643,7 @@ function openModal_show_even(eventId) {
             firstDayOfWeek: 1,
             weekdays: {
                 shorthand: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-                longhand: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+                 longhand: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
             },
             months: {
                 shorthand: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
@@ -605,6 +656,8 @@ function openModal_show_even(eventId) {
         },
         clickOpens: false,
     });
+
+
 
                 // Nettoyer le modal du DOM après sa fermeture
                 document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
@@ -643,7 +696,11 @@ function openModal_show_even(eventId) {
             }
         })
         .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
+
+
 }
+
+
 
 let map;
 let marker;
@@ -714,6 +771,7 @@ let marker;
         document.getElementById('address-search').value = '';
     }
 
+
 function showMapWithLocation(location) {
     if (!map) {
         map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées par défaut (Paris)
@@ -749,12 +807,15 @@ function showMapWithLocation(location) {
         .catch(error => console.error('Erreur lors de la recherche de l\'adresse :', error));
 }
 
+
 function toggleSearchContainer() {
     const searchContainer = document.getElementById('search-container');
 
     // Toggle the visibility of the search container
     searchContainer.style.display = (searchContainer.style.display === 'none') ? 'block' : 'none';
 }
+
+
 
 function filterContacts() {
     const searchInput = document.getElementById('contact-search').value.toLowerCase();
@@ -823,20 +884,114 @@ function addSelectedContact(user) {
         return; // Sortir de la fonction si le contact est déjà ajouté
     }
 
-    // Afficher le contact sélectionné
-    const contactDiv = renderSelectedContact(user);
-    selectedContactsContainer.appendChild(contactDiv);
+    
 
     // Effacer le champ de recherche et cacher le conteneur de recherche
     document.getElementById('contact-search').value = '';
-    document.getElementById('search-container').style.display = 'none';
+    document.getElementById('search-container').value = '';
     document.getElementById('contact-list').innerHTML = ''; // Effacer les résultats
+    // Afficher le contact sélectionné
+    const contactDiv = renderSelectedContact(user);
+    selectedContactsContainer.appendChild(contactDiv);
 
     // Debugging: Afficher les contacts actuellement sélectionnés
     console.log('Contacts sélectionnés:', Array.from(selectedContactsContainer.children).map(contactDiv => contactDiv.querySelector('input[type="hidden"]').value));
 }
 
+ let selectedContacts = [];
+    const MAX_DISPLAY = 2;
+
 function renderSelectedContact(user) {
+    selectedContacts.push(user);
+    updateSelectedContactsDisplay();
+}
+
+function updateSelectedContactsDisplay() {
+    const selectedContactsContainer = document.getElementById('selected-contacts');
+    const moreContactsText = document.getElementById('more-contacts');
+    const moreContactsSpan = document.getElementById('more-contacts-text');
+    
+    selectedContactsContainer.innerHTML = ''; // Vider le conteneur avant d'ajouter les contacts
+
+    // Limiter l'affichage à MAX_DISPLAY contacts
+    const contactsToDisplay = selectedContacts.slice(0, MAX_DISPLAY);
+    contactsToDisplay.forEach((user, index) => {
+        const contactDiv = createContactDiv(user, index);
+        selectedContactsContainer.appendChild(contactDiv);
+    });
+
+    // Si le nombre de contacts dépasse la limite, afficher l'icône et le texte
+    if (selectedContacts.length > MAX_DISPLAY) {
+        moreContactsText.style.display = 'flex';
+        moreContactsSpan.textContent = `+${selectedContacts.length - MAX_DISPLAY} contacts supplémentaires`;
+    } else {
+        moreContactsText.style.display = 'none';
+    }
+
+    // Afficher le séparateur s'il y a des contacts sélectionnés
+    document.getElementById('separator_display').style.display = selectedContacts.length > 0 ? 'block' : 'none';
+}
+
+function createContactDiv(user, index) {
+    const contactDiv = document.createElement('div');
+    contactDiv.className = 'd-flex justify-content-between align-items-center mb-2';
+
+    const userIconCol = document.createElement('div');
+    const userIcon = document.createElement('i');
+    userIcon.className = 'bi bi-person-circle';
+    userIconCol.appendChild(userIcon);
+    userIconCol.style.flex = '0';
+
+    const nameCol = document.createElement('div');
+    nameCol.innerHTML = `${user.nom} ${user.prenom} <span class="status-pending">En cours</span>`;
+    nameCol.style.flex = '7';
+    nameCol.style.textAlign = 'center';
+
+    const deleteCol = document.createElement('div');
+    const deleteIcon = document.createElement('i');
+    deleteIcon.className = 'bi bi-trash';
+    deleteIcon.style.cursor = 'pointer';
+
+    // Ajouter un gestionnaire d'événements pour supprimer un contact spécifique
+    deleteIcon.addEventListener('click', function() {
+        // Retirer l'élément en fonction de son index dans selectedContacts
+        selectedContacts.splice(index, 1);
+        updateSelectedContactsDisplay(); // Mettre à jour l'affichage après suppression
+    });
+
+    deleteCol.appendChild(deleteIcon);
+    deleteCol.style.flex = '1';
+
+    contactDiv.appendChild(userIconCol);
+    contactDiv.appendChild(nameCol);
+    contactDiv.appendChild(deleteCol);
+
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'contact[]';
+    hiddenInput.value = user.id;
+    contactDiv.appendChild(hiddenInput);
+
+    return contactDiv;
+}
+
+function showMoreContacts() {
+    const selectedContactsContainer = document.getElementById('selected-contacts');
+    selectedContactsContainer.innerHTML = ''; // Vider le conteneur
+
+    // Afficher tous les contacts sélectionnés
+    selectedContacts.forEach((user, index) => {
+        const contactDiv = createContactDiv(user, index);
+        selectedContactsContainer.appendChild(contactDiv);
+    });
+
+    // Masquer le texte "x contacts supplémentaires" après avoir tout affiché
+    document.getElementById('more-contacts').style.display = 'none';
+}
+
+
+
+/*function renderSelectedContact(user) {
     const selectedContactsContainer = document.getElementById('selected-contacts');
     const contactDiv = document.createElement('div');
     contactDiv.className = 'd-flex justify-content-between align-items-center mb-2'; // Flexbox layout
@@ -850,7 +1005,8 @@ function renderSelectedContact(user) {
 
     // Colonne pour le nom et le prénom
     const nameCol = document.createElement('div');
-    nameCol.textContent = `${user.nom} ${user.prenom}`; // Afficher le prénom et le nom
+    nameCol.innerHTML = `${user.nom} ${user.prenom} <span class="status-pending">En cours</span>`;
+    //nameCol.textContent = `${user.nom} ${user.prenom} <span class="status-pending">En cours</span>`; // Afficher le prénom et le nom
     nameCol.style.flex = '7'; // Prendre plus d'espace
     nameCol.style.textAlign = 'center'; // Centrer le texte
 
@@ -880,9 +1036,10 @@ function renderSelectedContact(user) {
     hiddenInput.name = 'contact[]';
     hiddenInput.value = user.id;
     contactDiv.appendChild(hiddenInput); // Ajouter le champ caché ici
-
+    document.getElementById('separator_display').style.display = 'block';
+    
     return contactDiv; // Retourner le div pour l'ajouter au conteneur
-}
+}*/
 
 function addContact(user) {
     const selectedContactsContainer = document.getElementById('selected-contacts');
@@ -893,10 +1050,10 @@ function addContact(user) {
         return hiddenInput && hiddenInput.value === user.id; // Comparer les IDs
     });
 
-    if (existingContact) {
+    /*if (existingContact) {
         alert(`${user.nom} ${user.prenom} est déjà sélectionné.`);
         return; // Sortir de la fonction si le contact est déjà ajouté
-    }
+    }*/
 
     // Afficher le contact sélectionné
     const contactDiv = renderContact(user);
@@ -979,6 +1136,7 @@ function addContact1(user) {
     const contactDiv = renderContact1(user);
     selectedContactsContainer.appendChild(contactDiv);
 
+
     // Debugging: Afficher les contacts actuellement sélectionnés
     console.log('Contacts sélectionnés:', Array.from(selectedContactsContainer.children).map(contactDiv => contactDiv.querySelector('input[type="hidden"]').value));
 }
@@ -1007,6 +1165,7 @@ function renderContact1(user) {
     contactDiv.appendChild(userIconCol);
     contactDiv.appendChild(nameCol);
     
+
     // Ajouter un champ input caché pour stocker l'ID de l'utilisateur
     const hiddenInput = document.createElement('input');
     hiddenInput.type = 'hidden';
