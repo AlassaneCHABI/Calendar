@@ -463,9 +463,10 @@ function openModal_show_even(eventId) {
             if (data.success) {
                 const event = data.data.event; 
                 const contacts = data.data.contacts;
+                const user_status = data.data.user_status;
                 const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric', locale: 'fr-FR' };
                 const readableDate = new Date(event.start_date).toLocaleDateString('fr-FR', options);
-
+ 
                 // Formater la date au format requis (YYYY-MM-DD) pour stockage interne
                 const formattedDate = new Date(event.start_date).toISOString().split('T')[0];
               
@@ -482,9 +483,9 @@ function openModal_show_even(eventId) {
                             <div class="form-group">
                                 <label for="status">Statut</label>
                                 <select class="form-control" name="status" id="status">
-                                    <option value="0">Pending</option>
-                                    <option value="1">Accepted</option>
-                                    <option value="2">Declined</option>
+                                    <option ${user_status.status == '0' ? 'selected' :''} value="0">Pending</option>
+                                    <option  ${user_status.status == '1' ? 'selected' :''} value="1">Accepted</option>
+                                    <option  ${user_status.status == '2' ? 'selected' :''} value="2">Declined</option>
                                 </select>
                             </div>
 

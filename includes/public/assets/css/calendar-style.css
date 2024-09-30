@@ -239,6 +239,10 @@ input[type="text"]#time {
     outline: none; /* Enlever le contour par défaut */
 }
 
+.custom-container{
+    margin-right: 18px;
+}
+
 .status-pending {
     color: orange; /* Couleur pour 'Pending' */
     margin-left: 45px;
