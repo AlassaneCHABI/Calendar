@@ -20,7 +20,7 @@ function openModal_add_even(dateStr) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
              
-            <form id="add-event-form">
+            <form id="add-event-form" enctype="multipart/form-data">
 
                 <input type="hidden" id="lat" name="lat">
                 <input type="hidden" id="lon" name="lon">
@@ -28,6 +28,7 @@ function openModal_add_even(dateStr) {
                 <div class="form-group">
                 <input type="text" id="title" name="title"  required placeholder="Titre"  class="form-control">
                </div>
+               <div class="separateur"></div>
                
                 <div class="custom-container mb-3 " >
                 <div class="row ">
@@ -46,32 +47,17 @@ function openModal_add_even(dateStr) {
                     </div>
                 </div>
             </div>
-
-              <div class="custom-container mb-3" >
-                
-                    <div class="">
-                        <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" onclick="showMap()" readonly>
-                    </div>
-    
-                <div class="mb-3">
-                    <div class="input-group">
-                        <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" class="form-control search-field">
-                    </div>
-                    <div id="address-results"></div>
-                </div>
-
-                <div id="map" style="height: 300px; display: none;"></div>
-                 </div>
+            
+             <div class="separateur"></div>
                <div class="custom-container mb-3 " >
                <div class="form-group ">
-                <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()" >
-                    <div id="search-container" style="display: none;">
+                
+                    <div id="search-container">
                         <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
                         <ul id="contact-list"></ul>
                     </div>
                 </div>
-
-               <div class="separator" style="display:none" id="separator_display"></div>
+                <div class="separator" style="display:none" id="separator_display"></div>
                 
                 <div id="selected-contacts" style="font-size:12px"></div>      
                  <div id="more-contacts" style="display:none; cursor:pointer; font-size: 0.875rem;" onclick="showMoreContacts()">
@@ -79,16 +65,37 @@ function openModal_add_even(dateStr) {
                     <span id="more-contacts-text"></span> <!-- Texte dynamique -->
                 </div>        
               </div>
+                <div class="separateur"></div>
+
+              <div class="custom-container mb-3" >
+              <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" class="form-control search-field">
+                    </div>
+                    <div id="address-results"></div>
+                </div>
+                <div id="selected-address-container" style="display: flex; align-items: center;">
+                <p id="selected-address" style="margin: 0;"></p> <!-- Résultat de l'adresse -->
+                <button type="button" id="remove-address-button" style="display: none; margin-left: 10px; background: none; border: none; cursor: pointer; font-size: 13px;" onclick="removeAddress()">
+                    <i class="fas fa-trash"></i> <!-- Icône de suppression -->
+                </button>
+              </div>
+                
+                <div id="map" style="height: 300px;"></div>
+                 <input type="hidden" id="selected-address-hidden"  name="location">
+                 </div>
+              <div class="separateur"></div>
 
                 <input type="hidden" id="selectedColor" name="color" value="">
  
                 <div class="form-group">
                 <textarea id="description" name="description" placeholder="Ajouter une description" class="form-control"></textarea>
                </div>
-               <input type="text" id="link_post" name="link_post" required placeholder="Lien du post" class="form-control">
-
+               <div class="separateur"></div>
+               <input type="text" id="link_post" name="link_post"  placeholder="Lien du post" class="form-control">
+               <div class="separateur"></div>
                 <select class="form-control" name="remember">
-                                          <option value="Ajouter un rappel">Ajouter un rappel</option>
+                                          <option value="1 heure avant">Ajouter un rappel</option>
                                           <option value="Au début">Au début</option>
                                           <option value="5 minutes avant">5 minutes avant</option>
                                           <option value="15 minutes avant">15 minutes avant</option>
@@ -98,9 +105,11 @@ function openModal_add_even(dateStr) {
                                           <option value="2 jour avant">2 jour avant</option>
                                           <option value="Personnalisé">Personnalisé</option>
                             </select>
+                            <div class="separateur"></div>
                 <div class="form-group">
                 <input type="text" id="link" name="link"  placeholder="Ajouter un lien"  class="form-control">
                </div>
+               <div class="separateur"></div>
                <div class="form-group">
                
                      <div class="d-flex justify-content-center">
@@ -111,6 +120,7 @@ function openModal_add_even(dateStr) {
                     </div>
 
                 <input type="hidden" id="selectedColor" name="color" value="">
+                <div class="separateur"></div>
                 <input type="file" id="file" name="file"  placeholder="Ajouter un fichier" class="form-control">
                </div>
                 
@@ -127,6 +137,7 @@ function openModal_add_even(dateStr) {
         keyboard: false
     });
     myModal.show();
+    showMap();
 
       // Initialiser Flatpickr pour les champs de date avec locale en français
     flatpickr("#event_start_date", {
@@ -249,6 +260,7 @@ function openModal_show_even_by_me(eventId) {
                                 <label for="title">Titre</label>
                                 <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
                             </div>
+                            <div class="separateur"></div>
 
                         <div class="custom-container mb-3 " >
                             <div class="row ">
@@ -267,27 +279,12 @@ function openModal_show_even_by_me(eventId) {
                                 </div>
                             </div>
                         </div>
-                            
-                        <div class="custom-container mb-3" >
-                        
-                            <div class="">
-                                <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" onclick="showMap()" value="${event.location}"  readonly>
-                            </div>
-            
-                        <div class="mb-3">
-                            <div class="input-group">
-                                <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" style="display: none;" class="form-control search-field">
-                            </div>
-                            <div id="address-results"></div>
-                            <div id="map" style="height: 300px;"></div>
-                        </div>
-                        </div>
+                       <div class="separateur"></div>
 
-                            <div class="custom-container mb-3 " >
+                        <div class="custom-container mb-3 " >
                            <div class="form-group ">
-                            <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" onclick="toggleSearchContainer()" >
-                                <div id="search-container" style="display: none;">
-                                    <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
+                                <div id="search-container" style="">
+                                    <input type="text" id="contact-search" style="" placeholder="Rechercher un contact..." oninput="filterContacts()">
                                     <ul id="contact-list"></ul>
                                 </div>
                             </div>
@@ -299,17 +296,39 @@ function openModal_show_even_by_me(eventId) {
                                 <i class="bi bi-chevron-down"></i> <!-- Icône de chevron -->
                                 <span id="more-contacts-text"></span> <!-- Texte dynamique -->
                             </div>        
-                          </div>
-
-                            <br>
+                           </div>
+                           <div class="separateur"></div>
+                            
+                       
+                        <div class="custom-container mb-3" >
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" id="address-search" name="address" placeholder="Rechercher une adresse" oninput="searchAddress()" class="form-control search-field">
+                    </div>
+                    <div id="address-results"></div>
+                </div>
+                <div id="selected-address-container" style="display: flex; align-items: center;">
+                <p id="selected-address" style="margin: 0;"></p> <!-- Résultat de l'adresse -->
+                <button type="button" id="remove-address-button" style="display: none; margin-left: 10px; background: none; border: none; cursor: pointer; font-size: 13px;" onclick="removeAddress()">
+                    <i class="fas fa-trash"></i> <!-- Icône de suppression -->
+                </button>
+              </div>
+                
+                <div id="map" style="height: 300px;"></div>
+                 <input type="hidden" id="selected-address-hidden"  name="location">
+                 </div>
+                  <div class="separateur"></div>
+                            
                            <div class="form-group">
                                 <label for="title">Description</label>
                                <textarea id="description" class="form-control" name="description" placeholder="Ajouter une description">${event.description}</textarea>
                             </div>
-<div class="form-group">
+                             <div class="separateur"></div>
+                            <div class="form-group">
                             <label for="link_post">Lien du post</label>
-                            <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post" readonly class="form-control">
+                            <input type="text" id="link_post" name="link_post" value="${event.link_post}"  placeholder="Lien du post" readonly class="form-control">
                            </div>
+                            <div class="separateur"></div>
                             <div class="form-group">
                                <label>Alerte</label>
                               <select class="form-control" name="remember">
@@ -324,17 +343,17 @@ function openModal_show_even_by_me(eventId) {
                                           <option value="Personnalisé">Personnalisé</option>
                             </select>
                             </div>
-
+                           <div class="separateur"></div>
                             <div class="form-group">
                                <label>Lien</label>
                                 <input type="text" id="link" name="link" placeholder="Ajouter un lien" value="${event.link}"  class="form-control">
                             </div>
-
+                            <div class="separateur"></div>
                              <div class="form-group">
                                <label>Fichier</label>
                                <input type="file" id="file" name="file" placeholder="Ajouter un lien" class="form-control">
                             </div> 
-                            
+                             <div class="separateur"></div>
                                 <div class="d-flex justify-content-center">
                                      <div style="background:#f8bbd0b8 "  class="color-bubble  ${event.color == '#f8bbd0b8' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#f8bbd0b8"></div>
                                     <div style="background:#93dbeb6b " class="color-bubble   ${event.color == '#93dbeb6b' ? 'selected' : ''} " onclick="selectBubble(this)" data-color="#93dbeb6b"></div>
@@ -360,6 +379,7 @@ function openModal_show_even_by_me(eventId) {
                 myModal.show();
 
                 showMapWithLocation(event.location);
+
 
                  // Boucle sur les contacts et ajouter chaque contact sélectionné
                 contacts.forEach(contactId => {
@@ -464,6 +484,8 @@ function openModal_show_even(eventId) {
                 const event = data.data.event; 
                 const contacts = data.data.contacts;
                 const user_status = data.data.user_status;
+                console.log("La valeur du")
+                console.log(user_status)
                 const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric', locale: 'fr-FR' };
                 const readableDate = new Date(event.start_date).toLocaleDateString('fr-FR', options);
  
@@ -483,21 +505,20 @@ function openModal_show_even(eventId) {
                             <div class="form-group">
                                 <label for="status">Statut</label>
                                 <select class="form-control" name="status" id="status">
-                                    <option ${user_status.status == '0' ? 'selected' :''} value="0">Pending</option>
-                                    <option  ${user_status.status == '1' ? 'selected' :''} value="1">Accepted</option>
-                                    <option  ${user_status.status == '2' ? 'selected' :''} value="2">Declined</option>
+                                    <option ${user_status == '0' ? 'selected' :''} value="0">Pending ${user_status}</option>
+                                    <option  ${user_status == '1' ? 'selected' :''} value="1">Accepted</option>
+                                    <option  ${user_status == '2' ? 'selected' :''} value="2">Declined</option>
                                 </select>
                             </div>
+                            <div class="separateur"></div>
 
                             <input type="hidden" id="event_id" name="event_id" value="${event.id}">
-                             <div class="form-group">
-                            <label for="link_post">Lien du post</label>
-                            <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post" readonly class="form-control">
-                           </div>
+                             
                                <div class="form-group">
                                 <label for="title">Titre</label>
                                 <input type="text" id="title" name="title" value="${event.title}" required placeholder="Titre" readonly class="form-control">
                             </div>
+                            <div class="separateur"></div>
 
                         <div class="custom-container mb-3 " >
                             <div class="row ">
@@ -516,44 +537,55 @@ function openModal_show_even(eventId) {
                                 </div>
                             </div>
                         </div>
-                            
-                      <div class="custom-container mb-3" >
+                        <div class="separateur"></div>
                         
-                            <div class="">
-                                <input type="text" class=" click-input" id="location"  name="location" placeholder="Lieu" value="${event.location}"  readonly>
-                            </div>
-            
-                        <div class="mb-3">
-                            <div id="address-results"></div>
-                            <div id="map" style="height: 300px;"></div>
-                        </div>
-                        </div>
-
-                        <div class="custom-container mb-3 " >
-                           <div class="form-group ">
-                            <input type="text" id="contact" class=" click-input" name="contact[]" readonly placeholder="Contact" >
-                                
-                            </div>
-                            
+                        <div class="custom-container mb-3 form-group" >
+                           
+                            <label for="">Liste des inviteés</label><br>
                             <div id="selected-contacts" style="font-size:12px"></div>      
                              <div id="more-contacts" style="display:none; cursor:pointer; font-size: 0.875rem;" onclick="showMoreContacts()">
                                 <i class="bi bi-chevron-down"></i> <!-- Icône de chevron -->
                                 <span id="more-contacts-text"></span> <!-- Texte dynamique -->
                             </div>        
                           </div>
+                            
+                            <div class="separateur"></div>
+                       <div class="custom-container mb-3" >
+                <div class="mb-3">
+                    
+                   
+                <div id="selected-address-container" style="display: flex; align-items: center;">
+                <p id="selected-address" style="margin: 0;"></p> <!-- Résultat de l'adresse -->
+                
+              </div>
+                
+                <div id="map" style="height: 300px;"></div>
+                 <input type="hidden" id="selected-address-hidden"  name="location">
+                 </div>
+
+                        <div class="separateur"></div>
 
                                 <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea id="description" name="description" placeholder="Ajouter une description" readonly class="form-control">${event.description}</textarea>
                             </div>
+                            <div class="separateur"></div>
+                            <div class="form-group">
+                            <label for="link_post">Lien du post</label>
+                            <input type="text" id="link_post" name="link_post" value="${event.link_post}" required placeholder="Lien du post" readonly class="form-control">
+                           </div>
+                           <div class="separateur"></div>
+
                             <div class="form-group">
                                 <label for="remember">Alerte</label>
                                 <input type="text" id="remember" name="remember" value="${event.remember}" placeholder="Alerte" readonly class="form-control">
                             </div>
+                            <div class="separateur"></div>
                                  <div class="form-group">
                                 <label for="link">Lien</label>
                                 <input type="text" id="link" name="link" value="${event.link}" placeholder="Ajouter un lien" readonly class="form-control">
                             </div>
+                            <div class="separateur"></div>
                                 <div class="form-group">
                                 <label for="file">Fichier</label>
                                 <input type="file" id="file" name="file" placeholder="Ajouter un fichier" readonly class="form-control">
@@ -671,74 +703,116 @@ function openModal_show_even(eventId) {
 
 let map;
 let marker;
- function showMap() {
-            if (!map) {
-                map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées de Paris
 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '© OpenStreetMap'
-                }).addTo(map);
-            }
+function showMap() {
+    // Afficher la carte si elle n'est pas déjà initialisée
+    if (!map) {
+        map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées de Paris par défaut
 
-            document.getElementById('map').style.display = 'block';
-            document.getElementById('address-search').style.display = 'block';
-        }
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+    }
+
+    // Afficher le champ de recherche et la carte
+    document.getElementById('map').style.display = 'block';
+    document.getElementById('address-search').style.display = 'block';
+}
+
+// Appel de la fonction pour afficher la carte dès l'ouverture du modal
+ // Affiche la carte par défaut sans attendre la recherche d'adresse
+
 
          // Fonction pour rechercher une adresse avec Nominatim
-    function searchAddress() {
-        const query = document.getElementById('address-search').value;
-        if (!query) {
-            return;
-        }
-
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                const resultsContainer = document.getElementById('address-results');
-                resultsContainer.innerHTML = ''; // Efface les résultats précédents
-
-                if (data.length > 0) {
-                    data.forEach(result => {
-                        const resultItem = document.createElement('div');
-                        resultItem.innerHTML = `<p style="cursor:pointer;">${result.display_name}</p>`;
-                        
-                        // Rendre chaque élément cliquable
-                        resultItem.addEventListener('click', function() {
-                            selectAddress(result.lat, result.lon, result.display_name);
-                        });
-                        
-                        resultsContainer.appendChild(resultItem);
-                    });
-                } else {
-                    resultsContainer.innerHTML = '<p>Aucune adresse trouvée.</p>';
-                }
-            })
-            .catch(error => console.error('Erreur lors de la recherche d\'adresse:', error));
+   function searchAddress() {
+    const query = document.getElementById('address-search').value;
+    if (!query) {
+        return;
     }
+
+    // Réafficher le conteneur des résultats pour chaque nouvelle recherche
+    document.getElementById('address-results').style.display = 'block';
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            const resultsContainer = document.getElementById('address-results');
+            resultsContainer.innerHTML = ''; // Efface les résultats précédents
+
+            if (data.length > 0) {
+                data.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.innerHTML = `<p style="cursor:pointer;">${result.display_name}</p>`;
+                    
+                    // Rendre chaque élément cliquable
+                    resultItem.addEventListener('click', function() {
+                        selectAddress(result.lat, result.lon, result.display_name);
+                    });
+                    
+                    resultsContainer.appendChild(resultItem);
+                });
+            } else {
+                resultsContainer.innerHTML = '<p>Aucune adresse trouvée.</p>';
+            }
+        })
+        .catch(error => console.error('Erreur lors de la recherche d\'adresse:', error));
+}
+
 
     // Fonction pour sélectionner une adresse et la centrer sur la carte
-    function selectAddress(lat, lon, displayName) {
-        showMap();
+ // Fonction pour sélectionner une adresse et la centrer sur la carte
+function selectAddress(lat, lon, displayName) {
+    showMap();
 
-        // Centrer la carte sur les coordonnées sélectionnées
-        map.setView([lat, lon], 13);
+    // Centrer la carte sur les coordonnées sélectionnées
+    map.setView([lat, lon], 13);
 
-        // Si un marqueur existe déjà, le supprimer
-        if (marker) {
-            map.removeLayer(marker);
-        }
-
-        // Ajouter un nouveau marqueur à l'emplacement sélectionné
-        marker = L.marker([lat, lon]).addTo(map).bindPopup(displayName).openPopup();
-
-        // Mettre à jour le champ de lieu avec l'adresse sélectionnée
-        document.getElementById('location').value = displayName;
-        document.getElementById('address-results').style.display = 'none';
-        document.getElementById('address-search').value = '';
+    // Si un marqueur existe déjà, le supprimer
+    if (marker) {
+        map.removeLayer(marker);
     }
 
+    // Ajouter un nouveau marqueur à l'emplacement sélectionné
+    marker = L.marker([lat, lon]).addTo(map).bindPopup(displayName).openPopup();
+
+    // Mettre à jour l'affichage de l'adresse sélectionnée
+    document.getElementById('selected-address').innerText = displayName;
+
+    // Afficher le bouton pour supprimer l'adresse
+    document.getElementById('remove-address-button').style.display = 'inline-block';
+
+    // Masquer les résultats de la recherche et vider le champ de recherche
+    document.getElementById('address-results').style.display = 'none';
+    document.getElementById('address-search').value = '';
+
+    // Mettre à jour les inputs cachés avec l'adresse sélectionnée, la latitude et la longitude
+    document.getElementById('selected-address-hidden').value = displayName;
+    document.getElementById('selected-lat-hidden').value = lat;
+    document.getElementById('selected-lon-hidden').value = lon;
+}
+
+function removeAddress() {
+    // Supprimer le marqueur de la carte
+    if (marker) {
+        map.removeLayer(marker);
+    }
+
+    // Réinitialiser l'affichage de l'adresse sélectionnée
+    document.getElementById('selected-address').innerText = '';
+
+    // Masquer le bouton "Supprimer l'adresse"
+    document.getElementById('remove-address-button').style.display = 'none';
+
+    // Vider les inputs cachés
+    document.getElementById('selected-address-hidden').value = '';
+    document.getElementById('selected-lat-hidden').value = '';
+    document.getElementById('selected-lon-hidden').value = '';
+}
+
+
 function showMapWithLocation(location) {
+
     if (!map) {
         map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées par défaut (Paris)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -765,6 +839,10 @@ function showMapWithLocation(location) {
                 }
 
                 // Ajouter un nouveau marqueur
+                document.getElementById('selected-address').innerText = displayName;
+                document.getElementById('selected-address-hidden').value = displayName;
+                // Afficher le bouton pour supprimer l'adresse
+                document.getElementById('remove-address-button').style.display = 'inline-block';
                 marker = L.marker([lat, lon]).addTo(map).bindPopup(displayName).openPopup();
             } else {
                 console.log('Aucune adresse trouvée');
@@ -1020,7 +1098,6 @@ function addContact(user) {
 
     // Effacer le champ de recherche et cacher le conteneur de recherche
     document.getElementById('contact-search').value = '';
-    document.getElementById('search-container').style.display = 'none';
     document.getElementById('contact-list').innerHTML = ''; // Effacer les résultats
 
     // Debugging: Afficher les contacts actuellement sélectionnés

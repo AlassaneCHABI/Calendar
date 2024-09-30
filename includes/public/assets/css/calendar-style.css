@@ -285,3 +285,23 @@ input[type="text"]#time {
     .form-control {
         margin-bottom: 1rem;
     }
+
+
+.separateur {
+    border-top: 3px solid #ccc;
+    margin: 20px 0;
+    margin-right: 20px;
+}
+
+#remove-address-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    /*color: red;*/ /* Couleur de l'icône */
+    font-size: 20px; /* Taille de l'icône */
+}
+
+#remove-address-button:hover {
+    color: darkred; /* Couleur lors du survol */
+}
+

@@ -135,7 +135,7 @@ function afficher_bouton_calendrier_shortcode($atts) {
 }
 
 
-public function save_event() {
+/*public function save_event() {
     // Check if required fields are set
     if (isset($_POST['title']) && !empty($_POST['title'])) {
         global $wpdb;
@@ -211,6 +211,96 @@ public function save_event() {
         wp_send_json_error('Le titre est obligatoire');
     }
 }
+*/
+
+public function save_event() {
+    // Check if required fields are set
+    if (isset($_POST['title']) && !empty($_POST['title'])) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'events'; // Replace with your table name
+
+        // Sanitize form data
+        $title = sanitize_text_field($_POST['title']);
+        $link_post = sanitize_text_field($_POST['link_post']);
+        $start_date = sanitize_text_field($_POST['start_date']);
+        $start_time = sanitize_text_field($_POST['start_time']);
+        $end_date = sanitize_text_field($_POST['end_date']);
+        $end_time = sanitize_text_field($_POST['end_time']);
+        $location = sanitize_text_field($_POST['location']);
+        $description = sanitize_textarea_field($_POST['description']);
+        $remember = sanitize_text_field($_POST['remember']);
+        $link = sanitize_text_field($_POST['link']);
+        $color = sanitize_text_field($_POST['color']);
+        $user_id = get_current_user_id();
+        
+        // Handle file upload if a file is present
+        $file_url = '';
+        if (!empty($_FILES['file']['name'])) {
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+            $uploadedfile = $_FILES['file'];
+            $upload_overrides = array('test_form' => false);
+
+            // Handle file upload
+            $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+            if ($movefile && !isset($movefile['error'])) {
+                $file_url = $movefile['url']; // Get the URL of the uploaded file
+            } else {
+                wp_send_json_error('Erreur lors de l\'upload du fichier : ' . $movefile['error']);
+                return;
+            }
+        }
+
+        // Insert into database
+        $wpdb->insert(
+            $table_name,
+            array(
+                'link_post'   => $link_post,
+                'title'       => $title,
+                'start_date'  => $start_date,
+                'start_time'  => $start_time,
+                'end_date'    => $end_date,
+                'end_time'    => $end_time,
+                'location'    => $location,
+                'description' => $description,
+                'remember'    => $remember,
+                'link'        => $link,
+                'color'       => $color,
+                'file_url'    => $file_url, // Store file URL in the database
+                'created_by'  => $user_id,
+                'created_at'  => current_time('mysql')
+            )
+        );
+
+        // Check if insertion was successful
+        if ($wpdb->insert_id) {
+            if (isset($_POST['contact']) && !empty($_POST['contact'])) {
+                $contact_ids = array_map('intval', $_POST['contact']);
+                foreach ($contact_ids as $contact_id) {
+                    if ($contact_id > 0) {
+                        $wpdb->insert(
+                            $wpdb->prefix . 'invitations',
+                            array(
+                                'id_event' => $wpdb->insert_id,
+                                'id_guest' => $contact_id,
+                                'status'   => 'pending',
+                            )
+                        );
+                    }
+                }
+            }
+
+            wp_send_json([
+                'success' => 'Événement ajouté avec succès',
+                'events' => $this->get_events()
+            ]);
+        } else {
+            wp_send_json_error('Erreur lors de l\'ajout de l\'événement');
+        }
+    } else {
+        wp_send_json_error('Le titre est obligatoire');
+    }
+}
+
 
 
 

@@ -25,9 +25,10 @@ class EventModel {
         end_time time NOT NULL,
         location varchar(255) NOT NULL,
         description text,
-        remember varchar(255),
+        remember varchar(255), 
         link varchar(255),
         color varchar(255),
+        file_url varchar(255),
         created_by bigint(20) NOT NULL,
         created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
         PRIMARY KEY (id)
@@ -37,70 +38,5 @@ class EventModel {
     dbDelta($sql);
 }
 
-    // Fonction pour créer un événement
-    public function create_event($data) {
-        global $wpdb;
 
-        // Insérer les données de l'événement dans la base de données
-        $result = $wpdb->insert(
-            $this->table_name,
-            array(
-                'link_post' => $data['link_post'],
-                'title' => $data['title'],
-                'date_time' => maybe_serialize($data['date_time']),  // Sérialiser si le champ est un tableau
-                'contact' => maybe_serialize($data['contact']),      // Sérialiser également les contacts
-                'location' => $data['location'],
-                'description' => $data['description'],
-                'remember' => $data['remember'],
-                'link' => $data['link'],
-                'color' => $data['color'],
-                'file' => $data['file'],
-                'user_id' => $data['user_id'],
-            ),
-            array(
-                '%s',  // link_post
-                '%s',  // title
-                '%s',  // date_time (sérialisé)
-                '%s',  // contact (sérialisé)
-                '%s',  // location
-                '%s',  // description
-                '%d',  // remember (booléen)
-                '%s',  // link
-                '%s',  // color
-                '%s',  // file
-                '%d',  // user_id
-            )
-        );
-
-        return $wpdb->insert_id;  // Renvoie l'ID de l'événement inséré
-    }
-
-    // Fonction pour récupérer tous les événements
-    public function get_events() {
-        global $wpdb;
-
-        // Récupérer tous les événements de la base de données
-        $results = $wpdb->get_results("SELECT * FROM $this->table_name");
-
-        $formatted_events = array();
-
-        // Formater les événements pour les retourner
-        foreach ($results as $event) {
-            $formatted_events[] = array(
-                'link_post' => $event->link_post,
-                'title' => $event->title,
-                'date_time' => json_decode($event->date_time, true), // Décodage du JSON pour le champ date_time
-                'contact' => json_decode($event->contact, true),     // Décodage du JSON pour les contacts
-                'location' => $event->location,
-                'description' => $event->description,
-                'remember' => $event->remember,
-                'link' => $event->link,
-                'color' => $event->color,
-                'file' => $event->file,
-                'user_id' => $event->user_id,
-            );
-        }
-
-        return $formatted_events;  // Retourne les événements formatés
-    }
 }
