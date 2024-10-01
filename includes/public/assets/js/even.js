@@ -52,7 +52,7 @@ function openModal_add_even(dateStr) {
                <div class="custom-container mb-3 " >
                <div class="mb-3">
                 
-                    <div id="search-container input-group">
+                    <div id="search-container">
                         <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()" class="form-control search-field">
                         <ul id="contact-list"></ul>
                     </div>
