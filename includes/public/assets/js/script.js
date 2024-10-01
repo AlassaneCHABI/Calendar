@@ -267,8 +267,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add scroll event listener to #event-list
     eventListElement.addEventListener('scroll', checkFixedPosition);
 });
+
  
 function selectBubble(element) {
+    console.log("Couleur cliqeué déjà");
     // Supprimer la sélection précédente
     const bubbles = document.querySelectorAll('.color-bubble');
     bubbles.forEach(bubble => bubble.classList.remove('selected'));
@@ -278,12 +280,7 @@ function selectBubble(element) {
 
     // Afficher la couleur sélectionnée
     const selectedColor = element.getAttribute('data-color');
+    console.log(selectedColor);
+    document.getElementById('selectedColor').value = selectedColor;
     const df = document.querySelectorAll('.selectedColor');
-
-    // Parcourir tous les éléments avec la classe '.selectedColor'
-    df.forEach(input => {
-      if (input.tagName === 'INPUT') {  // S'assurer qu'il s'agit bien d'un élément <input>
-        input.value = `${selectedColor}`;  // Modifier la valeur de l'input
-      }
-    });
-  }
+}
