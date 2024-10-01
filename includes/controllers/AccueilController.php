@@ -321,7 +321,7 @@ function get_event_callback() {
     ", $event_id));
 
     // prendre le satus dr l'utilisateur actuel
-    $user_status = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_invitations WHERE id_event = %d AND id_guest = %d", $event_id,2));
+    $user_status = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_invitations WHERE id_event = %d AND id_guest = %d", $event_id,$user_id));
 
 
     /*if ($user_status) {
