@@ -307,6 +307,7 @@ public function save_event() {
 function get_event_callback() {
     global $wpdb;
     $event_id = intval($_GET['event_id']);
+    $user_id = get_current_user_id();
 
     // Récupérer les détails de l'événement
     $event = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_events WHERE id = %d", $event_id));
@@ -320,7 +321,16 @@ function get_event_callback() {
     ", $event_id));
 
     // prendre le satus dr l'utilisateur actuel
-    $user_status = $wpdb->get_row($wpdb->prepare("SELECT status FROM wp_invitations WHERE id_event = %d AND id_guest =%d", $event_id, get_current_user_id()));
+    $user_status = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_invitations WHERE id_event = %d AND id_guest = %d", $event_id,2));
+
+
+    /*if ($user_status) {
+        $user_status = $user_status->status;
+    } else {
+        $user_status = '0'; // Ou toute autre valeur par défaut
+    }*/
+
+    /*$user_status = $wpdb->get_row($wpdb->prepare("SELECT status FROM wp_invitations WHERE id_event = %d AND id_guest =%d", $event_id, get_current_user_id()));*/
 
     // Formater les contacts pour ne garder que les noms
     $contacts = array_map(function($invitation) {
@@ -336,7 +346,7 @@ function get_event_callback() {
     wp_send_json_success(array(
         'event' => $event,
         'contacts' => $contacts,
-        'user_status' => $user_status
+        'user_status' => $user_status->status
     ));
 }
 

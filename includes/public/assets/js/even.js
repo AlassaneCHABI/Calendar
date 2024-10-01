@@ -85,8 +85,6 @@ function openModal_add_even(dateStr) {
                  <input type="hidden" id="selected-address-hidden"  name="location">
                  </div>
               <div class="separateur"></div>
-
-                <input type="hidden" id="selectedColor" name="color" value="">
  
                 <div class="form-group">
                 <textarea id="description" name="description" placeholder="Ajouter une description" class="form-control"></textarea>
@@ -119,7 +117,8 @@ function openModal_add_even(dateStr) {
                         <div style="background:#bcb3e191 " class="color-bubble " onclick="selectBubble(this)" data-color="#bcb3e191"></div>
                     </div>
 
-                <input type="hidden" id="selectedColor" name="color" value="">
+
+                <input type="hidden" id="selectedColor" name="color" >
                 <div class="separateur"></div>
                 <input type="file" id="file" name="file"  placeholder="Ajouter un fichier" class="form-control">
                </div>
@@ -184,6 +183,7 @@ function openModal_add_even(dateStr) {
         }
     });
 
+
 // Récupérer l'heure actuelle pour les champs d'heure
     const now = new Date();
     const currentHours = String(now.getHours()).padStart(2, '0');
@@ -196,6 +196,7 @@ function openModal_add_even(dateStr) {
 
     document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
         document.getElementById('addEventModal').remove();
+        window.location.reload(); // Recharger la page lors de la fermeture du modal
     });
 
     // Capture form submission and send it via AJAX
@@ -219,9 +220,13 @@ function openModal_add_even(dateStr) {
                 
                 var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
                 myModal.hide();
-            } else {
-                alert('Erreur : ' + data.data);
-            }
+                // Actualiser la page après un délai pour permettre la fermeture de la modal
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+                } else {
+                    alert('Erreur : ' + data.data);
+                }
         })
         .catch(error => console.error('Erreur lors de l\'ajout de l\'événement :', error));
     });
@@ -433,9 +438,12 @@ function openModal_show_even_by_me(eventId) {
         }
     });
 
+
+
                 // Nettoyer le modal du DOM après sa fermeture
                 document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
                     document.getElementById('addEventModal').remove();
+                     window.location.reload(); // Recharger la page lors de la fermeture du modal
                 });
 
         // Capture form submission and send it via AJAX
@@ -456,9 +464,13 @@ function openModal_show_even_by_me(eventId) {
                         alert('Événement mis à jour avec succès');
                         var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
                         myModal.hide();
+
+
                         // Rafraîchir les événements
                         events = JSON.parse(data.events);
                         renderCalendar();
+
+
                     } else {
                         alert('Erreur : ' + data.data);
                     }
@@ -471,6 +483,8 @@ function openModal_show_even_by_me(eventId) {
         })
         .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
 }
+
+
 
 // Function to show the modal with event details
 function openModal_show_even(eventId) {
@@ -505,7 +519,7 @@ function openModal_show_even(eventId) {
                             <div class="form-group">
                                 <label for="status">Statut</label>
                                 <select class="form-control" name="status" id="status">
-                                    <option ${user_status == '0' ? 'selected' :''} value="0">Pending ${user_status}</option>
+                                    <option ${user_status == '0' ? 'selected' :''} value="0">Pending</option>
                                     <option  ${user_status == '1' ? 'selected' :''} value="1">Accepted</option>
                                     <option  ${user_status == '2' ? 'selected' :''} value="2">Declined</option>
                                 </select>
@@ -665,6 +679,7 @@ function openModal_show_even(eventId) {
                 // Nettoyer le modal du DOM après sa fermeture
                 document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
                     document.getElementById('addEventModal').remove();
+                     window.location.reload(); // Recharger la page lors de la fermeture du modal
                 });
 
         // Capture form submission and send it via AJAX
@@ -1186,15 +1201,15 @@ function renderContact1(user) {
     const userIcon = document.createElement('i');
     userIcon.className = 'bi bi-person-circle'; // Classe pour l'icône
     userIconCol.appendChild(userIcon);
-    userIconCol.style.flex = '1'; // Prendre un espace égal
+    //userIconCol.style.flex = '1'; // Prendre un espace égal
 
     // Colonne pour le nom, prénom
     const nameCol = document.createElement('div');
     // Afficher le prénom et le statut
     const statusInfo = getStatusText(parseInt(user.status, 10)); // Obtenir le texte et la classe du statut
    nameCol.innerHTML = `${user.nom} ${user.prenom}`;
-    nameCol.style.flex = '10'; // Prendre plus d'espace
-    nameCol.style.textAlign = 'center'; // Centrer le texte
+    nameCol.style.flex = '5'; // Prendre plus d'espace
+    //nameCol.style.textAlign = 'center'; // Centrer le texte
 
     // Ajouter les colonnes au contact
     contactDiv.appendChild(userIconCol);
@@ -1223,4 +1238,21 @@ function getStatusText(status) {
         default:
             return { text: 'Unknown', class: '' }; // Aucune classe pour "Unknown"
     }
+}
+
+
+function selectBubble(element) {
+    console.log("Couleur cliqeué déjà");
+    // Supprimer la sélection précédente
+    const bubbles = document.querySelectorAll('.color-bubble');
+    bubbles.forEach(bubble => bubble.classList.remove('selected'));
+
+    // Ajouter la classe "selected" à la bulle sélectionnée
+    element.classList.add('selected');
+
+    // Afficher la couleur sélectionnée
+    const selectedColor = element.getAttribute('data-color');
+    console.log(selectedColor);
+    document.getElementById('selectedColor').value = selectedColor;
+    const df = document.querySelectorAll('.selectedColor');
 }
