@@ -10,12 +10,30 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Mettre à jour le lien dans le modal
             if(shareLink) {
-                document.getElementById('event-share-link').href = shareLink;
+                document.getElementById('copyLink').href = shareLink;
             }
             
             // Ouvrir le modal
             var modal = document.getElementById("myModal");
             modal.style.display = "block";
+
+            const copyLinkButton = document.getElementById('copyLink');
+    const copiedMessage = document.getElementById('copiedMessage');
+
+    // Function to copy the link
+    copyLinkButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      // Use the Clipboard API to copy the link
+      copyToClipboard(shareLink) 
+        // Show "Link copied!" message
+        copiedMessage.style.display = 'block';
+        
+        // Hide the message after 2 seconds
+        setTimeout(() => {
+          copiedMessage.style.display = 'none';
+        }, 2000);
+    });
         });
     });
 
@@ -37,3 +55,27 @@ window.onclick = function(event) {
     }
 }
 });
+
+function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      // Use the Clipboard API if available
+      navigator.clipboard.writeText(text).then(() => {
+        showCopiedMessage();
+      }).catch((err) => {
+        console.error('Error copying to clipboard: ', err);
+      });
+    } else {
+      // Fallback method for unsupported browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.error('Fallback: Could not copy text', err);
+      }
+
+      document.body.removeChild(textArea);
+    }
+  }

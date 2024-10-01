@@ -32,7 +32,7 @@ const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
                 let dateStr = `${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
                 let isToday = i === date && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";
                 
-                let dateExists = events.some(event => event.date === dateStr);
+                let dateExists = eventss.some(event => event.date === dateStr);
                 $dashed = dateExists ? "dashed" : "";
         
                 const today = new Date();
@@ -125,7 +125,7 @@ function populateEventList() {
     for (let day = 1; day <= daysInMonth; day++) {
         let dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-        let eventsForDateItems = events.find(ev => ev.date === dateStr) ;
+        let eventsForDateItems = eventss.find(ev => ev.date === dateStr) ;
         let eventsForDate = eventsForDateItems?.events || [];
 
         html += `  

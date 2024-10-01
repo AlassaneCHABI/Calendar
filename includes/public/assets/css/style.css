@@ -371,6 +371,46 @@ header .icons span:hover{
   text-align: center;
 }
 
+.modalls button {
+  width: 100%;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modalls button:hover {
+  background-color: #ddd;
+}
+
+.modalls .copy-link {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px dashed #ccc;
+  color: black;
+  text-decoration: none;
+}
+
+.iconss {
+  display: flex;
+  justify-content: space-around;
+}
+
+.iconss a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.iconss img {
+  width: 30px;
+  height: 30px;
+}
+
 /* Close button */
 .close {
   color: #aaa;
@@ -414,4 +454,11 @@ header .icons span:hover{
 
 .selected {
   border: 3px solid black;
+}
+
+.copied-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+  display: none;
 }

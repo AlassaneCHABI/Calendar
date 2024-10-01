@@ -202,7 +202,7 @@ function openModal_add_even(dateStr) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                events = JSON.parse(data.events) 
+                eventss = JSON.parse(data.events) 
                 renderCalendar();
                 alert('Événement ajouté avec succès');
                 
@@ -437,7 +437,7 @@ function openModal_show_even_by_me(eventId,dateStr,e) {
                         var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
                         myModal.hide();
                         // Rafraîchir les événements
-                        events = JSON.parse(data.events);
+                        eventss = JSON.parse(data.events);
                         renderCalendar();
                     } else {
                         alert('Erreur : ' + data.data);
@@ -653,7 +653,7 @@ function openModal_show_even(eventId,dateStr,e) {
                         var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
                         myModal.hide();
                         // Rafraîchir les événements
-                        events = JSON.parse(data.events);
+                        eventss = JSON.parse(data.events);
                         renderCalendar();
                     } else {
                         alert('Erreur : ' + data.data);
