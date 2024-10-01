@@ -50,10 +50,10 @@ function openModal_add_even(dateStr) {
             
              <div class="separateur"></div>
                <div class="custom-container mb-3 " >
-               <div class="form-group ">
+               <div class="mb-3">
                 
-                    <div id="search-container">
-                        <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()">
+                    <div id="search-container input-group">
+                        <input type="text" id="contact-search" placeholder="Rechercher un contact..." oninput="filterContacts()" class="form-control search-field">
                         <ul id="contact-list"></ul>
                     </div>
                 </div>
@@ -1241,18 +1241,3 @@ function getStatusText(status) {
 }
 
 
-function selectBubble(element) {
-    console.log("Couleur cliqeué déjà");
-    // Supprimer la sélection précédente
-    const bubbles = document.querySelectorAll('.color-bubble');
-    bubbles.forEach(bubble => bubble.classList.remove('selected'));
-
-    // Ajouter la classe "selected" à la bulle sélectionnée
-    element.classList.add('selected');
-
-    // Afficher la couleur sélectionnée
-    const selectedColor = element.getAttribute('data-color');
-    console.log(selectedColor);
-    document.getElementById('selectedColor').value = selectedColor;
-    const df = document.querySelectorAll('.selectedColor');
-}
