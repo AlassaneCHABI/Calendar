@@ -10,85 +10,90 @@ let date = new Date(),
 const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                 "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
         // fonction de rendu du calendrier
-                const renderCalendar = () => {
-                    let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(),
-                        lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(),
-                        lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(),
-                        lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
-                    let liTag = "";
+        const renderCalendar = () => {
+            let firstDayofMonth = new Date(currYear, currMonth, 1).getDay();
+            // Si le premier jour du mois est dimanche (0), le faire correspondre à 7 (dimanche à la fin de la semaine)
+            firstDayofMonth = (firstDayofMonth === 0) ? 6 : firstDayofMonth - 1;
+            
+            let lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(),
+                lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(),
+                lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
+            
+            let liTag = "";
+        
+            // Afficher les derniers jours du mois précédent comme inactifs
+            for (let i = firstDayofMonth; i > 0; i--) {
+                let dateStr = `${currYear}-${String(currMonth).padStart(2, '0')}-${lastDateofLastMonth - i + 1}`;
+                liTag += `<li class="inactive" data-prev-month-date="${dateStr}">${lastDateofLastMonth - i + 1}</li>`;
+            }
+        
+            // Afficher les jours du mois courant
+            for (let i = 1; i <= lastDateofMonth; i++) {
+                let dateStr = `${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                let isToday = i === date && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";
                 
-                    // Display the previous month's last days as inactive
-                    for (let i = firstDayofMonth; i > 0; i--) {
-                        let dateStr = `${currYear}-${String(currMonth).padStart(2, '0')}-${lastDateofLastMonth - i + 1}`;
-                        liTag += `<li class="inactive" data-prev-month-date="${dateStr}">${lastDateofLastMonth - i + 1}</li>`;
+                let dateExists = events.some(event => event.date === dateStr);
+                $dashed = dateExists ? "dashed" : "";
+        
+                const today = new Date();
+                const formattedDate = today.toISOString().split('T')[0];
+        
+                liTag += `<li class="${isToday} ${$dashed} ${formattedDate === dateStr ? ' active-actu' : ''}" data-date="${dateStr}">${i} <span></span></li>`;
+            }
+        
+            // Afficher les premiers jours du mois suivant comme inactifs
+            for (let i = lastDayofMonth; i < 6; i++) {
+                let dateStr = `${currYear}-${String(currMonth + 2).padStart(2, '0')}-${String(i - lastDayofMonth + 1).padStart(2, '0')}`;
+                liTag += `<li class="inactive" data-next-month-date="${dateStr}">${i - lastDayofMonth + 1}</li>`;
+            }
+        
+            currentDate.innerText = `${months[currMonth]} ${currYear}`;
+            daysTag.innerHTML = liTag;
+        
+            // Ajout des écouteurs d'événements pour chaque jour
+            const dayElements = document.querySelectorAll('.days li[data-date], .days li[data-prev-month-date], .days li[data-next-month-date]');
+            dayElements.forEach(dayElement => {
+                dayElement.addEventListener('click', () => {
+                    let selectedDate = dayElement.getAttribute('data-date');
+        
+                    if (dayElement.hasAttribute('data-prev-month-date')) {
+                        currMonth--;
+                        if (currMonth < 0) {
+                            currMonth = 11;
+                            currYear--;
+                        }
+        
+                        selectedDate = dayElement.getAttribute('data-prev-month-date');
+                        renderCalendar();
+                        scrollToMonthAndHighlight(selectedDate);
+                        highlightEvent(selectedDate);
+                    } else if (dayElement.hasAttribute('data-next-month-date')) {
+                        currMonth++;
+                        if (currMonth > 11) {
+                            currMonth = 0;
+                            currYear++;
+                        }
+        
+                        selectedDate = dayElement.getAttribute('data-next-month-date');
+                        renderCalendar();
+                        scrollToMonthAndHighlight(selectedDate);
+                        highlightEvent(selectedDate);
+                    } else {
+                        highlightCalendarCell(selectedDate);
+                        highlightEvent(selectedDate);
                     }
-                
-                    // Display current month's days
-                    for (let i = 1; i <= lastDateofMonth; i++) {
-                        let dateStr = `${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-                        let isToday = i === date && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";                       
-                        
-                        let dateExists = events.some(event => event.date === dateStr);
-
-                        $dashed = dateExists ? "dashed" : "" ; 
-
-                        liTag += `<li class="${isToday} ${$dashed}" data-date="${dateStr}">${i} <span></span></li>`;
-                    }
-                
-                    // Display next month's first days as inactive
-                    for (let i = lastDayofMonth; i < 6; i++) {
-                       // let dateStr = `${currYear}-${String(currMonth + 2).padStart(2, '0')}-${i - lastDayofMonth + 1}`;
-                        let dateStr = `${currYear}-${String(currMonth + 2).padStart(2, '0')}-${String(i - lastDayofMonth + 1).padStart(2, '0')}`;
-
-                        liTag += `<li class="inactive" data-next-month-date="${dateStr}">${i - lastDayofMonth + 1}</li>`;
-                    }
-                
-                    currentDate.innerText = `${months[currMonth]} ${currYear}`;
-                    daysTag.innerHTML = liTag;
-                
-                    // Add click event listeners for each day
-                    const dayElements = document.querySelectorAll('.days li[data-date], .days li[data-prev-month-date], .days li[data-next-month-date]');
-                    dayElements.forEach(dayElement => {
-                        dayElement.addEventListener('click', () => {
-                            let selectedDate = dayElement.getAttribute('data-date');
-                            
-                            if (dayElement.hasAttribute('data-prev-month-date')) {
-                                currMonth--;
-                                if (currMonth < 0) {
-                                    currMonth = 11;
-                                    currYear--;
-                                }
-
-                                selectedDate = dayElement.getAttribute('data-prev-month-date');
-                                renderCalendar();
-                                scrollToMonthAndHighlight(selectedDate);
-                                highlightEvent(selectedDate);
-                            } else if (dayElement.hasAttribute('data-next-month-date')) {
-                                currMonth++;
-                                if (currMonth > 11) {
-                                    currMonth = 0;
-                                    currYear++;
-                                }
-
-                                selectedDate = dayElement.getAttribute('data-next-month-date');
-                                renderCalendar();
-                                scrollToMonthAndHighlight(selectedDate);
-                                highlightEvent(selectedDate);
-                            } else {
-                                highlightCalendarCell(selectedDate);
-                                highlightEvent(selectedDate);
-                            }
-                        });
-                    });
-                    
-                populateEventList();
-                // mettre en avant la date d'aujourd'hui
-                const  dateT = new Date() 
-                highlightCalendarCell(dateT.getFullYear()+"-"+(dateT.getMonth()+1).toString().padStart(2, '0')+"-"+dateT.getDate().toString().padStart(2, '0'))
-                highlightEvent(dateT.getFullYear()+"-"+(dateT.getMonth()+1).toString().padStart(2, '0')+"-"+dateT.getDate().toString().padStart(2, '0'))
-                    // Update event list for the current month
-                };
-
+                });
+            });
+        
+            populateEventList();
+            // Mettre en avant la date d'aujourd'hui
+            const dateT = new Date();
+            highlightCalendarCell(dateT.getFullYear() + "-" + (dateT.getMonth() + 1).toString().padStart(2, '0') + "-" + dateT.getDate().toString().padStart(2, '0'));
+            highlightEvent(dateT.getFullYear() + "-" + (dateT.getMonth() + 1).toString().padStart(2, '0') + "-" + dateT.getDate().toString().padStart(2, '0'));
+            
+            // Mettre à jour la liste des événements pour le mois courant
+        };
+        
 renderCalendar();
 
 prevNextIcon.forEach(icon => {
@@ -129,7 +134,7 @@ function populateEventList() {
        
             <div class="row">
                     <div class="col-2 event-icons">
-                        <button class="btn btn-light me-2" style="margin: 20% 5px 0 0;" onclick="openModal_add_even('${dateStr}')">
+                        <button class="btn btn-light me-2" style="margin: 20% 5px 0 0; font-size:larger" onclick="openModal_add_even('${dateStr}')">
                         <i class="bi bi-plus-circle"></i>
                         </button>
                     </div>
@@ -141,10 +146,10 @@ function populateEventList() {
                 ++i;
                 html += `  
                   
-                        <div  class="col-10 ${i > 1 ? 'offset-2':''}" onclick="${event.byMe ? `openModal_show_even_by_me(${event.id})` : `openModal_show_even(${event.id})`}">
+                        <div  class="col-10 ${i > 1 ? 'offset-2':''}" onclick="${event.byMe ? `openModal_show_even_by_me(${event.id},'${dateStr}',this)` : `openModal_show_even(${event.id},'${dateStr}',this)`}">
                           <div style="background-color:${event.color}" class="${ event.byMe == true ? 'event-card' : 'event-card-invited'}   bg-pink p-2 d-flex justify-content-between align-items-center mb-4">
                             <div class="event-info">
-                              <p class="mb-1 time-range">${event.startTime} - ${event.endTime}  </p>
+                              <p class="mb-1 time-range">${event.startTime.split(':').slice(0, 2).join(':')} - ${event.endTime.split(':').slice(0, 2).join(':')}  </p>
                               <p class="mb-0 event-title">${event.title}</p>
                             </div>
                             <div class="event-icons d-flex align-items-center">
@@ -164,7 +169,7 @@ function populateEventList() {
             html += `  
                  
                     <div class="col-10">
-                      <div class="event-card bg-pink p-2 d-flex justify-content-between align-items-center mb-4">
+                      <div class="event-card  p-2 d-flex justify-content-between align-items-center mb-4">
                         <div class="event-info">
                           <p class="mb-0 event-title">Aucun événement</p>
                         </div>

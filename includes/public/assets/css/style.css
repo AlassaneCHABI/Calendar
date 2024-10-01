@@ -26,7 +26,7 @@ body{
 .wrapper-side {
   padding: 5px;
   padding-left: unset;
-  padding-right: 35px;
+  padding-right: 5px;
 }
  
 .wrapper header{
@@ -42,7 +42,6 @@ body{
 
   background: white;
   border-radius: 10px;
-  margin-top: 12px;
 }
 
 #next {
@@ -79,6 +78,7 @@ header .icons span:hover{
 
 .calendar{
   padding: 10px;
+  height: 348px;
   border : 1px solid #d7d6cad1
 }
 
@@ -122,6 +122,15 @@ header .icons span:hover{
 
 .days li.active{
   color: #fff;
+}
+
+.active-actu{
+  color:#000;
+  font-weight: 800;
+}
+
+.active-actu::before{
+  background-color: #dfd8d8c2;
 }
 
 .days li::before{
@@ -211,7 +220,7 @@ header .icons span:hover{
 }
 
 .plug-cal {
-  width: 100vw;
+  width: 80vw;
   max-width: 65%;
   border: 1px solid #f7f9ef;
 }
@@ -238,7 +247,7 @@ header .icons span:hover{
 
 #event-list {
   overflow: auto; /* Permet de défiler le contenu */
-  scrollbar-width: none; /* Cache la scrollbar pour Firefox */
+  scrollbar-width: thin; /* Cache la scrollbar pour Firefox */
   -ms-overflow-style: none; /* Cache la scrollbar pour Internet Explorer */
 }
 
@@ -279,12 +288,13 @@ header .icons span:hover{
 
 /* Font Sizes */
 .time-range {
-  font-size: 7px;
+  font-size: 9px;
   font-weight: bold;
 }
 
 .event-title {
   font-size: 10px;
+  font-weight: 800;
 }
 
 /* Padding and Margins */

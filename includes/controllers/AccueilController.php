@@ -39,15 +39,18 @@ class AccueilController {
         let events = <?php echo $events; ?> // Passe les données à JavaScript
         </script>
         
-        <div class="row plug-cal" >
-            <div class="col-md-7 wrapper-side">
-                <header>
-                    <div class="row" style="direction: ltr">
-                        <i class="bi bi-plus-square" onclick="openModal_add_even(new Date())"></i>
-                    </div> 
-               
+     
+     
+    
                    
-                </header>
+        
+        <div class="row plug-cal" >   
+            <div class="" style="direction: rtl;margin-right: unset;padding-right: unset;">
+            <i class="bi bi-plus-square" onclick="openModal_add_even(new Date())"></i>
+          </div> 
+       
+            <div class="col-md-6 wrapper-side">
+                
                 <div class="wrapper">    
                     <div class="icons">
                         <span id="prev" class="material-symbols-rounded">chevron_left</span>
@@ -56,19 +59,21 @@ class AccueilController {
                     </div>  
                     <div class="calendar">
                         <ul class="weeks">
-                            <li>S</li>
+                            
                             <li>L</li>
                             <li>M</li>
                             <li>M</li>
                             <li>J</li>
                             <li>V</li>
                             <li>S</li>
+                            <li>D</li>
+                            
                         </ul>
                         <ul class="days"></ul>
                     </div>
                 </div> 
             </div>
-            <div class="col-md-5" id="event-list"></div>
+            <div class="col-md-6" id="event-list"></div>
    
 
             <div id="myModal" class="modal container text-center p-3 border rounded mt-4">

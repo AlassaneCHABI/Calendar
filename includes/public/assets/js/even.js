@@ -217,9 +217,9 @@ function openModal_add_even(dateStr) {
 }
 
 // Function to show the modal with event details
-function openModal_show_even_by_me(eventId) {
-    console.log("Bouton cliqué avec l'ID de l'événement : " + eventId);
-    
+function openModal_show_even_by_me(eventId,dateStr,e) {
+    makecolor(dateStr,e)
+     
     // Requête AJAX pour récupérer les données de l'événement
     fetch(`${php_vars.ajax_url}?action=get_event_callback&event_id=${eventId}`)
         .then(response => response.json())
@@ -453,9 +453,8 @@ function openModal_show_even_by_me(eventId) {
 }
 
 // Function to show the modal with event details
-function openModal_show_even(eventId) {
-    console.log("Bouton cliqué avec l'ID de l'événement : " + eventId);
-
+function openModal_show_even(eventId,dateStr,e) {
+    makecolor(dateStr,e)
     // Requête AJAX pour récupérer les données de l'événement
     fetch(`${php_vars.ajax_url}?action=get_event_callback&event_id=${eventId}`)
         .then(response => response.json())
@@ -667,6 +666,25 @@ function openModal_show_even(eventId) {
             }
         })
         .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
+}
+
+// make color background
+function makecolor(dateStr, e) {
+    const eventItem = e;
+
+    if (eventItem) {
+        // Find the background color of the child element .event-card
+        const eventCard = eventItem.querySelector('.event-card');
+        if (eventCard) {
+            const backgroundColor = window.getComputedStyle(eventCard).backgroundColor;
+            
+            // Apply this background to the .event-date element
+            const eventDateElement = eventItem.parentElement.parentElement.querySelector('.event-date');
+            if (eventDateElement) {
+                eventDateElement.style.backgroundColor = backgroundColor;
+            }
+        }
+    }
 }
 
 let map;
