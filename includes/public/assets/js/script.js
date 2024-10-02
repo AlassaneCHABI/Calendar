@@ -147,7 +147,7 @@ function populateEventList() {
                 html += `  
                   
                         <div  class="col-10 ${i > 1 ? 'offset-2':''}" onclick="${event.byMe ? `openModal_show_even_by_me(${event.id},'${dateStr}',this)` : `openModal_show_even(${event.id},'${dateStr}',this)`}">
-                          <div style="background-color:${event.color}" class="${ event.byMe == true ? 'event-card' : 'event-card-invited'}   bg-pink p-2 d-flex justify-content-between align-items-center mb-4">
+                          <div style="background-color:${event.color}" class="${ event.byMe == false && ( event.status ==0 || event.status==null) ?  'event-card-invited' :  'event-card'}   bg-pink p-2 d-flex justify-content-between align-items-center mb-4">
                             <div class="event-info">
                               <p class="mb-1 time-range">${event.startTime.split(':').slice(0, 2).join(':')} - ${event.endTime.split(':').slice(0, 2).join(':')}  </p>
                               <p class="mb-0 event-title">${event.title}</p>
@@ -273,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
     eventListElement.addEventListener('scroll', checkFixedPosition);
 });
 
- 
 function selectBubble(element) {
     console.log("Couleur cliqeué déjà");
     // Supprimer la sélection précédente

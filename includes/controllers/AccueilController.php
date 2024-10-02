@@ -472,7 +472,6 @@ function get_events_with_invitations($user_id) {
     $table_name_inv = $wpdb->prefix . 'invitations';
     $table_name_ev = $wpdb->prefix . 'events';
 
-
    
     // Requête SQL pour récupérer les événements et les invitations
     $results = $wpdb->get_results("
