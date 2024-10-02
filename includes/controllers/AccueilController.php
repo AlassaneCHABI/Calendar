@@ -324,14 +324,6 @@ function get_event_callback() {
     $user_status = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_invitations WHERE id_event = %d AND id_guest = %d", $event_id,$user_id));
 
 
-    /*if ($user_status) {
-        $user_status = $user_status->status;
-    } else {
-        $user_status = '0'; // Ou toute autre valeur par défaut
-    }*/
-
-    /*$user_status = $wpdb->get_row($wpdb->prepare("SELECT status FROM wp_invitations WHERE id_event = %d AND id_guest =%d", $event_id, get_current_user_id()));*/
-
     // Formater les contacts pour ne garder que les noms
     $contacts = array_map(function($invitation) {
         return array(
