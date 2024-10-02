@@ -36,18 +36,21 @@ class AccueilController {
        $events = $this->get_events();
         ?>
         <script>
-        let events = <?php echo $events; ?> // Passe les données à JavaScript
+        let eventss = <?php echo $events; ?> // Passe les données à JavaScript
         </script>
         
-        <div class="row plug-cal" >
-            <div class="col-md-7 wrapper-side">
-                <header>
-                    <div class="row" style="direction: ltr">
-                        <i class="bi bi-plus-square" onclick="openModal_add_even(new Date())"></i>
-                    </div> 
-               
+     
+     
+    
                    
-                </header>
+        
+        <div class="row plug-cal" >   
+            <div class="" style="direction: rtl;margin-right: unset;padding-right: unset;">
+            <i class="bi bi-plus-square" onclick="openModal_add_even(new Date())"></i>
+          </div> 
+       
+            <div class="col-md-6 wrapper-side">
+                
                 <div class="wrapper">    
                     <div class="icons">
                         <span id="prev" class="material-symbols-rounded">chevron_left</span>
@@ -56,49 +59,43 @@ class AccueilController {
                     </div>  
                     <div class="calendar">
                         <ul class="weeks">
-                            <li>S</li>
+                            
                             <li>L</li>
                             <li>M</li>
                             <li>M</li>
                             <li>J</li>
                             <li>V</li>
                             <li>S</li>
+                            <li>D</li>
+                            
                         </ul>
                         <ul class="days"></ul>
                     </div>
                 </div> 
             </div>
-            <div class="col-md-5" id="event-list"></div>
+            <div class="col-md-6" id="event-list"></div>
    
 
-            <div id="myModal" class="modal container text-center p-3 border rounded mt-4">
+            <div id="myModal" class="modal  text-center p-3 border rounded mt-4">
                 <!-- Modal content -->
                 <div class="modal-content">
                     <span class="close">&times;</span>  
-                    <div class="">
-        <!-- Share by Message Button -->
-        <button class="btn btn-outline-primary w-100 mb-3">  <a href="#" id="event-share-link">Share by Message</a></button>
+                    <div class="modals modalls">
+                         
+                        <!-- Send with Icons Section -->
+                        <button>Share by Message</button>
+                        <a href="#" id="copyLink" class="copy-link">Copy link</a>
+                        <span class="copied-message" id="copiedMessage">Link copied!</span>
 
-        <!-- Send with Icons Section -->
-        <p class="fw-bold">Send with</p>
-        <div class="d-flex justify-content-center">
-            <a href="#" class="m-2">
-                <i class="bi bi-envelope icon"></i>
-            </a>
-            <a href="#" class="m-2">
-                <i class="bi bi-gmail icon"></i>
-            </a>
-            
-            <a href="#" class="m-2">
-                <i class="bi bi-whatsapp icon"></i>
-            </a>
-            <a href="#" class="m-2">
-                <i class="bi bi-x icon"></i>
-            </a>
-        </div>
-    </div>
-
-                </div>
+                        <div class="iconss">
+                        <a href="#"><img src="https://img.icons8.com/ios-glyphs/30/email.png" alt="Email"></a>
+                        <a href="#"><img src="https://img.icons8.com/ios-glyphs/30/facebook-messenger.png" alt="Messenger"></a>
+                        <a href="#"><img src="https://img.icons8.com/ios-glyphs/30/instagram-new.png" alt="Instagram"></a>
+                        <a href="#"><img src="https://img.icons8.com/ios-glyphs/30/linkedin.png" alt="LinkedIn"></a>
+                        <a href="#"><img src="https://img.icons8.com/ios-glyphs/30/whatsapp.png" alt="WhatsApp"></a>
+                        <a href="#"><img src="https://img.icons8.com/ios-glyphs/30/twitter.png" alt="Twitter"></a>
+                    </div>
+                </div> 
             </div>
 
             
