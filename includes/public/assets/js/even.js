@@ -196,7 +196,7 @@ function openModal_add_even(dateStr) {
 
     document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
         document.getElementById('addEventModal').remove();
-       /* window.location.reload();*/ // Recharger la page lors de la fermeture du modal
+      
     });
 
     // Capture form submission and send it via AJAX
@@ -220,10 +220,9 @@ function openModal_add_even(dateStr) {
                 
                 var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
                 myModal.hide();
-                // Actualiser la page après un délai pour permettre la fermeture de la modal
-                /*setTimeout(() => {
-                    window.location.reload();
-                }, 500);*/
+               
+
+
                 } else {
                     alert('Erreur : ' + data.data);
                 }

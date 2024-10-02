@@ -27,6 +27,7 @@ class EventModel {
         description text,
         remember varchar(255), 
         link varchar(255),
+        link_share varchar(255),
         color varchar(255),
         file_url varchar(255),
         created_by bigint(20) NOT NULL,

@@ -230,6 +230,14 @@ public function save_event() {
         $color = sanitize_text_field($_POST['color']);
         $user_id = get_current_user_id();
         
+       
+       // Generate link if not provided
+    
+            // Generate a slug from the title
+        $link_share = "https://calendar.cbeny.com/".sanitize_title($title);
+        $link_share .= '-' . time();
+        
+
         // Handle file upload if a file is present
         $file_url = '';
         if (!empty($_FILES['file']['name'])) {
@@ -261,6 +269,7 @@ public function save_event() {
                 'description' => $description,
                 'remember'    => $remember,
                 'link'        => $link,
+                'link_share'  => $link_share,
                 'color'       => $color,
                 'file_url'    => $file_url, // Store file URL in the database
                 'created_by'  => $user_id,
