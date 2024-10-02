@@ -153,6 +153,10 @@ header .icons span:hover{
   border: 2px dashed #9194a7;
 }
 
+.days li.dashed-red::before{
+  border: 2px dashed red;
+}
+
 .days li.dashed > span{
   padding: 2px;
   background: rgb(6, 16, 114);

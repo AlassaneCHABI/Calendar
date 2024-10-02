@@ -32,8 +32,11 @@ const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
                 let dateStr = `${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
                 let isToday = i === date && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";
                 
-                let dateExists = eventss.some(event => event.date === dateStr);
-                $dashed = dateExists ? "dashed" : "";
+                let event = eventss.find(event => event.date === dateStr);
+
+                $dashed = event ? "dashed" : "";
+                
+               if(event)  $dashed = !event.byMe ? $dashed : "dashed-red";
         
                 const today = new Date();
                 const formattedDate = today.toISOString().split('T')[0];
