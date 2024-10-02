@@ -34,9 +34,17 @@ const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
                 
                 let event = eventss.find(event => event.date === dateStr);
 
-                $dashed = event ? "dashed" : "";
-                
-               if(event)  $dashed = !event.byMe ? $dashed : "dashed-red";
+                if(event) {
+                    let notbymeExists = event.events.some(event => event.byMe === false);
+
+                    $dashed = event  ? "dashed" : "";
+
+                    let isTreated = event.events.some(event => event.status !== "0");
+    
+                    $dashed = ( notbymeExists && !isTreated ) ? "dashed-red" : $dashed  ;
+
+                    if(notbymeExists) $dashed += " dashedBorder "  
+                }
         
                 const today = new Date();
                 const formattedDate = today.toISOString().split('T')[0];

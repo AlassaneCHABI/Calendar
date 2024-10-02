@@ -149,7 +149,7 @@ header .icons span:hover{
   background: #5968b6;
 }
 
-.days li.dashed::before{
+.days li.dashedBorder::before{
   border: 2px dashed #9194a7;
 }
 
@@ -157,7 +157,7 @@ header .icons span:hover{
   border: 2px dashed red;
 }
 
-.days li.dashed > span{
+.days li.dashed > span, .days li.dashed-red > span {
   padding: 2px;
   background: rgb(6, 16, 114);
   border-radius: 100%;
