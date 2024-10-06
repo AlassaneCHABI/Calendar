@@ -64,7 +64,7 @@ class AccueilController {
         <div class="row plug-cal" >   
             <div class="" style="text-align: end;margin-right: unset;padding-right: unset;">
             <i onclick="openModal_notification()" class="bi bi-info-circle" style="font-size: x-large;"></i>
-            <span onclick="openModal_notification()" class="" style="
+            <span onclick="openModal_notification()" class="" id="e_notif" style="
             right: 14px;
             position: relative;
             bottom: 10px;
@@ -267,7 +267,7 @@ public function save_event() {
                         // Notification
                         // Créer une nouvelle notification pour un utilisateur
                         global $notification_controller;
-                        $notification_id = $notification_controller->create_notification($event_id, $contact_id, 'Invitation', 'Vous avez été invité à un événement.'.$title);
+                        $notification_id = $notification_controller->create_notification($wpdb->insert_id, $contact_id, 'Invitation', 'Vous avez été invité à un événement.'.$title);
 
 
                         // Get guest email (assuming you have a table with guest info)
@@ -527,6 +527,11 @@ public function update_status() {
         $status = sanitize_text_field($_POST['status']);
         $user_id = get_current_user_id(); // Récupérer l'ID de l'utilisateur connecté
 
+        $id = $wpdb->get_var($wpdb->prepare(
+            "SELECT id FROM $table_name WHERE id_event = %d AND id_guest = %d",
+            $event_id,
+            $user_id
+        ));
         // Mettre à jour l'invitation dans la base de données
         $updated = $wpdb->update(
             $table_name,
@@ -551,8 +556,9 @@ public function update_status() {
                 $event_title = $event->title;
 
                 // notification
+                $creator_name = get_the_author_meta('user_nicename', $user_id);
                 global $notification_controller;
-                $notification_id = $notification_controller->create_notification($event->id, $creator_id, 'Réponse', 'Vous avez reçu une réponse.'.$event->title);
+                $notification_id = $notification_controller->create_notification($id, $creator_id, 'Réponse', $creator_name.' a répondu à votre invitation sur l\'évenement '.$event->title);
                 // Récupérer l'email du créateur
                 $creator_email = get_the_author_meta('user_email', $creator_id);
 

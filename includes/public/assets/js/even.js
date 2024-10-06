@@ -1227,7 +1227,7 @@ function getStatusText(status) {
     .then(data => {
         if (data.success) {
              console.log("yes")           
-            
+            document.getElementById("e_notif").innerHTML = 0
             } else {
                 yes('Erreur ');
             }
@@ -1241,3 +1241,18 @@ function hideModal_notification() {
     myModal.hide(); 
 }
 
+function save_accepted() {
+    // Change the value of the select to "accepted"
+    setTimeout(function() {
+        document.getElementById("status").selectedIndex = 1;
+    }, 300);  // 2000 millisecondes = 2 secondes
+      
+}
+
+function save_failed() {
+    // Change the value of the select to "failed"
+    setTimeout(function() {
+        document.getElementById("status").selectedIndex = 2;
+    }, 300);  // 2000 millisecondes = 2 secondes
+      
+}

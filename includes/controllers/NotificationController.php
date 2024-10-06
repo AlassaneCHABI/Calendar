@@ -75,7 +75,7 @@ class NotificationController {
          <div class="modal fade " style="max-width : 100%" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content" style="height: 450px;">
+            <div class="modal-content" style="height: 450px;overflow:auto">
             <div class="modal-header">
                 <h5 class="modal-title" id="notificationModalLabel">Notification</h5>
                 <span class="btn" onclick="hideModal_notification()" aria-hidden="true">&times;</span>
@@ -89,13 +89,15 @@ class NotificationController {
         } else {
             echo "<ul>";
             foreach ($notifications as $notification) {
+                $date = $notification['date'];
+
                 if($notification['type'] == "Invitation") {
                        // Préparer les données pour l'événement
-                        $event_id = $notification['id_invitation'];
+                        $event_id = $notification['id_event'];
                         $event_title = $notification['event_title'];
                         $start_time = $notification['start_time']; // Exemples statiques, à remplacer par les vraies valeurs si disponibles
                         $end_time = $notification['end_time'];
-                        $status = $notification['status']; // Statut de la notification
+                        $status = ($notification['invitation_status'] == 0) ? 'Pending' : ($notification['invitation_status'] == 1 ? 'Accepted' : "Declined") ;
                         $event_date = date('Y-m-d', strtotime($notification['start_date'])). " ".implode(':', array_slice(explode(':', $start_time), 0, 2))."-".date('Y-m-d', strtotime($notification['end_date']))." ".implode(':', array_slice(explode(':', $end_time), 0, 2)); // Formater la date
 
                         // Déterminer la classe pour la carte d'événement
@@ -103,20 +105,23 @@ class NotificationController {
                         $button_icon_class =  'bi-check';
                         $send_icon_class =  'bi-x';
                         echo "<li>
+                         <div style='   font-size: x-small;
+                         float: inline-start;'><i> $date </i>    </div>
                         <div onclick=\"openModal_show_even($event_id, '{$notification['start_date']}', this)\" style='width:100%' class='{$card_class} p-2 d-flex justify-content-between align-items-center mb-4'>
-                            <div class='event-info'>
-                                <p class='mb-1 time-range'> ".$event_date. "</p>
-                                <p class='mb-0 event-title'>$event_title</p>
+                       
+                        <div class='event-info'>
+                                <p class='mb-1 time-range'> ".$event_date. "</p> 
+                                <p class='mb-0 event-title'>$event_title </p>
                             </div>
                             <div class='event-icons d-flex align-items-center'>";
 
                         if($notification["invitation_status"] !=0) {
-                            echo "<i>Traitée</i>";
+                            echo "<i>$status</i>";
                         } else {
-                             echo   " <button class='btn btn-light me-2'>
+                             echo   " <button class='btn btn-light me-2' style='background: green;color: white;' onclick='save_accepted()'>
                                     <i class='bi $button_icon_class'></i>
                                 </button>
-                                <button data-share='#' class='btn btn-light'>
+                                <button  onclick='save_failed()' style='background: red;color: white;' class='btn btn-light'>
                                     <i class='bi $send_icon_class'></i>
                                 </button>";
                         }
@@ -130,7 +135,10 @@ class NotificationController {
                 } else {
                     $status = ($notification['status'] == 0) ? 'Non lue' : 'Lue';
 
-                    echo "<li><strong>{$notification['type']}:</strong> {$notification['message']} <em>({$status})</em></li>";
+                    echo "<li>
+                     <div style='   font-size: x-small;
+                         float: inline-start;'><i> $date </i>    </div>
+                    <strong>{$notification['type']}:</strong> {$notification['message']} <em>({$status})</em></li>";
 
                 }
                

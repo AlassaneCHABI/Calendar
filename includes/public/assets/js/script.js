@@ -166,13 +166,26 @@ function populateEventList() {
                               <p class="mb-1 time-range">${event.startTime.split(':').slice(0, 2).join(':')} - ${event.endTime.split(':').slice(0, 2).join(':')}  </p>
                               <p class="mb-0 event-title">${event.title}</p>
                             </div>
-                            <div class="event-icons d-flex align-items-center">
-                              <button class="btn btn-light me-2">
-                                <i class="bi ${ event.byMe == true ? 'bi-image' : 'bi-check'} "></i>
-                              </button>
-                              <button  data-share="${event.link}" class="btn btn-light">
-                                <i class="bi ${ event.byMe == true ? 'bi-send' : 'bi-x'} "></i>
-                              </button>
+                            <div class="event-icons d-flex align-items-center">`;
+
+                            if(event.status == 0) {
+                                 html += `     <button class="btn btn-light me-2" ${event.byMe ? "" : ` style="background: green;color: white;"` }>
+                                    <i class="bi ${ event.byMe == true ? 'bi-image' : 'bi-check'} " ${event.byMe ? "" : `onclick="save_accepted()" ` }></i>
+                                </button>
+                                <button  
+                                    ${ event.byMe ? `data-share="${event.link}"` : `style="background: red;color: white;"` } 
+                                    class="btn btn-light" 
+                                    ${ !event.byMe ? 'onclick="save_failed()"' : "" }>
+                                    <i class="bi ${ event.byMe ? 'bi-send' : 'bi-x'}"></i>
+                                </button>`;
+
+                            } else {
+                              html += `<b  style= '${event.status ==2 ? "border: 2px solid yellow;background: black;"  : "background: #59df1f;" }'  class="badge badge-info">${event.status ==1 ? 'Accepted' : 'Declined' }  </b> `;
+                            }
+
+                              
+
+                      html += `  
                             </div>
                           </div>
                         </div>

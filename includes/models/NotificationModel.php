@@ -43,7 +43,7 @@ class NotificationModel {
                 'type' => $data['type'],
                 'id_user' => $data['id_user'],  // Utilisateur qui reçoit la notification
                 'message' => $data['message'],
-                'status' => $data['status'],    // Statut: 0 = non lue, 1 = lue
+                'status' => 0    // Statut: 0 = non lue, 1 = lue
             ),
             array(
                 '%d',  // id_invitation
@@ -63,11 +63,11 @@ class NotificationModel {
 
         // Joindre les notifications avec la table des événements pour récupérer le titre et la date de l'événement
         $results = $wpdb->get_results($wpdb->prepare(
-            "SELECT n.*, e.title AS event_title, e.start_date, e.end_date, e.start_time, e.end_time,i.status as invitation_status
+            "SELECT n.*, e.title AS event_title, e.id as id_event,e.start_date, e.end_date, e.start_time, e.end_time,i.status as invitation_status
              FROM {$this->table_name} n
              JOIN {$wpdb->prefix}invitations i ON n.id_invitation = i.id
              JOIN {$wpdb->prefix}events e ON i.id_event = e.id
-             WHERE n.id_user = %d", $id_user
+             WHERE n.id_user = %d order by n.created_at desc", $id_user
         ));
         
  
@@ -81,7 +81,9 @@ class NotificationModel {
                 'type' => $notification->type,
                 'id_user' => $notification->id_user,
                 'message' => $notification->message,
+                'id_event' => $notification->id_event,
                 'status' => $notification->status,
+                'date' => $notification->created_at,
                 'invitation_status' => $notification->invitation_status,
                 'event_title' => $notification->event_title,  // Titre de l'événement
                 'start_date' => $notification->start_date,    // start_date de l'événement
