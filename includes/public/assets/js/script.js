@@ -52,7 +52,8 @@ const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet"
                 const today = new Date();
                 const formattedDate = today.toISOString().split('T')[0];
         
-                liTag += `<li class="${isToday} ${$dashed} ${formattedDate === dateStr ? ' active-actu' : ''}" data-date="${dateStr}">${i} <span></span></li>`;
+                liTag += `
+<li class="${isToday} ${$dashed} ${formattedDate === dateStr ? ' active-actu' : ''}" data-date="${dateStr}">${i} <span></span></li>`;
             }
         
             // Afficher les premiers jours du mois suivant comme inactifs
@@ -165,22 +166,25 @@ function populateEventList() {
                             <div class="event-info">
                               <p class="mb-1 time-range">${event.startTime.split(':').slice(0, 2).join(':')} - ${event.endTime.split(':').slice(0, 2).join(':')}  </p>
                               <p class="mb-0 event-title">${event.title}</p>
-                            </div>
+                            </div> ${ event.byMe ? ` ` : `<i style="    font-size: small; color: midnightblue;">${event.creator}</i> ` } 
                             <div class="event-icons d-flex align-items-center">`;
 
-                            if(event.status == 0) {
-                                 html += `     <button class="btn btn-light me-2" ${event.byMe ? "" : ` style="background: green;color: white;"` }>
-                                    <i class="bi ${ event.byMe == true ? 'bi-image' : 'bi-check'} " ${event.byMe ? "" : `onclick="save_accepted()" ` }></i>
+                            if(event.byMe || event.status == 0) {
+                                 html += ` 
+								 
+								<button class="btn btn-light me-2" ${event.byMe ? "" : ` style=" --bs-btn-hover-bg: green; --bs-btn-hover-color: white;"` } ${event.byMe ? "" :  `data-accept="true-${event.id}"` }>
+								 
+                                    <i class="bi ${ event.byMe == true ? 'bi-image' : 'bi-check'} " ></i>
                                 </button>
                                 <button  
-                                    ${ event.byMe ? `data-share="${event.link}"` : `style="background: red;color: white;"` } 
+                                    ${ event.byMe ? `data-share="${event.link}"` : `style="--bs-btn-hover-bg: red; --bs-btn-hover-color: white;"` } 
                                     class="btn btn-light" 
-                                    ${ !event.byMe ? 'onclick="save_failed()"' : "" }>
+                                    ${ !event.byMe ? `data-accept="false-${event.id}"` : "" }>
                                     <i class="bi ${ event.byMe ? 'bi-send' : 'bi-x'}"></i>
                                 </button>`;
 
                             } else {
-                              html += `<b  style= '${event.status ==2 ? "border: 2px solid yellow;background: black;"  : "background: #59df1f;" }'  class="badge badge-info">${event.status ==1 ? 'Accepted' : 'Declined' }  </b> `;
+                              html += ` &nbsp;&nbsp; &nbsp; <button class="btn" disabled style="background: ${event.status ==2 ? "red"  : '#59df1f' }; color :white"> <i  class="bi ${event.status ==2 ? "bi-x" : "bi-check"}"></i> </button>    `;
                             }
 
                               

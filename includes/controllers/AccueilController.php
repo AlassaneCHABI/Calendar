@@ -1,8 +1,7 @@
 <?php
 
 class AccueilController {
-
-    public function __construct() {
+     public function __construct() {
             // Register the AJAX action hooks
         add_action('wp_ajax_save_event', [$this, 'save_event']);
         add_action('wp_ajax_nopriv_save_event', [$this, 'save_event']); // For non-logged-in users
@@ -19,12 +18,8 @@ class AccueilController {
 
         // Ajouter l'action AJAX pour mettre à jour le status de l'évernement
         add_action('wp_ajax_update_status', [$this, 'update_status']);
-        add_action('wp_ajax_nopriv_update_status', [$this, 'update_status']);
-
-
- 
-
-    }
+        add_action('wp_ajax_nopriv_update_status', [$this, 'update_status']); 
+     }
 
     /**
      * Fonction de shortcode [show_calendar] permettant d'afficher le calendrier
@@ -54,7 +49,8 @@ class AccueilController {
         ob_start(); 
        $events = $this->get_events();
        global $notification_controller;
-		$notification_controller->display_user_notifications(get_current_user_id());
+		
+		echo( '<span id="notif_content">'. $notification_controller->display_user_notifications(get_current_user_id()).'</span>');
 
 
         ?>
@@ -585,9 +581,11 @@ L\'équipe ' . get_bloginfo('name');
                 }
             }
 
+			global $notification_controller;
             wp_send_json([
                 'success' => 'Statut mis à jour avec succès et email envoyé au créateur',
-                'events' => $this->get_events()
+                'events' => $this->get_events(),
+				'notifications' =>  $notification_controller->display_user_notifications(get_current_user_id())
             ]);
         } else {
             wp_send_json_error('Erreur lors de la mise à jour du statut');
@@ -612,7 +610,7 @@ function get_events_with_invitations($user_id) {
     global $wpdb;
     $table_name_inv = $wpdb->prefix . 'invitations';
     $table_name_ev = $wpdb->prefix . 'events';
-
+   $table_name_users = $wpdb->prefix . 'users';
    
     // Requête SQL pour récupérer les événements et les invitations
     $results = $wpdb->get_results("
@@ -627,6 +625,7 @@ function get_events_with_invitations($user_id) {
             COALESCE(i.id_guest, 0) AS invited_user,
             COUNT(i.id_guest) AS n_invited,
             i.status AS invitation_status,
+			u.user_nicename as creator,
             e.start_date AS event_date,
             (CASE 
                 WHEN e.created_by = $user_id THEN 1
@@ -636,8 +635,10 @@ function get_events_with_invitations($user_id) {
             $table_name_ev e
         LEFT JOIN 
             $table_name_inv i ON e.id = i.id_event
+		LEFT JOIN 
+            $table_name_users u ON u.ID = e.created_by
         WHERE 
-            e.created_by = $user_id OR i.id_guest = $user_id
+           ( e.created_by = $user_id OR i.id_guest = $user_id)
         GROUP BY 
             e.id
     ");
@@ -647,21 +648,24 @@ function get_events_with_invitations($user_id) {
     foreach ($results as $row) {
         $date = $row->event_date;
 
-        if (!isset($events_by_date[$date])) {
+        
+
+       if($row->invitation_status !=2){
+if (!isset($events_by_date[$date])) {
             $events_by_date[$date] = ['date' => $date, 'events' => []];
         }
-
-        $events_by_date[$date]['events'][] = [
+       $events_by_date[$date]['events'][] = [
             'id' => $row->event_id,
             'title' => $row->event_title,
             'startTime' => $row->start_time,
             'endTime' => $row->end_time,
             'link' => $row->link,
+			'creator' => $row->creator,
             'color' => $row->color,
             'byMe' => $row->by_me == 1,
             'status' => $row->invitation_status,
             'n_invited' => $row->n_invited,
-        ];
+        ]; }
     }
 
     return array_values($events_by_date);

@@ -1,4 +1,3 @@
-
 //console.log(php_vars);
 // Function to create and show the modal
 function openModal_add_even(dateStr) {
@@ -469,8 +468,9 @@ function openModal_show_even_by_me(eventId,dateStr,e) {
                         // Rafraîchir les événements
                         eventss = JSON.parse(data.events);
                         renderCalendar();
-
-
+					hideModal_notification();
+					 document.getElementById('notif_content').innerHTML = data.notifications 
+                     reload_event()
                     } else {
                         alert('Erreur : ' + data.data);
                     }
@@ -680,40 +680,49 @@ function openModal_show_even(eventId,dateStr,e) {
                     document.getElementById('addEventModal').remove();
                     /* window.location.reload();*/ // Recharger la page lors de la fermeture du modal
                 });
+                // appell ajax
+                // Capture form submission and send it via AJAX
+     document.getElementById('add-event-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // Empêche l'envoi du formulaire
 
-        // Capture form submission and send it via AJAX
-            document.getElementById('add-event-form').addEventListener('submit', function(e) {
-                e.preventDefault(); // Empêche l'envoi du formulaire
+        let formData = new FormData(this);
+        formData.append('action', 'update_status'); // Spécifiez l'action pour la mise à jour
 
-                let formData = new FormData(this);
-                formData.append('action', 'update_status'); // Spécifiez l'action pour la mise à jour
+        // Envoyer les données via AJAX
+        fetch(php_vars.ajax_url, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Statut mis à jour avec succès');
+                var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+                myModal.hide();
+                // Rafraîchir les événements
+                eventss = JSON.parse(data.events);
+                renderCalendar();
+                try{
+                    hideModal_notification();
+                }catch(e){}
+                
+                document.getElementById('notif_content').innerHTML = data.notifications 
+                reload_event()
+            } else {
+                alert('Erreur : ' + data.data);
+            }
+        })
+        .catch(error => console.error('Erreur lors de la mise à jour de l\'événement :', error));
+    });
 
-                // Envoyer les données via AJAX
-                fetch(php_vars.ajax_url, {
-                    method: 'POST',
-                    body: formData,
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Statut mis à jour avec succès');
-                        var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
-                        myModal.hide();
-                        // Rafraîchir les événements
-                        eventss = JSON.parse(data.events);
-                        renderCalendar();
-                    } else {
-                        alert('Erreur : ' + data.data);
-                    }
-                })
-                .catch(error => console.error('Erreur lors de la mise à jour de l\'événement :', error));
-            });
             } else {
                 alert('Erreur lors de la récupération de l\'événement : ' + data.data);
             }
         })
         .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
 }
+
+ 
 
 // make color background
 function makecolor(dateStr, e) {
@@ -855,33 +864,38 @@ function showMapWithLocation(location) {
     }
 
     // Rechercher l'adresse avec Nominatim
+   try{
     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                const lat = data[0].lat;
-                const lon = data[0].lon;
-                const displayName = data[0].display_name;
+    .then(response => response.json())
+    .then(data => {
+        if (data.length > 0) {
+            const lat = data[0].lat;
+            const lon = data[0].lon;
+            const displayName = data[0].display_name;
 
-                // Centrer la carte sur les coordonnées de l'adresse
-                map.setView([lat, lon], 13);
+            // Centrer la carte sur les coordonnées de l'adresse
+            map.setView([lat, lon], 13);
 
-                // Supprimer l'ancien marqueur s'il existe
-                if (marker) {
-                    map.removeLayer(marker);
-                }
-
-                // Ajouter un nouveau marqueur
-                document.getElementById('selected-address').innerText = displayName;
-                document.getElementById('selected-address-hidden').value = displayName;
-                // Afficher le bouton pour supprimer l'adresse
-                document.getElementById('remove-address-button').style.display = 'inline-block';
-                marker = L.marker([lat, lon]).addTo(map).bindPopup(displayName).openPopup();
-            } else {
-                console.log('Aucune adresse trouvée');
+            // Supprimer l'ancien marqueur s'il existe
+            if (marker) {
+                map.removeLayer(marker);
             }
-        })
-        .catch(error => console.error('Erreur lors de la recherche de l\'adresse :', error));
+
+            // Ajouter un nouveau marqueur
+            document.getElementById('selected-address').innerText = displayName;
+            document.getElementById('selected-address-hidden').value = displayName;
+            // Afficher le bouton pour supprimer l'adresse
+            try{
+                document.getElementById('remove-address-button').style.display = 'inline-block';
+            }catch(e){}
+            
+            marker = L.marker([lat, lon]).addTo(map).bindPopup(displayName).openPopup();
+        } else {
+            console.log('Aucune adresse trouvée');
+        }
+    })
+    .catch(error => console.error('Erreur lors de la recherche de l\'adresse :', error));
+   }catch(e){}
 }
 
 function toggleSearchContainer() {
@@ -1241,18 +1255,104 @@ function hideModal_notification() {
     myModal.hide(); 
 }
 
-function save_accepted() {
-    // Change the value of the select to "accepted"
-    setTimeout(function() {
-        document.getElementById("status").selectedIndex = 1;
-    }, 300);  // 2000 millisecondes = 2 secondes
-      
+ 
+ 
+document.addEventListener('DOMContentLoaded', function() {
+    reload_event();
+});
+
+function reload_event(){
+    // Sélectionne tous les boutons avec l'attribut data-accept
+    const buttons = document.querySelectorAll('button[data-accept]');
+
+    // Ajoute un event listener à chaque bouton
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            event.stopPropagation(); 
+            // Récupère la valeur de l'attribut data-accept
+            const acceptData = this.getAttribute('data-accept'); // ex: "true-123" ou "false-123"
+            
+            // Sépare la valeur accept et l'ID de l'événement
+            const [acceptValue, eventId] = acceptData.split('-'); // acceptValue: true ou false, eventId: 123
+  
+            print_html_status(eventId, acceptValue);
+                 
+        });
+    });
 }
 
-function save_failed() {
-    // Change the value of the select to "failed"
-    setTimeout(function() {
-        document.getElementById("status").selectedIndex = 2;
-    }, 300);  // 2000 millisecondes = 2 secondes
-      
+function print_html_status(eventId, acceptValue) {
+    // Requête AJAX pour récupérer les données de l'événement
+    fetch(`${php_vars.ajax_url}?action=get_event_callback&event_id=${eventId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const event = data.data.event; 
+
+                // Créer la structure HTML du formulaire
+                const formHtml = `
+                    <form id="add-event-form">
+                        <div class="form-group">
+                            <label for="status">Statut</label>
+                            <select class="form-control" name="status" id="status">
+                                <option ${acceptValue == "true" ? 'selected' : ''} value="1">Accepted</option>
+                                <option ${acceptValue == "false" ? 'selected' : ''} value="2">Declined</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="event_id" name="event_id" value="${event.id}">
+                        <input type="submit" value="Valider">
+                    </form>
+                `;
+
+                // Ajouter le formulaire au corps du document
+                document.body.insertAdjacentHTML('beforeend', formHtml);
+                
+                // Sélectionner le formulaire et ajouter un événement de soumission
+                const form = document.getElementById('add-event-form');
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Empêche le comportement par défaut de la soumission
+                    
+                    // Récupérer les données du formulaire avec FormData
+                    let formData = new FormData(this);
+                    formData.append('action', 'update_status'); // Spécifie l'action à effectuer
+
+                    // Envoi des données via AJAX avec fetch
+                    fetch(php_vars.ajax_url, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Statut mis à jour avec succès');
+                            // Ferme le modal si nécessaire
+                            var myModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+                            if (myModal) myModal.hide();
+
+                            // Rafraîchir les événements avec la réponse
+                            eventss = JSON.parse(data.events);
+                            renderCalendar();  // Appel à la fonction de rendu du calendrier
+                            try{
+                                hideModal_notification();  // Masquer une notification
+
+                            } catch(error) {
+
+                            }
+                            document.getElementById('notif_content').innerHTML = data.notifications;  // Mise à jour des notifications
+                            reload_event()
+                        } else {
+                            alert('Erreur : ' + data.data);
+                        }
+                    })
+                    .catch(error => console.error('Erreur lors de la mise à jour de l\'événement :', error));
+                });
+
+                // Déclencher la soumission du formulaire après l'ajout
+                form.dispatchEvent(new Event('submit'));
+                
+            } else {
+                alert('Erreur lors de la récupération de l\'événement : ' + data.data);
+            }
+        })
+        .catch(error => console.error('Erreur lors de la récupération de l\'événement :', error));
 }
