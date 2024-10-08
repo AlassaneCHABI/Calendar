@@ -650,7 +650,7 @@ function get_events_with_invitations($user_id) {
 
         
 
-       if($row->invitation_status !=2){
+       if(($row->invitation_status !=2 && $row->by_me!=1) || $row->by_me==1){
 if (!isset($events_by_date[$date])) {
             $events_by_date[$date] = ['date' => $date, 'events' => []];
         }

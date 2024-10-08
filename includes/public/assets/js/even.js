@@ -707,7 +707,7 @@ function openModal_show_even(eventId,dateStr,e) {
                 }catch(e){}
                 
                 document.getElementById('notif_content').innerHTML = data.notifications 
-                reload_event()
+                reload_event() 
             } else {
                 alert('Erreur : ' + data.data);
             }
@@ -1291,7 +1291,7 @@ function print_html_status(eventId, acceptValue) {
 
                 // Créer la structure HTML du formulaire
                 const formHtml = `
-                    <form id="add-event-form">
+                    <form id="add-event-form" style="display:none">
                         <div class="form-group">
                             <label for="status">Statut</label>
                             <select class="form-control" name="status" id="status">
@@ -1340,6 +1340,7 @@ function print_html_status(eventId, acceptValue) {
                             }
                             document.getElementById('notif_content').innerHTML = data.notifications;  // Mise à jour des notifications
                             reload_event()
+                            formHtml.remove();
                         } else {
                             alert('Erreur : ' + data.data);
                         }
