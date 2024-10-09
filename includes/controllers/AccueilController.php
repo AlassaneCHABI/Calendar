@@ -200,7 +200,7 @@ public function save_event() {
         $user_id = get_current_user_id();
 
         // Generate link if not provided
- 		$link = "https://calendar.cbeny.com/event/?title=".sanitize_title($title);
+ 		$link = get_site_url()."/event/?title=".sanitize_title($title);
         // $link .= '-' . time();
 
         // Handle file upload if a file is present
